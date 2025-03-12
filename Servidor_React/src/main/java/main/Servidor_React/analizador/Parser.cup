@@ -41,7 +41,7 @@ action code {::};
 
 // TERMINALES
 terminal POT, MAS, MENOS, POR, DIV, UMENOS;
-terminal PAR1, PAR2, IGUAL, MENOR, MAYOR;
+terminal PAR1, PAR2, IGUAL, MENOR, MAYOR, EQUALS;
 terminal OR, AND, DIFER, FINCADENA;
 terminal LLAVE1, LLAVE2, DOSPTS, COMA, PUNTO;
 terminal CONST, RETURN, NUMBER, STRING, CHAR;
@@ -51,13 +51,16 @@ terminal String ENTERO, DECIMAL, IDENTIFICADOR, CADENA, CARACTER;
 // NO TERMINALES
 non terminal LinkedList<Instruccion>INICIO, INSTRUCCIONES;
 non terminal Instruccion INSTRUCCION;
-non terminal Instruccion IMPRESION;
+non terminal Instruccion IMPRESION, DECLARACION, ASIGNACION;
 non terminal Instruccion EXPRESION;
+non terminal Tipo TIPOS;
 // PRECEDENCIA
+precedence left MENOR, MAYOR;
 precedence left MAS, MENOS;
 precedence left POR, DIV;
 precedence right POT;
 precedence left UMENOS;
+precedence left EQUALS;
 
 // PRODUCCIONES Y GRAMATICAS
 start with INICIO;
@@ -69,10 +72,25 @@ INSTRUCCIONES ::= INSTRUCCION:a                 {: RESULT = new LinkedList<>(); 
 ;
 
 INSTRUCCION ::= IMPRESION:a {: RESULT = a; :}
+              | DECLARACION:a {: RESULT = a; :}
+              | ASIGNACION:a {: RESULT = a; :}
               | error
 ;
 
 IMPRESION ::= CONSOLE PUNTO LOG PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT = new Console(a, aleft, aright); :}
+;
+
+DECLARACION ::= VAR IDENTIFICADOR:b DOSPTS TIPOS:a IGUAL EXPRESION:c FINCADENA{: RESULT = new Declaracion(b, c, a, aleft, aright); :}
+;
+
+ASIGNACION ::= IDENTIFICADOR:a IGUAL EXPRESION:b FINCADENA {: RESULT=new Asignacion(a, b, aleft, aright); :}
+;
+
+TIPOS ::= NUMBER {: RESULT = new Tipo(TipoDato.ENTERO); :}
+        | STRING {: RESULT = new Tipo(TipoDato.CADENA); :}
+        | CHAR {: RESULT = new Tipo(TipoDato.CARACTER); :}
+        | BOOLEAN {: RESULT = new Tipo(TipoDato.BOOLEANO); :}
+        | VOID {: RESULT = new Tipo(TipoDato.VOID); :}
 ;
 
 EXPRESION ::= MENOS EXPRESION:a {: RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright); :} %prec UMENOS
@@ -81,6 +99,10 @@ EXPRESION ::= MENOS EXPRESION:a {: RESULT = new Aritmeticas(a, OperadoresAritmet
             | EXPRESION:a POR EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.MULTIPLICACION, aleft, aright); :}
             | EXPRESION:a DIV EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.DIVISION, aleft, aright); :}
             | EXPRESION:a POT EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.POTENCIA, aleft, aright); :}
+            | EXPRESION:a MENOR IGUAL EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.MENORIGUAL, aleft, aright); :}%prec EQUALS
+            | EXPRESION:a MAYOR IGUAL EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.MAYORIGUAL, aleft, aright); :}%prec EQUALS
+            | EXPRESION:a MENOR EXPRESION:b     {: RESULT = new Relacionales(a, b, OperadoresRelacionales.MENORQUE, aleft, aright); :}
+            | EXPRESION:a MAYOR EXPRESION:b     {: RESULT = new Relacionales(a, b, OperadoresRelacionales.MAYORQUE, aleft, aright); :}
             | ENTERO:a          {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(TipoDato.ENTERO), aleft, aright ); :}
             | DECIMAL:a         {: RESULT = new Nativo(Double.valueOf(a), new Tipo(TipoDato.DECIMAL), aleft, aright ); :}
             | CADENA:a          {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}

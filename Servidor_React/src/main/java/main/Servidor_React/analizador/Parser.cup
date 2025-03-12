@@ -1,0 +1,92 @@
+package main.Servidor_React.analizador;
+
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
+import main.Servidor_React.abstracto.*;
+import main.Servidor_React.excepciones.*;
+import main.Servidor_React.ast.*;
+import main.Servidor_React.operadores.*;
+import main.Servidor_React.sentencias.*;
+
+// CODIGO USUARIO
+parser code {:
+    Lexer s;
+    parser(Lexer s) {
+        this.s =s;
+        this.listaErrores = s.listaErrores;
+    }
+
+    public LinkedList<Errores> listaErrores = new LinkedList<>();
+
+    public void syntax_error(Symbol s){
+        System.out.println("Error sintactico detectado: " + s.value + " en linea " + s.left + " columna " + s.right);
+        listaErrores.add(new Errores("SINTACTICO",
+                        "No se esperaba el componente "+s.value,
+                        s.left,
+                        s.right));
+    }
+
+    public void unrecovered_syntax_error (Symbol s){
+        System.out.println("Error no recuperable: " + s.value + " en linea " + s.left + " columna " + s.right);
+        listaErrores.add(new Errores("SINTACTICO NO RECUPERABLE",
+                        "No se esperaba el componente "+s.value,
+                        s.left,
+                        s.right));
+    }
+:};
+
+action code {::};
+
+// TERMINALES
+terminal POT, MAS, MENOS, POR, DIV, UMENOS;
+terminal PAR1, PAR2, IGUAL, MENOR, MAYOR;
+terminal OR, AND, DIFER, FINCADENA;
+terminal LLAVE1, LLAVE2, DOSPTS, COMA, PUNTO;
+terminal CONST, RETURN, NUMBER, STRING, CHAR;
+terminal BOOLEAN, VOID, VAR, CONSOLE, LOG;
+terminal FUNCTION, IF, ELSE, FOR, TRUE, FALSE;
+terminal String ENTERO, DECIMAL, IDENTIFICADOR, CADENA, CARACTER;
+// NO TERMINALES
+non terminal LinkedList<Instruccion>INICIO, INSTRUCCIONES;
+non terminal Instruccion INSTRUCCION;
+non terminal Instruccion IMPRESION;
+non terminal Instruccion EXPRESION;
+// PRECEDENCIA
+precedence left MAS, MENOS;
+precedence left POR, DIV;
+precedence right POT;
+precedence left UMENOS;
+
+// PRODUCCIONES Y GRAMATICAS
+start with INICIO;
+
+INICIO ::= INSTRUCCIONES:a {: RESULT = a; :};
+
+INSTRUCCIONES ::= INSTRUCCION:a                 {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+                | INSTRUCCIONES:a INSTRUCCION:b {: RESULT = a; RESULT.add(b); :}
+;
+
+INSTRUCCION ::= IMPRESION:a {: RESULT = a; :}
+              | error
+;
+
+IMPRESION ::= CONSOLE PUNTO LOG PAR1 EXPRESION:a PAR2 FINCADENA {: RESULT = new Console(a, aleft, aright); :}
+;
+
+EXPRESION ::= MENOS EXPRESION:a {: RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright); :} %prec UMENOS
+            | EXPRESION:a MAS EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); :}
+            | EXPRESION:a MENOS EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.RESTA, aleft, aright); :}
+            | EXPRESION:a POR EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.MULTIPLICACION, aleft, aright); :}
+            | EXPRESION:a DIV EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.DIVISION, aleft, aright); :}
+            | EXPRESION:a POT EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.POTENCIA, aleft, aright); :}
+            | ENTERO:a          {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(TipoDato.ENTERO), aleft, aright ); :}
+            | DECIMAL:a         {: RESULT = new Nativo(Double.valueOf(a), new Tipo(TipoDato.DECIMAL), aleft, aright ); :}
+            | CADENA:a          {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
+            | CARACTER:a          {: RESULT = new Nativo(a, new Tipo(TipoDato.CARACTER), aleft, aright ); :}
+            | TRUE:a          {: RESULT = new Nativo(true, new Tipo(TipoDato.BOOLEANO), aleft, aright ); :}
+            | FALSE:a          {: RESULT = new Nativo(false, new Tipo(TipoDato.BOOLEANO), aleft, aright ); :}
+            | IDENTIFICADOR:a   {: RESULT = new Variable(a, aleft, aright); :}
+            | PAR1 EXPRESION:a PAR2 {: RESULT = a; :}
+;

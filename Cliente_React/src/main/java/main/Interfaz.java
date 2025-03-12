@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package main;
 
 /**
@@ -10,11 +6,15 @@ package main;
  */
 public class Interfaz extends javax.swing.JFrame {
 
+    NumeroLinea numerolinea;
+
     /**
      * Creates new form Interfaz
      */
     public Interfaz() {
         initComponents();
+        numerolinea = new NumeroLinea(panelito);
+        scroll_num.setRowHeaderView(numerolinea);
     }
 
     /**
@@ -27,31 +27,100 @@ public class Interfaz extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        scroll_num = new javax.swing.JScrollPane();
+        panelito = new javax.swing.JTextPane();
+        BT_abrir = new javax.swing.JButton();
+        BT_Guardar = new javax.swing.JButton();
+        BT_procesar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(33, 47, 61));
 
-        jLabel1.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        scroll_num.setBackground(new java.awt.Color(255, 0, 0));
+
+        panelito.setBackground(new java.awt.Color(46, 64, 83));
+        panelito.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        panelito.setForeground(new java.awt.Color(255, 255, 255));
+        scroll_num.setViewportView(panelito);
+
+        BT_abrir.setBackground(new java.awt.Color(33, 47, 61));
+        BT_abrir.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_abrir.setText("Abrir");
+
+        BT_Guardar.setBackground(new java.awt.Color(33, 47, 61));
+        BT_Guardar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_Guardar.setText("Guardar");
+
+        BT_procesar.setBackground(new java.awt.Color(33, 47, 61));
+        BT_procesar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_procesar.setText("Procesar");
+
+        jTextArea1.setBackground(new java.awt.Color(46, 64, 83));
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jLabel1.setFont(new java.awt.Font("FreeMono", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Hola Cliente");
+        jLabel1.setText("Editor");
+
+        jLabel2.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Solicutudes");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(336, 336, 336)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(296, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(BT_abrir)
+                        .addGap(66, 66, 66)
+                        .addComponent(BT_Guardar)
+                        .addGap(61, 61, 61)
+                        .addComponent(BT_procesar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(scroll_num, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(70, 70, 70)
+                                .addComponent(jLabel2))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(322, 322, 322)
+                        .addComponent(jLabel1)))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(157, 157, 157)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(229, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(189, 189, 189)
+                        .addComponent(jLabel2)
+                        .addGap(26, 26, 26)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabel1)
+                        .addGap(33, 33, 33)
+                        .addComponent(scroll_num, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(60, 60, 60)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BT_abrir)
+                    .addComponent(BT_Guardar)
+                    .addComponent(BT_procesar))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -104,7 +173,15 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BT_Guardar;
+    private javax.swing.JButton BT_abrir;
+    private javax.swing.JButton BT_procesar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextPane panelito;
+    private javax.swing.JScrollPane scroll_num;
     // End of variables declaration//GEN-END:variables
 }

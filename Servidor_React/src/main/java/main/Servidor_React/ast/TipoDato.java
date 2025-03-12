@@ -6,8 +6,7 @@ package main.Servidor_React.ast;
  */
 public enum TipoDato {
     
-    ENTERO,
-    DECIMAL,
+    NUMERO,
     CADENA,
     CARACTER,
     BOOLEANO,

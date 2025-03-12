@@ -16,14 +16,14 @@ public class Aritmeticas extends Instruccion {
 
     //negacion
     public Aritmeticas(Instruccion operandoUnico, OperadoresAritmeticos operacion, int linea, int col) {
-        super(new Tipo(TipoDato.ENTERO), linea, col);
+        super(new Tipo(TipoDato.NUMERO), linea, col);
         this.operacion = operacion;
         this.operandoUnico = operandoUnico;
     }
 
     // operacion dos
     public Aritmeticas(Instruccion operando1, Instruccion operando2, OperadoresAritmeticos operacion, int linea, int col) {
-        super(new Tipo(TipoDato.ENTERO), linea, col);
+        super(new Tipo(TipoDato.NUMERO), linea, col);
         this.operando1 = operando1;
         this.operando2 = operando2;
         this.operacion = operacion;
@@ -72,33 +72,10 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         switch (tipo1) {
-            case ENTERO -> {
+            case NUMERO -> {
                 switch (tipo2) {
-                    case ENTERO -> {
-                        this.tipo.setTipo(TipoDato.ENTERO);
-                        return (int) op1 + (int) op2;
-                    }
-                    case DECIMAL -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
-                        return (int) op1 + (double) op2;
-                    }
-                    case CADENA -> {
-                        this.tipo.setTipo(TipoDato.CADENA);
-                        return op1.toString() + op2.toString();
-                    }
-                    default -> {
-                        return new Errores("SEMANTICO", "Suma erronea", this.linea, this.col);
-                    }
-                }
-            }
-            case DECIMAL -> {
-                switch (tipo2) {
-                    case ENTERO -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
-                        return (double) op1 + (int) op2;
-                    }
-                    case DECIMAL -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
+                    case NUMERO -> {
+                        this.tipo.setTipo(TipoDato.NUMERO);
                         return (double) op1 + (double) op2;
                     }
                     case CADENA -> {
@@ -127,29 +104,10 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         switch (tipo1) {
-            case ENTERO -> {
+            case NUMERO -> {
                 switch (tipo2) {
-                    case ENTERO -> {
-                        this.tipo.setTipo(TipoDato.ENTERO);
-                        return (int) op1 - (int) op2;
-                    }
-                    case DECIMAL -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
-                        return (int) op1 - (double) op2;
-                    }
-                    default -> {
-                        return new Errores("SEMANTICO", "Resta erronea", this.linea, this.col);
-                    }
-                }
-            }
-            case DECIMAL -> {
-                switch (tipo2) {
-                    case ENTERO -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
-                        return (double) op1 - (int) op2;
-                    }
-                    case DECIMAL -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
+                    case NUMERO -> {
+                        this.tipo.setTipo(TipoDato.NUMERO);
                         return (double) op1 - (double) op2;
                     }
                     default -> {
@@ -170,29 +128,10 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         switch (tipo1) {
-            case ENTERO -> {
+            case NUMERO -> {
                 switch (tipo2) {
-                    case ENTERO -> {
-                        this.tipo.setTipo(TipoDato.ENTERO);
-                        return (int) op1 * (int) op2;
-                    }
-                    case DECIMAL -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
-                        return (int) op1 * (double) op2;
-                    }
-                    default -> {
-                        return new Errores("SEMANTICO", "Multiplicacion erronea", this.linea, this.col);
-                    }
-                }
-            }
-            case DECIMAL -> {
-                switch (tipo2) {
-                    case ENTERO -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
-                        return (double) op1 * (int) op2;
-                    }
-                    case DECIMAL -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
+                    case NUMERO -> {
+                        this.tipo.setTipo(TipoDato.NUMERO);
                         return (double) op1 * (double) op2;
                     }
                     default -> {
@@ -213,34 +152,15 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         // Verificacion de division por cero
-        if ((tipo2 == TipoDato.ENTERO && (int) op2 == 0) || (tipo2 == TipoDato.DECIMAL && (double) op2 == 0.0)) {
+        if (tipo2 == TipoDato.NUMERO && (double) op2 == 0.0) {
             return new Errores("SEMANTICO", "Division por cero no permitido", this.linea, this.col);
         }
 
         switch (tipo1) {
-            case ENTERO -> {
+            case NUMERO -> {
                 switch (tipo2) {
-                    case ENTERO -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
-                        return (double) (int) op1 / (int) op2;
-                    }
-                    case DECIMAL -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
-                        return (int) op1 / (double) op2;
-                    }
-                    default -> {
-                        return new Errores("SEMANTICO", "Division erronea", this.linea, this.col);
-                    }
-                }
-            }
-            case DECIMAL -> {
-                switch (tipo2) {
-                    case ENTERO -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
-                        return (double) op1 / (int) op2;
-                    }
-                    case DECIMAL -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
+                    case NUMERO -> {
+                        this.tipo.setTipo(TipoDato.NUMERO);
                         return (double) op1 / (double) op2;
                     }
                     default -> {
@@ -261,29 +181,10 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         switch (tipo1) {
-            case ENTERO -> {
+            case NUMERO -> {
                 switch (tipo2) {
-                    case ENTERO -> {
-                        this.tipo.setTipo(TipoDato.ENTERO);
-                        return (int) Math.pow((int) op1, (int) op2);
-                    }
-                    case DECIMAL -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
-                        return Math.pow((int) op1, (double) op2);
-                    }
-                    default -> {
-                        return new Errores("SEMANTICO", "Potencia erronea", this.linea, this.col);
-                    }
-                }
-            }
-            case DECIMAL -> {
-                switch (tipo2) {
-                    case ENTERO -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
-                        return Math.pow((double) op1, (int) op2);
-                    }
-                    case DECIMAL -> {
-                        this.tipo.setTipo(TipoDato.DECIMAL);
+                    case NUMERO -> {
+                        this.tipo.setTipo(TipoDato.NUMERO);
                         return Math.pow((double) op1, (double) op2);
                     }
                     default -> {
@@ -301,12 +202,8 @@ public class Aritmeticas extends Instruccion {
     public Object negacion(Object op1) {
         var opU = this.operandoUnico.tipo.getTipo();
         switch (opU) {
-            case ENTERO -> {
-                this.tipo.setTipo(TipoDato.ENTERO);
-                return (int) op1 * -1;
-            }
-            case DECIMAL -> {
-                this.tipo.setTipo(TipoDato.DECIMAL);
+            case NUMERO -> {
+                this.tipo.setTipo(TipoDato.NUMERO);
                 return (double) op1 * -1;
             }
             default -> {

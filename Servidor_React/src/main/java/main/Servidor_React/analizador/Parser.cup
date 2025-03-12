@@ -86,7 +86,7 @@ DECLARACION ::= VAR IDENTIFICADOR:b DOSPTS TIPOS:a IGUAL EXPRESION:c FINCADENA{:
 ASIGNACION ::= IDENTIFICADOR:a IGUAL EXPRESION:b FINCADENA {: RESULT=new Asignacion(a, b, aleft, aright); :}
 ;
 
-TIPOS ::= NUMBER {: RESULT = new Tipo(TipoDato.ENTERO); :}
+TIPOS ::= NUMBER {: RESULT = new Tipo(TipoDato.NUMERO); :}
         | STRING {: RESULT = new Tipo(TipoDato.CADENA); :}
         | CHAR {: RESULT = new Tipo(TipoDato.CARACTER); :}
         | BOOLEAN {: RESULT = new Tipo(TipoDato.BOOLEANO); :}
@@ -103,8 +103,8 @@ EXPRESION ::= MENOS EXPRESION:a {: RESULT = new Aritmeticas(a, OperadoresAritmet
             | EXPRESION:a MAYOR IGUAL EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.MAYORIGUAL, aleft, aright); :}%prec EQUALS
             | EXPRESION:a MENOR EXPRESION:b     {: RESULT = new Relacionales(a, b, OperadoresRelacionales.MENORQUE, aleft, aright); :}
             | EXPRESION:a MAYOR EXPRESION:b     {: RESULT = new Relacionales(a, b, OperadoresRelacionales.MAYORQUE, aleft, aright); :}
-            | ENTERO:a          {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(TipoDato.ENTERO), aleft, aright ); :}
-            | DECIMAL:a         {: RESULT = new Nativo(Double.valueOf(a), new Tipo(TipoDato.DECIMAL), aleft, aright ); :}
+            | ENTERO:a          {: RESULT = new Nativo(Double.valueOf(a), new Tipo(TipoDato.NUMERO), aleft, aright ); :}
+            | DECIMAL:a         {: RESULT = new Nativo(Double.valueOf(a), new Tipo(TipoDato.NUMERO), aleft, aright ); :}
             | CADENA:a          {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
             | CARACTER:a          {: RESULT = new Nativo(a, new Tipo(TipoDato.CARACTER), aleft, aright ); :}
             | TRUE:a          {: RESULT = new Nativo(true, new Tipo(TipoDato.BOOLEANO), aleft, aright ); :}

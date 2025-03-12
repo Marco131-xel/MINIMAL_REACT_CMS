@@ -53,20 +53,9 @@ public class Relacionales extends Instruccion {
         var comparando2 = this.cond2.tipo.getTipo();
 
         return switch (comparando1) {
-            case ENTERO ->
+            case NUMERO ->
                 switch (comparando2) {
-                    case ENTERO ->
-                        (int) comp1 <= (int) comp2;
-                    case DECIMAL ->
-                        (int) comp1 <= (double) comp2;
-                    default ->
-                        new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);
-                };
-            case DECIMAL ->
-                switch (comparando2) {
-                    case ENTERO ->
-                        (double) comp1 <= (int) comp2;
-                    case DECIMAL ->
+                    case NUMERO ->
                         (double) comp1 <= (double) comp2;
                     default ->
                         new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);
@@ -89,20 +78,9 @@ public class Relacionales extends Instruccion {
         var comparando2 = this.cond2.tipo.getTipo();
 
         return switch (comparando1) {
-            case ENTERO ->
+            case NUMERO ->
                 switch (comparando2) {
-                    case ENTERO ->
-                        (int) comp1 >= (int) comp2;
-                    case DECIMAL ->
-                        (int) comp1 >= (double) comp2;
-                    default ->
-                        new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);
-                };
-            case DECIMAL ->
-                switch (comparando2) {
-                    case ENTERO ->
-                        (double) comp1 >= (int) comp2;
-                    case DECIMAL ->
+                    case NUMERO ->
                         (double) comp1 >= (double) comp2;
                     default ->
                         new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);
@@ -125,20 +103,9 @@ public class Relacionales extends Instruccion {
         var comparando2 = this.cond2.tipo.getTipo();
 
         return switch (comparando1) {
-            case ENTERO ->
+            case NUMERO ->
                 switch (comparando2) {
-                    case ENTERO ->
-                        (int) comp1 < (int) comp2;
-                    case DECIMAL ->
-                        (int) comp1 < (double) comp2;
-                    default ->
-                        new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);
-                };
-            case DECIMAL ->
-                switch (comparando2) {
-                    case ENTERO ->
-                        (double) comp1 < (int) comp2;
-                    case DECIMAL ->
+                    case NUMERO ->
                         (double) comp1 < (double) comp2;
                     default ->
                         new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);
@@ -161,20 +128,9 @@ public class Relacionales extends Instruccion {
         var comparando2 = this.cond2.tipo.getTipo();
 
         return switch (comparando1) {
-            case ENTERO ->
+            case NUMERO ->
                 switch (comparando2) {
-                    case ENTERO ->
-                        (int) comp1 > (int) comp2;
-                    case DECIMAL ->
-                        (int) comp1 > (double) comp2;
-                    default ->
-                        new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);
-                };
-            case DECIMAL ->
-                switch (comparando2) {
-                    case ENTERO ->
-                        (double) comp1 > (int) comp2;
-                    case DECIMAL ->
+                    case NUMERO ->
                         (double) comp1 > (double) comp2;
                     default ->
                         new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);

@@ -60,9 +60,7 @@ public class Declaracion extends Instruccion {
                 "";
             case CARACTER ->
                 '\u0000';
-            case ENTERO ->
-                0;
-            case DECIMAL ->
+            case NUMERO ->
                 0.0;
             default ->
                 null;

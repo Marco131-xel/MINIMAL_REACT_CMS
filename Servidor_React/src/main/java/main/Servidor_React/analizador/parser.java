@@ -405,7 +405,7 @@ class CUP$parser$actions {
           case 11: // TIPOS ::= NUMBER 
             {
               Tipo RESULT =null;
-		 RESULT = new Tipo(TipoDato.ENTERO); 
+		 RESULT = new Tipo(TipoDato.NUMERO); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("TIPOS",7, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -600,7 +600,7 @@ class CUP$parser$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Nativo(Integer.parseInt(a), new Tipo(TipoDato.ENTERO), aleft, aright ); 
+		 RESULT = new Nativo(Double.valueOf(a), new Tipo(TipoDato.NUMERO), aleft, aright ); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("EXPRESION",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -612,7 +612,7 @@ class CUP$parser$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Nativo(Double.valueOf(a), new Tipo(TipoDato.DECIMAL), aleft, aright ); 
+		 RESULT = new Nativo(Double.valueOf(a), new Tipo(TipoDato.NUMERO), aleft, aright ); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("EXPRESION",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

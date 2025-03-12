@@ -42,7 +42,7 @@ action code {::};
 // TERMINALES
 terminal POT, MAS, MENOS, POR, DIV, UMENOS;
 terminal PAR1, PAR2, IGUAL, MENOR, MAYOR, EQUALS;
-terminal OR, AND, DIFER, FINCADENA;
+terminal OR, AND, DIFER, NOT, FINCADENA;
 terminal LLAVE1, LLAVE2, DOSPTS, COMA, PUNTO;
 terminal CONST, RETURN, NUMBER, STRING, CHAR;
 terminal BOOLEAN, VOID, VAR, CONSOLE, LOG;
@@ -55,12 +55,14 @@ non terminal Instruccion IMPRESION, DECLARACION, ASIGNACION;
 non terminal Instruccion EXPRESION;
 non terminal Tipo TIPOS;
 // PRECEDENCIA
+precedence left AND, OR, DIFER;
 precedence left MENOR, MAYOR;
 precedence left MAS, MENOS;
 precedence left POR, DIV;
 precedence right POT;
 precedence left UMENOS;
 precedence left EQUALS;
+precedence left NOT;
 
 // PRODUCCIONES Y GRAMATICAS
 start with INICIO;
@@ -94,6 +96,7 @@ TIPOS ::= NUMBER {: RESULT = new Tipo(TipoDato.NUMERO); :}
 ;
 
 EXPRESION ::= MENOS EXPRESION:a {: RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright); :} %prec UMENOS
+            | DIFER EXPRESION:a             {:   RESULT = new Booleanos(a, OperadoresBooleanas.NOT, aleft, aright);  :} %prec NOT
             | EXPRESION:a MAS EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); :}
             | EXPRESION:a MENOS EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.RESTA, aleft, aright); :}
             | EXPRESION:a POR EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.MULTIPLICACION, aleft, aright); :}
@@ -103,6 +106,8 @@ EXPRESION ::= MENOS EXPRESION:a {: RESULT = new Aritmeticas(a, OperadoresAritmet
             | EXPRESION:a MAYOR IGUAL EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.MAYORIGUAL, aleft, aright); :}%prec EQUALS
             | EXPRESION:a MENOR EXPRESION:b     {: RESULT = new Relacionales(a, b, OperadoresRelacionales.MENORQUE, aleft, aright); :}
             | EXPRESION:a MAYOR EXPRESION:b     {: RESULT = new Relacionales(a, b, OperadoresRelacionales.MAYORQUE, aleft, aright); :}
+            | EXPRESION:a OR EXPRESION:b    {:  RESULT = new Booleanos(a, b, OperadoresBooleanas.OR, aleft, aright);  :}
+            | EXPRESION:a AND EXPRESION:b   {:  RESULT = new Booleanos(a, b, OperadoresBooleanas.AND, aleft, aright);  :}
             | ENTERO:a          {: RESULT = new Nativo(Double.valueOf(a), new Tipo(TipoDato.NUMERO), aleft, aright ); :}
             | DECIMAL:a         {: RESULT = new Nativo(Double.valueOf(a), new Tipo(TipoDato.NUMERO), aleft, aright ); :}
             | CADENA:a          {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}

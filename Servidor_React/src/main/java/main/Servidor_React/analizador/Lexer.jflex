@@ -49,6 +49,7 @@ PUNTO="."
 // PALABRAS RESERVADAS
 CONST="const"
 RETURN="return"
+BREAK="break"
 NUMBER="number"
 STRING="string"
 CHAR="char"
@@ -95,6 +96,7 @@ CARACTER = [\']([^\'])*[\']
 
 <YYINITIAL> {CONST} { return new Symbol(sym.CONST, yyline, yycolumn, yytext()); }
 <YYINITIAL> {RETURN} { return new Symbol(sym.RETURN, yyline, yycolumn, yytext()); }
+<YYINITIAL> {BREAK} { return new Symbol(sym.BREAK, yyline, yycolumn, yytext()); }
 <YYINITIAL> {NUMBER} { return new Symbol(sym.NUMBER, yyline, yycolumn, yytext()); }
 <YYINITIAL> {STRING} { return new Symbol(sym.STRING, yyline, yycolumn, yytext()); }
 <YYINITIAL> {CHAR} { return new Symbol(sym.CHAR, yyline, yycolumn, yytext()); }

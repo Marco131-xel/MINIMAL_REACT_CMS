@@ -44,7 +44,7 @@ terminal POT, MAS, MENOS, POR, DIV, UMENOS;
 terminal PAR1, PAR2, IGUAL, MENOR, MAYOR, EQUALS;
 terminal OR, AND, DIFER, NOT, FINCADENA;
 terminal LLAVE1, LLAVE2, DOSPTS, COMA, PUNTO;
-terminal CONST, RETURN, NUMBER, STRING, CHAR;
+terminal CONST, RETURN, NUMBER, STRING, CHAR, BREAK;
 terminal BOOLEAN, VOID, VAR, CONSOLE, LOG;
 terminal FUNCTION, IF, ELSE, FOR, TRUE, FALSE;
 terminal String ENTERO, DECIMAL, IDENTIFICADOR, CADENA, CARACTER;
@@ -52,6 +52,7 @@ terminal String ENTERO, DECIMAL, IDENTIFICADOR, CADENA, CARACTER;
 non terminal LinkedList<Instruccion>INICIO, INSTRUCCIONES;
 non terminal Instruccion INSTRUCCION;
 non terminal Instruccion IMPRESION, DECLARACION, ASIGNACION;
+non terminal Instruccion SIF, BREAKK, RETU;
 non terminal Instruccion EXPRESION;
 non terminal Tipo TIPOS;
 // PRECEDENCIA
@@ -76,6 +77,9 @@ INSTRUCCIONES ::= INSTRUCCION:a                 {: RESULT = new LinkedList<>(); 
 INSTRUCCION ::= IMPRESION:a {: RESULT = a; :}
               | DECLARACION:a {: RESULT = a; :}
               | ASIGNACION:a {: RESULT = a; :}
+              | SIF:a {: RESULT = a; :}
+              | BREAKK:a {: RESULT = a; :}
+              | RETU:a {: RESULT = a; :}
               | error
 ;
 
@@ -86,6 +90,17 @@ DECLARACION ::= VAR IDENTIFICADOR:b DOSPTS TIPOS:a IGUAL EXPRESION:c FINCADENA{:
 ;
 
 ASIGNACION ::= IDENTIFICADOR:a IGUAL EXPRESION:b FINCADENA {: RESULT=new Asignacion(a, b, aleft, aright); :}
+;
+
+SIF ::= IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2 {: RESULT = new If(a, b, null, null, aleft, aright); :}
+      | IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2 ELSE SIF:c {: RESULT = new If(a, b, (If)c, null, aleft, aright); :}
+      | IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2 ELSE LLAVE1 INSTRUCCIONES:c LLAVE2 {: RESULT = new If(a, b, null, c, aleft, aright); :}
+;
+
+BREAKK ::= BREAK:a FINCADENA {: RESULT = new Break(aleft, aright); :}
+;
+
+RETU ::= RETURN:a EXPRESION:b FINCADENA {: RESULT = new Return(b, aleft, aright); :}
 ;
 
 TIPOS ::= NUMBER {: RESULT = new Tipo(TipoDato.NUMERO); :}

@@ -26,6 +26,8 @@ import main.Servidor_React.excepciones.Errores;
 %full
 
 // TOKENS
+INCRE="++"
+DECRE="--"
 POT="^"
 MAS="+"
 MENOS="-"
@@ -75,6 +77,8 @@ CARACTER = [\']([^\'])*[\']
 
 %%
 <YYINITIAL> {POT} {return new Symbol(sym.POT, yyline, yycolumn,yytext());}
+<YYINITIAL> {INCRE} {return new Symbol(sym.INCRE, yyline, yycolumn,yytext());}
+<YYINITIAL> {DECRE} {return new Symbol(sym.DECRE, yyline, yycolumn,yytext());}
 <YYINITIAL> {MAS} { return new Symbol(sym.MAS, yyline, yycolumn, yytext()); }
 <YYINITIAL> {MENOS} { return new Symbol(sym.MENOS, yyline, yycolumn, yytext()); }
 <YYINITIAL> {POR} { return new Symbol(sym.POR, yyline, yycolumn, yytext()); }

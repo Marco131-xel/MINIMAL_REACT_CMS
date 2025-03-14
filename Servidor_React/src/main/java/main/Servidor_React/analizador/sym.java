@@ -8,55 +8,59 @@ package main.Servidor_React.analizador;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int PAR2 = 9;
-  public static final int PAR1 = 8;
-  public static final int FUNCTION = 35;
-  public static final int POT = 2;
-  public static final int CONST = 24;
-  public static final int POR = 5;
-  public static final int CHAR = 28;
-  public static final int LLAVE2 = 20;
-  public static final int EQUALS = 13;
-  public static final int LLAVE1 = 19;
-  public static final int ENTERO = 41;
-  public static final int FOR = 38;
-  public static final int IDENTIFICADOR = 43;
-  public static final int NOT = 17;
-  public static final int FINCADENA = 18;
-  public static final int AND = 15;
-  public static final int IGUAL = 10;
-  public static final int CARACTER = 45;
-  public static final int OR = 14;
-  public static final int DIV = 6;
-  public static final int IF = 36;
-  public static final int UMENOS = 7;
-  public static final int DECIMAL = 42;
+  public static final int PAR2 = 11;
+  public static final int PAR1 = 10;
+  public static final int FUNCTION = 37;
+  public static final int POT = 4;
+  public static final int CONST = 26;
+  public static final int POR = 7;
+  public static final int CHAR = 30;
+  public static final int LLAVE2 = 22;
+  public static final int EQUALS = 15;
+  public static final int LLAVE1 = 21;
+  public static final int ENTERO = 43;
+  public static final int FOR = 40;
+  public static final int IDENTIFICADOR = 45;
+  public static final int NOT = 19;
+  public static final int FINCADENA = 20;
+  public static final int AND = 17;
+  public static final int IGUAL = 12;
+  public static final int CARACTER = 47;
+  public static final int OR = 16;
+  public static final int DIV = 8;
+  public static final int IF = 38;
+  public static final int UMENOS = 9;
+  public static final int DECRE = 3;
+  public static final int DECIMAL = 44;
   public static final int EOF = 0;
-  public static final int BOOLEAN = 30;
-  public static final int RETURN = 25;
-  public static final int TRUE = 39;
+  public static final int BOOLEAN = 32;
+  public static final int RETURN = 27;
+  public static final int TRUE = 41;
   public static final int error = 1;
-  public static final int COMA = 22;
-  public static final int CADENA = 44;
-  public static final int MENOS = 4;
-  public static final int MENOR = 11;
-  public static final int NUMBER = 26;
-  public static final int BREAK = 29;
-  public static final int VOID = 31;
-  public static final int MAYOR = 12;
-  public static final int LOG = 34;
-  public static final int ELSE = 37;
-  public static final int PUNTO = 23;
-  public static final int STRING = 27;
-  public static final int DIFER = 16;
-  public static final int FALSE = 40;
-  public static final int VAR = 32;
-  public static final int DOSPTS = 21;
-  public static final int CONSOLE = 33;
-  public static final int MAS = 3;
+  public static final int COMA = 24;
+  public static final int CADENA = 46;
+  public static final int MENOS = 6;
+  public static final int MENOR = 13;
+  public static final int NUMBER = 28;
+  public static final int BREAK = 31;
+  public static final int VOID = 33;
+  public static final int MAYOR = 14;
+  public static final int LOG = 36;
+  public static final int ELSE = 39;
+  public static final int PUNTO = 25;
+  public static final int INCRE = 2;
+  public static final int STRING = 29;
+  public static final int DIFER = 18;
+  public static final int FALSE = 42;
+  public static final int VAR = 34;
+  public static final int CONSOLE = 35;
+  public static final int DOSPTS = 23;
+  public static final int MAS = 5;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "INCRE",
+  "DECRE",
   "POT",
   "MAS",
   "MENOS",

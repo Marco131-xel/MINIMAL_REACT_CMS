@@ -119,7 +119,7 @@ RETU ::= RETURN:a EXPRESION:b FINCADENA {: RESULT = new Return(b, aleft, aright)
 CFOR ::= FOR PAR1 DECLARACION:a EXPRESION:b FINCADENA ASIGNACION:c PAR2 LLAVE1 INSTRUCCIONES:d LLAVE2 {: RESULT = new For(a, b, c, d, aleft, aright); :}
 ;
 
-FUNCION ::= FUNCTION IDENTIFICADOR PAR1 PARAMETROS PAR2 DOSPTS TIPOS LLAVE1 INSTRUCCIONES LLAVE2
+FUNCION ::= FUNCTION IDENTIFICADOR:a PAR1 PARAMETROS:b PAR2 DOSPTS TIPOS:c LLAVE1 INSTRUCCIONES:d LLAVE2 {: RESULT = new Function(c, a, b, d, aleft, aright); :}
 ;
 
 PARAMETROS ::= PARAMETRO:a {: RESULT = new LinkedList<>(); RESULT.add(a); :}
@@ -127,7 +127,7 @@ PARAMETROS ::= PARAMETRO:a {: RESULT = new LinkedList<>(); RESULT.add(a); :}
              | /* vacio */{: RESULT = new LinkedList<>(); :}
 ;
 
-PARAMETRO ::= IDENTIFICADOR:a DOSPTS TIPOS:b {: RESULT = new Parametro(a, b); :}
+PARAMETRO ::= IDENTIFICADOR:a DOSPTS TIPOS:b {: RESULT = new Parametro(a, b, aleft, aright); :}
 ;
 
 LLAMADA_FUNCION ::= IDENTIFICADOR:a PAR1 PARAMETROS:b PAR2 FINCADENA {: RESULT = new LLamada(a, b, aleft, aright); :}

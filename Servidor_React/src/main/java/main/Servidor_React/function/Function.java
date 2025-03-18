@@ -33,6 +33,7 @@ public class Function extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, TablaSimbolos tabla) {
         arbol.addFunciones(this);
+        tabla.setVariable(new Simbolo(new Tipo(TipoDato.VOID), nombre, this));
         return null;
     }
 

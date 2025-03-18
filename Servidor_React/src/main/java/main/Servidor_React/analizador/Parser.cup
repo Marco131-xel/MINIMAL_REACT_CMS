@@ -9,6 +9,7 @@ import main.Servidor_React.excepciones.*;
 import main.Servidor_React.ast.*;
 import main.Servidor_React.operadores.*;
 import main.Servidor_React.sentencias.*;
+import main.Servidor_React.function.*;
 
 // CODIGO USUARIO
 parser code {:
@@ -56,6 +57,9 @@ non terminal Instruccion IMPRESION, DECLARACION, ASIGNACION;
 non terminal Instruccion SIF, BREAKK, RETU;
 non terminal Instruccion EXPRESION;
 non terminal Instruccion CFOR;
+non terminal Instruccion FUNCION, LLAMADA_FUNCION;
+non terminal LinkedList<Parametro> PARAMETROS;
+non terminal Parametro PARAMETRO;
 non terminal Tipo TIPOS;
 // PRECEDENCIA
 precedence left AND, OR, DIFER;
@@ -83,6 +87,8 @@ INSTRUCCION ::= IMPRESION:a {: RESULT = a; :}
               | BREAKK:a {: RESULT = a; :}
               | RETU:a {: RESULT = a; :}
               | CFOR:a {: RESULT = a; :}
+              | FUNCION:a {: RESULT = a; :}
+              | LLAMADA_FUNCION:a {: RESULT = a; :}
               | error
 ;
 
@@ -111,6 +117,20 @@ RETU ::= RETURN:a EXPRESION:b FINCADENA {: RESULT = new Return(b, aleft, aright)
 ;
 
 CFOR ::= FOR PAR1 DECLARACION:a EXPRESION:b FINCADENA ASIGNACION:c PAR2 LLAVE1 INSTRUCCIONES:d LLAVE2 {: RESULT = new For(a, b, c, d, aleft, aright); :}
+;
+
+FUNCION ::= FUNCTION IDENTIFICADOR PAR1 PARAMETROS PAR2 DOSPTS TIPOS LLAVE1 INSTRUCCIONES LLAVE2
+;
+
+PARAMETROS ::= PARAMETRO:a {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+             | PARAMETROS:a COMA PARAMETRO:b {: RESULT = a; RESULT.add(b); :}
+             | /* vacio */{: RESULT = new LinkedList<>(); :}
+;
+
+PARAMETRO ::= IDENTIFICADOR:a DOSPTS TIPOS:b {: RESULT = new Parametro(a, b); :}
+;
+
+LLAMADA_FUNCION ::= IDENTIFICADOR:a PAR1 PARAMETROS:b PAR2 FINCADENA {: RESULT = new LLamada(a, b, aleft, aright); :}
 ;
 
 TIPOS ::= NUMBER {: RESULT = new Tipo(TipoDato.NUMERO); :}

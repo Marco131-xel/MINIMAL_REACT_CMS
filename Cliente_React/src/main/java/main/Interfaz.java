@@ -1,4 +1,10 @@
 package main;
+import java.io.File;
+import socket.ClienteWs;
+import java.net.URI;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import utils.GestionArchivos;
 
 /**
  *
@@ -7,14 +13,21 @@ package main;
 public class Interfaz extends javax.swing.JFrame {
 
     NumeroLinea numerolinea;
+    private ClienteWs clienteWs;
+    JFileChooser seleccionado = new JFileChooser();
+    File archivo;
+    GestionArchivos gestion = new GestionArchivos();
 
     /**
      * Creates new form Interfaz
      */
     public Interfaz() {
         initComponents();
+        conectarWebSocket();
         numerolinea = new NumeroLinea(panelito);
         scroll_num.setRowHeaderView(numerolinea);
+        solicitudes.setEditable(false);
+        solicitudes.setFocusable(false);
     }
 
     /**
@@ -33,9 +46,13 @@ public class Interfaz extends javax.swing.JFrame {
         BT_Guardar = new javax.swing.JButton();
         BT_procesar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        solicitudes = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        BT_crear = new javax.swing.JButton();
+        BT_modificar = new javax.swing.JButton();
+        BT_agregar = new javax.swing.JButton();
+        BT_eliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,20 +67,35 @@ public class Interfaz extends javax.swing.JFrame {
 
         BT_abrir.setBackground(new java.awt.Color(33, 47, 61));
         BT_abrir.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_abrir.setForeground(new java.awt.Color(255, 255, 255));
         BT_abrir.setText("Abrir");
+        BT_abrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_abrirActionPerformed(evt);
+            }
+        });
 
         BT_Guardar.setBackground(new java.awt.Color(33, 47, 61));
         BT_Guardar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_Guardar.setForeground(new java.awt.Color(255, 255, 255));
         BT_Guardar.setText("Guardar");
 
         BT_procesar.setBackground(new java.awt.Color(33, 47, 61));
         BT_procesar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_procesar.setForeground(new java.awt.Color(255, 255, 255));
         BT_procesar.setText("Procesar");
+        BT_procesar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_procesarActionPerformed(evt);
+            }
+        });
 
-        jTextArea1.setBackground(new java.awt.Color(46, 64, 83));
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        solicitudes.setBackground(new java.awt.Color(46, 64, 83));
+        solicitudes.setColumns(20);
+        solicitudes.setFont(new java.awt.Font("DialogInput", 1, 16)); // NOI18N
+        solicitudes.setForeground(new java.awt.Color(255, 255, 255));
+        solicitudes.setRows(5);
+        jScrollPane1.setViewportView(solicitudes);
 
         jLabel1.setFont(new java.awt.Font("FreeMono", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -72,6 +104,19 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Solicutudes");
+
+        BT_crear.setText("Crear");
+        BT_crear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_crearActionPerformed(evt);
+            }
+        });
+
+        BT_modificar.setText("Modificar");
+
+        BT_agregar.setText("Agregar");
+
+        BT_eliminar.setText("Eliminar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -91,31 +136,50 @@ public class Interfaz extends javax.swing.JFrame {
                         .addComponent(scroll_num, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(70, 70, 70)
-                                .addComponent(jLabel2))))
+                                .addComponent(jLabel2))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(91, 91, 91)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(BT_eliminar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(BT_agregar))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(BT_crear)
+                                        .addGap(36, 36, 36)
+                                        .addComponent(BT_modificar))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(322, 322, 322)
                         .addComponent(jLabel1)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(189, 189, 189)
                         .addComponent(jLabel2)
                         .addGap(26, 26, 26)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BT_crear)
+                            .addComponent(BT_modificar)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addComponent(jLabel1)
                         .addGap(33, 33, 33)
                         .addComponent(scroll_num, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(60, 60, 60)
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BT_eliminar)
+                    .addComponent(BT_agregar))
+                .addGap(1, 1, 1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BT_abrir)
                     .addComponent(BT_Guardar)
@@ -136,6 +200,60 @@ public class Interfaz extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void conectarWebSocket(){
+        try {
+            clienteWs = new ClienteWs(new URI("ws://localhost:8080/ws"));
+            clienteWs.connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void BT_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_procesarActionPerformed
+        // TODO add your handling code here:
+        try {
+            ClienteWs cliente = new ClienteWs(new URI("ws://localhost:8080/ws"));
+            cliente.connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_BT_procesarActionPerformed
+
+    private void BT_abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_abrirActionPerformed
+        // TODO add your handling code here:
+        if (seleccionado.showDialog(null, "Abrir Archivo") == JFileChooser.APPROVE_OPTION) {
+            archivo = seleccionado.getSelectedFile();
+            if (archivo.canRead()) {
+                if (archivo.getName().endsWith("mtsx")) {
+                    try {
+                        String codigo_fuente = gestion.AbrirATexto(archivo);
+                        panelito.setText(codigo_fuente);
+                        
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Error al abrir el archivo.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Por favor seleccione un archivo.mtsx");
+                }
+            }
+        }
+    }//GEN-LAST:event_BT_abrirActionPerformed
+
+    private void BT_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_crearActionPerformed
+        // TODO add your handling code here:
+        String nombreSitio = JOptionPane.showInputDialog(this, "Ingrese el nombre del sitio:", "Crear Sitio", JOptionPane.PLAIN_MESSAGE);
+        
+        if (nombreSitio != null && !nombreSitio.trim().isEmpty()) {
+            String mensaje = "get sitio \nabrir sitio " + nombreSitio.trim();
+            if (clienteWs != null) {
+                clienteWs.enviarMensajes(mensaje);
+            } else {
+                System.out.println("No hay cliente WEBSOCKET");
+            }
+        }
+    }//GEN-LAST:event_BT_crearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -175,13 +293,17 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Guardar;
     private javax.swing.JButton BT_abrir;
+    private javax.swing.JButton BT_agregar;
+    private javax.swing.JButton BT_crear;
+    private javax.swing.JButton BT_eliminar;
+    private javax.swing.JButton BT_modificar;
     private javax.swing.JButton BT_procesar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextPane panelito;
     private javax.swing.JScrollPane scroll_num;
+    private javax.swing.JTextArea solicitudes;
     // End of variables declaration//GEN-END:variables
 }

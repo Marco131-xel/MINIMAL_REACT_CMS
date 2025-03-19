@@ -47,6 +47,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- DEPENDENCIA DE WEBSOCKET -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
         <!-- DEPENDENCIA CUP RUN TIME -->
         <dependency>
             <groupId>com.github.vbmacher</groupId>

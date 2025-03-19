@@ -10,4 +10,19 @@
         <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>Cliente_React</exec.mainClass>
     </properties>
+    
+    <dependencies>
+        <!-- DEPENDENCIA DE WEBSOCKET -->
+        <dependency>
+            <groupId>org.java-websocket</groupId>
+            <artifactId>Java-WebSocket</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+        <!-- DEPENDENCIA DE SLF4J -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
+        </dependency>
+    </dependencies>
 </project>

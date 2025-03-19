@@ -1,0 +1,50 @@
+body {
+    background-color: #212F3D;
+    color: white;
+    font-family: 'FreeMono', monospace;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #2E4053;
+    text-align: center;
+    padding: 20px;
+}
+
+nav {
+    background-color: #2E4053;
+    padding: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+#content {
+    background-color: #2E4053;
+    margin: 20px auto;
+    padding: 20px;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+footer {
+    background-color: #2E4053;
+    text-align: center;
+    padding: 15px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

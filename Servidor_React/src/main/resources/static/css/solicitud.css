@@ -1,0 +1,16 @@
+body {
+    font-family: 'FreeMono', monospace;
+    text-align: center;
+}
+
+#mensajes {
+    width: 80%;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #212F3D;
+    background: #212F3D;
+    color: white;
+    text-align: left;
+}
+
+

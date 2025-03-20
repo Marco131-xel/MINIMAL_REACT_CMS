@@ -245,7 +245,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Solicutudes"/>
+            <Property name="text" type="java.lang.String" value="Solicitudes"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="BT_crear">

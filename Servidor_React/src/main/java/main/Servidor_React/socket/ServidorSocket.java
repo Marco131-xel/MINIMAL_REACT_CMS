@@ -1,5 +1,8 @@
 package main.Servidor_React.socket;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -9,11 +12,39 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
  * @author marco
  */
 public class ServidorSocket extends TextWebSocketHandler {
-    
+
+    private static final Set<WebSocketSession> sesiones = Collections.synchronizedSet(new HashSet<>());
+
+    @Override
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        sesiones.add(session);
+        System.out.println("Nueva conexion: " + session.getId());
+    }
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println("Mensaje recibido: " + message.getPayload());
-        session.sendMessage(new TextMessage("Respuesta del servidor: " + message.getPayload()));
+        String recibido = message.getPayload();
+        System.out.println("Mensaje recibido: " + recibido);
+
+        String respuesta;
+        if (recibido.startsWith("POST SITIO")) {
+            respuesta = "SUCCESS\nEl sitio fue creado correctamente.";
+        } else {
+            respuesta = "ERROR\nComando no reconocido.";
+        }
+
+        for (WebSocketSession s : sesiones) {
+            if (s.isOpen()) {
+                s.sendMessage(new TextMessage("Cliente: " + recibido));
+                s.sendMessage(new TextMessage("Servidor: " + respuesta));
+            }
+        }
     }
-    
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, org.springframework.web.socket.CloseStatus status) throws Exception {
+        sesiones.remove(session);
+        System.out.println("Conexion cerrada: " + session.getId());
+    }
+
 }

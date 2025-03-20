@@ -4,6 +4,9 @@ import socket.ClienteWs;
 import java.net.URI;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import utils.GestionArchivos;
 
 /**
@@ -103,7 +106,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Solicutudes");
+        jLabel2.setText("Solicitudes");
 
         BT_crear.setText("Crear");
         BT_crear.addActionListener(new java.awt.event.ActionListener() {
@@ -203,17 +206,28 @@ public class Interfaz extends javax.swing.JFrame {
     
     private void conectarWebSocket(){
         try {
-            clienteWs = new ClienteWs(new URI("ws://localhost:8080/ws"));
+            clienteWs = new ClienteWs(new URI("ws://localhost:8080/ws"), this);
             clienteWs.connect();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
+    public void agregarTexto(String texto){
+        SwingUtilities.invokeLater(() -> {
+            try {
+                Document doc = solicitudes.getDocument();
+                doc.insertString(doc.getLength(), texto, null);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    
     private void BT_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_procesarActionPerformed
         // TODO add your handling code here:
         try {
-            ClienteWs cliente = new ClienteWs(new URI("ws://localhost:8080/ws"));
+            ClienteWs cliente = new ClienteWs(new URI("ws://localhost:8080/ws"), this);
             cliente.connect();
         } catch (Exception e) {
             e.printStackTrace();
@@ -246,9 +260,10 @@ public class Interfaz extends javax.swing.JFrame {
         String nombreSitio = JOptionPane.showInputDialog(this, "Ingrese el nombre del sitio:", "Crear Sitio", JOptionPane.PLAIN_MESSAGE);
         
         if (nombreSitio != null && !nombreSitio.trim().isEmpty()) {
-            String mensaje = "get sitio \nabrir sitio " + nombreSitio.trim();
+            String mensaje = "POST SITIO \ncrear sitio " + nombreSitio.trim() + "\n";
             if (clienteWs != null) {
                 clienteWs.enviarMensajes(mensaje);
+                //agregarTexto(mensaje);
             } else {
                 System.out.println("No hay cliente WEBSOCKET");
             }

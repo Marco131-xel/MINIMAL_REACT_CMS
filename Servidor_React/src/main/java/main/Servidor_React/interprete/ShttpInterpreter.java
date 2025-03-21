@@ -1,6 +1,6 @@
 package main.Servidor_React.interprete;
 
-import java.io.File;
+import java.util.List;
 import main.Servidor_React.antlr4.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -11,19 +11,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  * @author marco
  */
 public class ShttpInterpreter implements shttpListener {
-
-    private void crearSitio(String nombre) {
-        File carpeta = new File("/home/marco/Documentos/Compi_2025/MINIMAL_REACT_CMS/data/" + nombre);
-        if (!carpeta.exists()) {
-            if (carpeta.mkdir()) {
-                System.out.println("Sitio " + nombre + " creado");
-            } else {
-                System.out.println("No se pudo crear el sitio");
-            }
-        } else {
-            System.out.println("El sitio " + nombre + "ya existe");
-        }
-    }
+    Shttp shttp = new Shttp();
 
     @Override
     public void enterInit(shttpParser.InitContext ctx) {
@@ -50,53 +38,84 @@ public class ShttpInterpreter implements shttpListener {
     }
 
     @Override
-    public void enterXd(shttpParser.XdContext ctx) {
-        String sitio = ctx.PARAMETRO().getText();
-        crearSitio(sitio);
+    public void enterGet(shttpParser.GetContext ctx) {
     }
 
     @Override
-    public void exitXd(shttpParser.XdContext ctx) {
+    public void exitGet(shttpParser.GetContext ctx) {
     }
 
     @Override
-    public void enterMetodo(shttpParser.MetodoContext ctx) {
+    public void enterPost(shttpParser.PostContext ctx) {
+        // identificar si es sitio o pagina
+        boolean esSitio = ctx.SITIO(0) != null;
+        boolean esPagina = ctx.PAGINA(0) != null;
+        // obtener lista de parametros
+        List<shttpParser.ParametroContext> parametros = ctx.parametros().parametro();
+        // si no hay parametros error
+        if (parametros.isEmpty()) {
+            System.out.println("Error: ser requiere al menos un parametros para crear sitio o pagina");
+            return;
+        }
+        // crear sitios con o sin parametros
+        if (esSitio) {
+            String ruta = parametros.get(0).IDENTIFICADOR().getText();
+            for (int i = 1; i < parametros.size(); i++){
+                String subcarpeta = parametros.get(i).IDENTIFICADOR().getText();
+                ruta = ruta + "/" + subcarpeta;
+            }
+            shttp.crearSitio(ruta);
+        } 
+        else if (esPagina){
+            if (parametros.size() < 2) {
+                System.out.println("Error: se debe indicar el sitio para crear la pagina");
+                return;
+            }
+            // obtener la ruta de la carpeta para crear la pagina
+            String rutaCarpeta = parametros.get(0).IDENTIFICADOR().getText();
+            for (int i = 1; i < parametros.size() - 1; i++) {
+                rutaCarpeta += "/" + parametros.get(i).IDENTIFICADOR().getText();
+            }
+            String nombrePagina = parametros.get(parametros.size() - 1).IDENTIFICADOR().getText();
+            shttp.crearPagina(rutaCarpeta,nombrePagina);
+        }
+
     }
 
     @Override
-    public void exitMetodo(shttpParser.MetodoContext ctx) {
+    public void exitPost(shttpParser.PostContext ctx) {
     }
 
     @Override
-    public void enterObjetivo(shttpParser.ObjetivoContext ctx) {
+    public void enterPatch(shttpParser.PatchContext ctx) {
     }
 
     @Override
-    public void exitObjetivo(shttpParser.ObjetivoContext ctx) {
+    public void exitPatch(shttpParser.PatchContext ctx) {
     }
 
     @Override
-    public void enterInstcl(shttpParser.InstclContext ctx) {
+    public void enterDelete(shttpParser.DeleteContext ctx) {
     }
 
     @Override
-    public void exitInstcl(shttpParser.InstclContext ctx) {
+    public void exitDelete(shttpParser.DeleteContext ctx) {
     }
 
     @Override
-    public void enterAccion(shttpParser.AccionContext ctx) {
+    public void enterParametros(shttpParser.ParametrosContext ctx) {
     }
 
     @Override
-    public void exitAccion(shttpParser.AccionContext ctx) {
+    public void exitParametros(shttpParser.ParametrosContext ctx) {
     }
 
     @Override
-    public void enterBody(shttpParser.BodyContext ctx) {
+    public void enterParametro(shttpParser.ParametroContext ctx) {
     }
 
     @Override
-    public void exitBody(shttpParser.BodyContext ctx) {
+    public void exitParametro(shttpParser.ParametroContext ctx) {
     }
 
     @Override

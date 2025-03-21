@@ -40,63 +40,63 @@ public interface shttpListener extends ParseTreeListener {
 	 */
 	void exitInstruccion(shttpParser.InstruccionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link shttpParser#xd}.
+	 * Enter a parse tree produced by {@link shttpParser#get}.
 	 * @param ctx the parse tree
 	 */
-	void enterXd(shttpParser.XdContext ctx);
+	void enterGet(shttpParser.GetContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link shttpParser#xd}.
+	 * Exit a parse tree produced by {@link shttpParser#get}.
 	 * @param ctx the parse tree
 	 */
-	void exitXd(shttpParser.XdContext ctx);
+	void exitGet(shttpParser.GetContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link shttpParser#metodo}.
+	 * Enter a parse tree produced by {@link shttpParser#post}.
 	 * @param ctx the parse tree
 	 */
-	void enterMetodo(shttpParser.MetodoContext ctx);
+	void enterPost(shttpParser.PostContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link shttpParser#metodo}.
+	 * Exit a parse tree produced by {@link shttpParser#post}.
 	 * @param ctx the parse tree
 	 */
-	void exitMetodo(shttpParser.MetodoContext ctx);
+	void exitPost(shttpParser.PostContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link shttpParser#objetivo}.
+	 * Enter a parse tree produced by {@link shttpParser#patch}.
 	 * @param ctx the parse tree
 	 */
-	void enterObjetivo(shttpParser.ObjetivoContext ctx);
+	void enterPatch(shttpParser.PatchContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link shttpParser#objetivo}.
+	 * Exit a parse tree produced by {@link shttpParser#patch}.
 	 * @param ctx the parse tree
 	 */
-	void exitObjetivo(shttpParser.ObjetivoContext ctx);
+	void exitPatch(shttpParser.PatchContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link shttpParser#instcl}.
+	 * Enter a parse tree produced by {@link shttpParser#delete}.
 	 * @param ctx the parse tree
 	 */
-	void enterInstcl(shttpParser.InstclContext ctx);
+	void enterDelete(shttpParser.DeleteContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link shttpParser#instcl}.
+	 * Exit a parse tree produced by {@link shttpParser#delete}.
 	 * @param ctx the parse tree
 	 */
-	void exitInstcl(shttpParser.InstclContext ctx);
+	void exitDelete(shttpParser.DeleteContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link shttpParser#accion}.
+	 * Enter a parse tree produced by {@link shttpParser#parametros}.
 	 * @param ctx the parse tree
 	 */
-	void enterAccion(shttpParser.AccionContext ctx);
+	void enterParametros(shttpParser.ParametrosContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link shttpParser#accion}.
+	 * Exit a parse tree produced by {@link shttpParser#parametros}.
 	 * @param ctx the parse tree
 	 */
-	void exitAccion(shttpParser.AccionContext ctx);
+	void exitParametros(shttpParser.ParametrosContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link shttpParser#body}.
+	 * Enter a parse tree produced by {@link shttpParser#parametro}.
 	 * @param ctx the parse tree
 	 */
-	void enterBody(shttpParser.BodyContext ctx);
+	void enterParametro(shttpParser.ParametroContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link shttpParser#body}.
+	 * Exit a parse tree produced by {@link shttpParser#parametro}.
 	 * @param ctx the parse tree
 	 */
-	void exitBody(shttpParser.BodyContext ctx);
+	void exitParametro(shttpParser.ParametroContext ctx);
 }

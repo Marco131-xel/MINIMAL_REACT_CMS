@@ -3,45 +3,34 @@ grammar shttp;
 @header{
 package main.Servidor_React.antlr4;
 }
-    // PARSER
+
+// PARSER
 init: instrucciones;
 
-instrucciones: instruccion
-             | instrucciones instruccion
+instrucciones: instruccion+;
+
+instruccion: get
+           | post
+           | patch
+           | delete
 ;
 
-instruccion: metodo objetivo body instcl
-           | xd
-;
+get: GET (SITIO | PAGINA) ABRIR (SITIO | PAGINA) parametros;
 
-xd: POST SITIO CREAR SITIO PARAMETRO
-;
+post: POST (SITIO | PAGINA) CREAR (SITIO | PAGINA) parametros;
 
-metodo: GET
-      | POST
-      | PATCH
-      | DELETE
-;
+patch: PATCH (SITIO | PAGINA) (MODIFICAR | AGREGAR) (SITIO | PAGINA) parametros;
 
-objetivo: SITIO
-        | PAGINA
-;
+delete: DELETE (SITIO | PAGINA) ELIMINAR (SITIO | PAGINA) parametros;
 
-instcl: accion objetivo PARAMETRO COMA PARAMETRO
-;
+parametros: parametro (COMA parametro)*;
 
-accion: CREAR
-      | AGREGAR
-      | ELIMINAR
-      | MODIFICAR
-;
+parametro: IDENTIFICADOR;
 
-body: /*vacio*/
-;
-
-    // LEXER
+// LEXER
 // SIGNOS
 COMA : ',';
+
 // PALABRAS RESERVADAS
 GET : 'get';
 POST : 'post';
@@ -49,10 +38,13 @@ PATCH : 'patch';
 DELETE : 'delete';
 SITIO : 'sitio';
 PAGINA : 'pagina';
+ABRIR: 'abrir';
 CREAR : 'crear';
 AGREGAR : 'agregar';
 ELIMINAR : 'eliminar';
 MODIFICAR : 'modificar';
+
 // PATRONES
-PARAMETRO : [a-zA-Z][a-zA-Z0-9_]*;
+IDENTIFICADOR : [a-zA-Z][a-zA-Z0-9_-]*;
+
 BLANCOS: [ \t\r\n]+ -> skip;

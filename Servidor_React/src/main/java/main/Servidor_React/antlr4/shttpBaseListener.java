@@ -55,73 +55,73 @@ public class shttpBaseListener implements shttpListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterXd(shttpParser.XdContext ctx) { }
+	@Override public void enterGet(shttpParser.GetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitXd(shttpParser.XdContext ctx) { }
+	@Override public void exitGet(shttpParser.GetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMetodo(shttpParser.MetodoContext ctx) { }
+	@Override public void enterPost(shttpParser.PostContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMetodo(shttpParser.MetodoContext ctx) { }
+	@Override public void exitPost(shttpParser.PostContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterObjetivo(shttpParser.ObjetivoContext ctx) { }
+	@Override public void enterPatch(shttpParser.PatchContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitObjetivo(shttpParser.ObjetivoContext ctx) { }
+	@Override public void exitPatch(shttpParser.PatchContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInstcl(shttpParser.InstclContext ctx) { }
+	@Override public void enterDelete(shttpParser.DeleteContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInstcl(shttpParser.InstclContext ctx) { }
+	@Override public void exitDelete(shttpParser.DeleteContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAccion(shttpParser.AccionContext ctx) { }
+	@Override public void enterParametros(shttpParser.ParametrosContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAccion(shttpParser.AccionContext ctx) { }
+	@Override public void exitParametros(shttpParser.ParametrosContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBody(shttpParser.BodyContext ctx) { }
+	@Override public void enterParametro(shttpParser.ParametroContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBody(shttpParser.BodyContext ctx) { }
+	@Override public void exitParametro(shttpParser.ParametroContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

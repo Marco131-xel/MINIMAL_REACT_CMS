@@ -137,6 +137,11 @@ public class Interfaz extends javax.swing.JFrame {
         BT_agregar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
         BT_agregar.setForeground(new java.awt.Color(255, 255, 255));
         BT_agregar.setText("Agregar");
+        BT_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_agregarActionPerformed(evt);
+            }
+        });
 
         BT_modificar.setBackground(new java.awt.Color(33, 47, 61));
         BT_modificar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
@@ -306,15 +311,44 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void BT_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_crearActionPerformed
         // TODO add your handling code here:
-        String nombreSitio = JOptionPane.showInputDialog(this, "Ingrese el nombre del sitio:", "Crear Sitio", JOptionPane.PLAIN_MESSAGE);
+        String[] opciones = {"Sitio", "Pagina"};
+        int seleccion = JOptionPane.showOptionDialog(this,
+                "Seleccione que desea crear:",
+                "Crear Sitio o Pagina",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]);
+        // si eligio sitio
+        if (seleccion == 0) {
+            String nombreSitio = JOptionPane.showInputDialog(this,
+                    "Ingrese el nombre del sitio:",
+                    "Crear Sitio",
+                    JOptionPane.PLAIN_MESSAGE);
 
-        if (nombreSitio != null && !nombreSitio.trim().isEmpty()) {
-            String mensaje = "post sitio \ncrear sitio " + nombreSitio.trim() + "\n";
-            if (clienteWs != null) {
-                clienteWs.enviarMensajes(mensaje);
-                //agregarTexto(mensaje);
-            } else {
-                System.out.println("No hay cliente WEBSOCKET");
+            if (nombreSitio != null && !nombreSitio.trim().isEmpty()) {
+                String mensaje = "post sitio \ncrear sitio " + nombreSitio.trim() + "\n";
+                if (clienteWs != null) {
+                    clienteWs.enviarMensajes(mensaje);
+                } else {
+                    System.out.println("No hay cliente WEBSOCKET");
+                }
+            }
+        // si elegio pagina
+        } else if (seleccion == 1) {
+            String nombrePagina = JOptionPane.showInputDialog(this,
+                    "Ingrese el nombre de la pagina:",
+                    "Crear Pagina",
+                    JOptionPane.PLAIN_MESSAGE);
+
+            if (nombrePagina != null && !nombrePagina.trim().isEmpty()) {
+                String mensaje = "post pagina \ncrear pagina " + nombrePagina.trim() + "\n";
+                if (clienteWs != null) {
+                    clienteWs.enviarMensajes(mensaje);
+                } else {
+                    System.out.println("No hay cliente WEBSOCKET");
+                }
             }
         }
     }//GEN-LAST:event_BT_crearActionPerformed
@@ -323,6 +357,10 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
         panelito.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void BT_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_agregarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BT_agregarActionPerformed
 
     /**
      * @param args the command line arguments

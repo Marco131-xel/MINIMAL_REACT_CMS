@@ -32,6 +32,9 @@ public class ServidorSocket extends TextWebSocketHandler {
         if (recibido.startsWith("post sitio")) {
             respuesta = "SUCCESS\nEl sitio fue creado correctamente.";
             shttp.ejecutar(recibido);
+        } else if (recibido.startsWith("post pagina")){
+            respuesta = "SUCCESS\nLa pagina fue creada.";
+            shttp.ejecutar(recibido);
         } else {
             respuesta = "ERROR\nComando no reconocido.";
         }

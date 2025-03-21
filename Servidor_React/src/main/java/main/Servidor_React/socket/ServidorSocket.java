@@ -3,6 +3,7 @@ package main.Servidor_React.socket;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import main.Servidor_React.interprete.Shttp;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -14,6 +15,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class ServidorSocket extends TextWebSocketHandler {
 
     private static final Set<WebSocketSession> sesiones = Collections.synchronizedSet(new HashSet<>());
+    Shttp shttp = new Shttp();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -27,8 +29,9 @@ public class ServidorSocket extends TextWebSocketHandler {
         System.out.println("Mensaje recibido: " + recibido);
 
         String respuesta;
-        if (recibido.startsWith("POST SITIO")) {
+        if (recibido.startsWith("post sitio")) {
             respuesta = "SUCCESS\nEl sitio fue creado correctamente.";
+            shttp.ejecutar(recibido);
         } else {
             respuesta = "ERROR\nComando no reconocido.";
         }

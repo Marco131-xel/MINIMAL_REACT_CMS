@@ -1,10 +1,12 @@
 package main;
+
 import java.io.File;
 import socket.ClienteWs;
 import java.net.URI;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import utils.GestionArchivos;
@@ -42,24 +44,30 @@ public class Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        bg = new javax.swing.JPanel();
         scroll_num = new javax.swing.JScrollPane();
         panelito = new javax.swing.JTextPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        solicitudes = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         BT_abrir = new javax.swing.JButton();
         BT_Guardar = new javax.swing.JButton();
         BT_procesar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        solicitudes = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         BT_crear = new javax.swing.JButton();
-        BT_modificar = new javax.swing.JButton();
         BT_agregar = new javax.swing.JButton();
+        BT_modificar = new javax.swing.JButton();
         BT_eliminar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Table_Errores = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(33, 47, 61));
+        bg.setBackground(new java.awt.Color(33, 47, 61));
+        bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         scroll_num.setBackground(new java.awt.Color(255, 0, 0));
 
@@ -67,6 +75,28 @@ public class Interfaz extends javax.swing.JFrame {
         panelito.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
         panelito.setForeground(new java.awt.Color(255, 255, 255));
         scroll_num.setViewportView(panelito);
+
+        bg.add(scroll_num, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 650, 530));
+
+        solicitudes.setBackground(new java.awt.Color(46, 64, 83));
+        solicitudes.setColumns(20);
+        solicitudes.setFont(new java.awt.Font("FreeMono", 0, 16)); // NOI18N
+        solicitudes.setForeground(new java.awt.Color(255, 255, 255));
+        solicitudes.setRows(5);
+        jScrollPane1.setViewportView(solicitudes);
+
+        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 550, 370, 140));
+
+        jLabel2.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Tabla Errores");
+        bg.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 230, -1, -1));
+
+        jPanel1.setBackground(new java.awt.Color(46, 64, 83));
+
+        jLabel1.setFont(new java.awt.Font("FreeMono", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Editor Minimal React CMS");
 
         BT_abrir.setBackground(new java.awt.Color(33, 47, 61));
         BT_abrir.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
@@ -93,21 +123,9 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        solicitudes.setBackground(new java.awt.Color(46, 64, 83));
-        solicitudes.setColumns(20);
-        solicitudes.setFont(new java.awt.Font("DialogInput", 1, 16)); // NOI18N
-        solicitudes.setForeground(new java.awt.Color(255, 255, 255));
-        solicitudes.setRows(5);
-        jScrollPane1.setViewportView(solicitudes);
-
-        jLabel1.setFont(new java.awt.Font("FreeMono", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Editor");
-
-        jLabel2.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Solicitudes");
-
+        BT_crear.setBackground(new java.awt.Color(33, 47, 61));
+        BT_crear.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_crear.setForeground(new java.awt.Color(255, 255, 255));
         BT_crear.setText("Crear");
         BT_crear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,96 +133,127 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        BT_modificar.setText("Modificar");
-
+        BT_agregar.setBackground(new java.awt.Color(33, 47, 61));
+        BT_agregar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_agregar.setForeground(new java.awt.Color(255, 255, 255));
         BT_agregar.setText("Agregar");
 
+        BT_modificar.setBackground(new java.awt.Color(33, 47, 61));
+        BT_modificar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_modificar.setForeground(new java.awt.Color(255, 255, 255));
+        BT_modificar.setText("Modificar");
+
+        BT_eliminar.setBackground(new java.awt.Color(33, 47, 61));
+        BT_eliminar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_eliminar.setForeground(new java.awt.Color(255, 255, 255));
         BT_eliminar.setText("Eliminar");
+
+        jButton1.setBackground(new java.awt.Color(33, 47, 61));
+        jButton1.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Limpiar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(BT_abrir)
-                        .addGap(66, 66, 66)
-                        .addComponent(BT_Guardar)
-                        .addGap(61, 61, 61)
-                        .addComponent(BT_procesar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(scroll_num, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(70, 70, 70)
-                                .addComponent(jLabel2))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(91, 91, 91)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(BT_eliminar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(BT_agregar))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(BT_crear)
-                                        .addGap(36, 36, 36)
-                                        .addComponent(BT_modificar))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(322, 322, 322)
-                        .addComponent(jLabel1)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addGap(66, 66, 66)
+                .addComponent(BT_abrir)
+                .addGap(18, 18, 18)
+                .addComponent(BT_Guardar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BT_procesar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
+                .addComponent(BT_crear)
+                .addGap(18, 18, 18)
+                .addComponent(BT_agregar)
+                .addGap(18, 18, 18)
+                .addComponent(BT_modificar)
+                .addGap(18, 18, 18)
+                .addComponent(BT_eliminar)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(127, 127, 127))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(395, 395, 395)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(189, 189, 189)
-                        .addComponent(jLabel2)
-                        .addGap(26, 26, 26)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(BT_crear)
-                            .addComponent(BT_modificar)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel1)
-                        .addGap(33, 33, 33)
-                        .addComponent(scroll_num, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BT_eliminar)
-                    .addComponent(BT_agregar))
-                .addGap(1, 1, 1)
+                .addContainerGap(49, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BT_abrir)
                     .addComponent(BT_Guardar)
-                    .addComponent(BT_procesar))
-                .addContainerGap(46, Short.MAX_VALUE))
+                    .addComponent(BT_procesar)
+                    .addComponent(BT_crear)
+                    .addComponent(BT_agregar)
+                    .addComponent(BT_modificar)
+                    .addComponent(BT_eliminar)
+                    .addComponent(jButton1))
+                .addContainerGap())
         );
+
+        bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1390, 160));
+
+        Table_Errores.setBackground(new java.awt.Color(33, 47, 61));
+        Table_Errores.setFont(new java.awt.Font("FreeMono", 0, 16)); // NOI18N
+        Table_Errores.setForeground(new java.awt.Color(255, 255, 255));
+        Table_Errores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Tipo", "Descripcion", "Linea", "Columna"
+            }
+        ));
+        jScrollPane2.setViewportView(Table_Errores);
+        if (Table_Errores.getColumnModel().getColumnCount() > 0) {
+            Table_Errores.getColumnModel().getColumn(0).setMinWidth(150);
+            Table_Errores.getColumnModel().getColumn(0).setPreferredWidth(150);
+            Table_Errores.getColumnModel().getColumn(0).setMaxWidth(150);
+            Table_Errores.getColumnModel().getColumn(2).setMinWidth(100);
+            Table_Errores.getColumnModel().getColumn(2).setPreferredWidth(100);
+            Table_Errores.getColumnModel().getColumn(2).setMaxWidth(100);
+            Table_Errores.getColumnModel().getColumn(3).setMinWidth(100);
+            Table_Errores.getColumnModel().getColumn(3).setPreferredWidth(100);
+            Table_Errores.getColumnModel().getColumn(3).setMaxWidth(100);
+        }
+
+        bg.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 630, 120));
+
+        jLabel3.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Solicitudes");
+        bg.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 500, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void conectarWebSocket(){
+
+    private void conectarWebSocket() {
         try {
             clienteWs = new ClienteWs(new URI("ws://localhost:8080/ws"), this);
             clienteWs.connect();
@@ -212,8 +261,8 @@ public class Interfaz extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
-    public void agregarTexto(String texto){
+
+    public void agregarTexto(String texto) {
         SwingUtilities.invokeLater(() -> {
             try {
                 Document doc = solicitudes.getDocument();
@@ -223,7 +272,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private void BT_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_procesarActionPerformed
         // TODO add your handling code here:
         try {
@@ -243,7 +292,7 @@ public class Interfaz extends javax.swing.JFrame {
                     try {
                         String codigo_fuente = gestion.AbrirATexto(archivo);
                         panelito.setText(codigo_fuente);
-                        
+
                     } catch (Exception e) {
                         e.printStackTrace();
                         JOptionPane.showMessageDialog(null, "Error al abrir el archivo.");
@@ -258,9 +307,9 @@ public class Interfaz extends javax.swing.JFrame {
     private void BT_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_crearActionPerformed
         // TODO add your handling code here:
         String nombreSitio = JOptionPane.showInputDialog(this, "Ingrese el nombre del sitio:", "Crear Sitio", JOptionPane.PLAIN_MESSAGE);
-        
+
         if (nombreSitio != null && !nombreSitio.trim().isEmpty()) {
-            String mensaje = "POST SITIO \ncrear sitio " + nombreSitio.trim() + "\n";
+            String mensaje = "post sitio \ncrear sitio " + nombreSitio.trim() + "\n";
             if (clienteWs != null) {
                 clienteWs.enviarMensajes(mensaje);
                 //agregarTexto(mensaje);
@@ -269,6 +318,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_BT_crearActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        panelito.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,10 +367,15 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton BT_eliminar;
     private javax.swing.JButton BT_modificar;
     private javax.swing.JButton BT_procesar;
+    private javax.swing.JTable Table_Errores;
+    private javax.swing.JPanel bg;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextPane panelito;
     private javax.swing.JScrollPane scroll_num;
     private javax.swing.JTextArea solicitudes;

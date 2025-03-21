@@ -1,5 +1,8 @@
 grammar shttp;
 
+@header{
+package main.Servidor_React.antlr4;
+}
     // PARSER
 init: instrucciones;
 
@@ -7,7 +10,11 @@ instrucciones: instruccion
              | instrucciones instruccion
 ;
 
-instruccion: metodo objetivo instcl body
+instruccion: metodo objetivo body instcl
+           | xd
+;
+
+xd: POST SITIO CREAR SITIO PARAMETRO
 ;
 
 metodo: GET

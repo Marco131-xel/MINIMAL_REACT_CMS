@@ -1,4 +1,7 @@
-// Generated from /home/marco/Documentos/Compi_2025/MINIMAL_REACT_CMS/Servidor_React/src/main/java/main/Servidor_React/antlr4/shttp.g4 by ANTLR 4.13.1
+// Generated from shttp.g4 by ANTLR 4.13.2
+
+package main.Servidor_React.antlr4;
+
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,7 +13,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
 public class shttpLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.13.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =

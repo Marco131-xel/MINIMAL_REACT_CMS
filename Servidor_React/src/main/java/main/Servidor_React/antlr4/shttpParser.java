@@ -1,4 +1,7 @@
-// Generated from /home/marco/Documentos/Compi_2025/MINIMAL_REACT_CMS/Servidor_React/src/main/java/main/Servidor_React/antlr4/shttp.g4 by ANTLR 4.13.1
+// Generated from shttp.g4 by ANTLR 4.13.2
+
+package main.Servidor_React.antlr4;
+
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -8,9 +11,9 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
 public class shttpParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.13.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -19,11 +22,12 @@ public class shttpParser extends Parser {
 		COMA=1, GET=2, POST=3, PATCH=4, DELETE=5, SITIO=6, PAGINA=7, CREAR=8, 
 		AGREGAR=9, ELIMINAR=10, MODIFICAR=11, PARAMETRO=12, BLANCOS=13;
 	public static final int
-		RULE_init = 0, RULE_instrucciones = 1, RULE_instruccion = 2, RULE_metodo = 3, 
-		RULE_objetivo = 4, RULE_instcl = 5, RULE_accion = 6, RULE_body = 7;
+		RULE_init = 0, RULE_instrucciones = 1, RULE_instruccion = 2, RULE_xd = 3, 
+		RULE_metodo = 4, RULE_objetivo = 5, RULE_instcl = 6, RULE_accion = 7, 
+		RULE_body = 8;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"init", "instrucciones", "instruccion", "metodo", "objetivo", "instcl", 
+			"init", "instrucciones", "instruccion", "xd", "metodo", "objetivo", "instcl", 
 			"accion", "body"
 		};
 	}
@@ -102,6 +106,14 @@ public class shttpParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_init; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).enterInit(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).exitInit(this);
+		}
 	}
 
 	public final InitContext init() throws RecognitionException {
@@ -110,7 +122,7 @@ public class shttpParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(16);
+			setState(18);
 			instrucciones(0);
 			}
 		}
@@ -137,6 +149,14 @@ public class shttpParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_instrucciones; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).enterInstrucciones(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).exitInstrucciones(this);
+		}
 	}
 
 	public final InstruccionesContext instrucciones() throws RecognitionException {
@@ -155,11 +175,11 @@ public class shttpParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(19);
+			setState(21);
 			instruccion();
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(25);
+			setState(27);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -170,14 +190,14 @@ public class shttpParser extends Parser {
 					{
 					_localctx = new InstruccionesContext(_parentctx, _parentState);
 					pushNewRecursionContext(_localctx, _startState, RULE_instrucciones);
-					setState(21);
+					setState(23);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-					setState(22);
+					setState(24);
 					instruccion();
 					}
 					} 
 				}
-				setState(27);
+				setState(29);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
 			}
@@ -202,32 +222,108 @@ public class shttpParser extends Parser {
 		public ObjetivoContext objetivo() {
 			return getRuleContext(ObjetivoContext.class,0);
 		}
+		public BodyContext body() {
+			return getRuleContext(BodyContext.class,0);
+		}
 		public InstclContext instcl() {
 			return getRuleContext(InstclContext.class,0);
 		}
-		public BodyContext body() {
-			return getRuleContext(BodyContext.class,0);
+		public XdContext xd() {
+			return getRuleContext(XdContext.class,0);
 		}
 		public InstruccionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_instruccion; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).enterInstruccion(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).exitInstruccion(this);
+		}
 	}
 
 	public final InstruccionContext instruccion() throws RecognitionException {
 		InstruccionContext _localctx = new InstruccionContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_instruccion);
 		try {
+			setState(36);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(30);
+				metodo();
+				setState(31);
+				objetivo();
+				setState(32);
+				body();
+				setState(33);
+				instcl();
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(35);
+				xd();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class XdContext extends ParserRuleContext {
+		public TerminalNode POST() { return getToken(shttpParser.POST, 0); }
+		public List<TerminalNode> SITIO() { return getTokens(shttpParser.SITIO); }
+		public TerminalNode SITIO(int i) {
+			return getToken(shttpParser.SITIO, i);
+		}
+		public TerminalNode CREAR() { return getToken(shttpParser.CREAR, 0); }
+		public TerminalNode PARAMETRO() { return getToken(shttpParser.PARAMETRO, 0); }
+		public XdContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_xd; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).enterXd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).exitXd(this);
+		}
+	}
+
+	public final XdContext xd() throws RecognitionException {
+		XdContext _localctx = new XdContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_xd);
+		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28);
-			metodo();
-			setState(29);
-			objetivo();
-			setState(30);
-			instcl();
-			setState(31);
-			body();
+			setState(38);
+			match(POST);
+			setState(39);
+			match(SITIO);
+			setState(40);
+			match(CREAR);
+			setState(41);
+			match(SITIO);
+			setState(42);
+			match(PARAMETRO);
 			}
 		}
 		catch (RecognitionException re) {
@@ -251,16 +347,24 @@ public class shttpParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_metodo; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).enterMetodo(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).exitMetodo(this);
+		}
 	}
 
 	public final MetodoContext metodo() throws RecognitionException {
 		MetodoContext _localctx = new MetodoContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_metodo);
+		enterRule(_localctx, 8, RULE_metodo);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(33);
+			setState(44);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 60L) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -291,16 +395,24 @@ public class shttpParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_objetivo; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).enterObjetivo(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).exitObjetivo(this);
+		}
 	}
 
 	public final ObjetivoContext objetivo() throws RecognitionException {
 		ObjetivoContext _localctx = new ObjetivoContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_objetivo);
+		enterRule(_localctx, 10, RULE_objetivo);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35);
+			setState(46);
 			_la = _input.LA(1);
 			if ( !(_la==SITIO || _la==PAGINA) ) {
 			_errHandler.recoverInline(this);
@@ -340,23 +452,31 @@ public class shttpParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_instcl; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).enterInstcl(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).exitInstcl(this);
+		}
 	}
 
 	public final InstclContext instcl() throws RecognitionException {
 		InstclContext _localctx = new InstclContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_instcl);
+		enterRule(_localctx, 12, RULE_instcl);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(37);
+			setState(48);
 			accion();
-			setState(38);
+			setState(49);
 			objetivo();
-			setState(39);
+			setState(50);
 			match(PARAMETRO);
-			setState(40);
+			setState(51);
 			match(COMA);
-			setState(41);
+			setState(52);
 			match(PARAMETRO);
 			}
 		}
@@ -381,16 +501,24 @@ public class shttpParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_accion; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).enterAccion(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).exitAccion(this);
+		}
 	}
 
 	public final AccionContext accion() throws RecognitionException {
 		AccionContext _localctx = new AccionContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_accion);
+		enterRule(_localctx, 14, RULE_accion);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(43);
+			setState(54);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 3840L) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -419,11 +547,19 @@ public class shttpParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_body; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).enterBody(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).exitBody(this);
+		}
 	}
 
 	public final BodyContext body() throws RecognitionException {
 		BodyContext _localctx = new BodyContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_body);
+		enterRule(_localctx, 16, RULE_body);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -456,34 +592,40 @@ public class shttpParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\r0\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\r;\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
-		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0001"+
-		"\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
-		"\u0001\u0005\u0001\u0018\b\u0001\n\u0001\f\u0001\u001b\t\u0001\u0001\u0002"+
-		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0003\u0001\u0003"+
-		"\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005"+
-		"\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007"+
-		"\u0001\u0007\u0000\u0001\u0002\b\u0000\u0002\u0004\u0006\b\n\f\u000e\u0000"+
-		"\u0003\u0001\u0000\u0002\u0005\u0001\u0000\u0006\u0007\u0001\u0000\b\u000b"+
-		"(\u0000\u0010\u0001\u0000\u0000\u0000\u0002\u0012\u0001\u0000\u0000\u0000"+
-		"\u0004\u001c\u0001\u0000\u0000\u0000\u0006!\u0001\u0000\u0000\u0000\b"+
-		"#\u0001\u0000\u0000\u0000\n%\u0001\u0000\u0000\u0000\f+\u0001\u0000\u0000"+
-		"\u0000\u000e-\u0001\u0000\u0000\u0000\u0010\u0011\u0003\u0002\u0001\u0000"+
-		"\u0011\u0001\u0001\u0000\u0000\u0000\u0012\u0013\u0006\u0001\uffff\uffff"+
-		"\u0000\u0013\u0014\u0003\u0004\u0002\u0000\u0014\u0019\u0001\u0000\u0000"+
-		"\u0000\u0015\u0016\n\u0001\u0000\u0000\u0016\u0018\u0003\u0004\u0002\u0000"+
-		"\u0017\u0015\u0001\u0000\u0000\u0000\u0018\u001b\u0001\u0000\u0000\u0000"+
-		"\u0019\u0017\u0001\u0000\u0000\u0000\u0019\u001a\u0001\u0000\u0000\u0000"+
-		"\u001a\u0003\u0001\u0000\u0000\u0000\u001b\u0019\u0001\u0000\u0000\u0000"+
-		"\u001c\u001d\u0003\u0006\u0003\u0000\u001d\u001e\u0003\b\u0004\u0000\u001e"+
-		"\u001f\u0003\n\u0005\u0000\u001f \u0003\u000e\u0007\u0000 \u0005\u0001"+
-		"\u0000\u0000\u0000!\"\u0007\u0000\u0000\u0000\"\u0007\u0001\u0000\u0000"+
-		"\u0000#$\u0007\u0001\u0000\u0000$\t\u0001\u0000\u0000\u0000%&\u0003\f"+
-		"\u0006\u0000&\'\u0003\b\u0004\u0000\'(\u0005\f\u0000\u0000()\u0005\u0001"+
-		"\u0000\u0000)*\u0005\f\u0000\u0000*\u000b\u0001\u0000\u0000\u0000+,\u0007"+
-		"\u0002\u0000\u0000,\r\u0001\u0000\u0000\u0000-.\u0001\u0000\u0000\u0000"+
-		".\u000f\u0001\u0000\u0000\u0000\u0001\u0019";
+		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
+		"\b\u0007\b\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0001\u0001\u0001\u0001\u0005\u0001\u001a\b\u0001\n\u0001\f\u0001\u001d"+
+		"\t\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0003\u0002%\b\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0001"+
+		"\u0003\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0005\u0001"+
+		"\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
+		"\u0006\u0001\u0007\u0001\u0007\u0001\b\u0001\b\u0001\b\u0000\u0001\u0002"+
+		"\t\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0000\u0003\u0001\u0000\u0002"+
+		"\u0005\u0001\u0000\u0006\u0007\u0001\u0000\b\u000b3\u0000\u0012\u0001"+
+		"\u0000\u0000\u0000\u0002\u0014\u0001\u0000\u0000\u0000\u0004$\u0001\u0000"+
+		"\u0000\u0000\u0006&\u0001\u0000\u0000\u0000\b,\u0001\u0000\u0000\u0000"+
+		"\n.\u0001\u0000\u0000\u0000\f0\u0001\u0000\u0000\u0000\u000e6\u0001\u0000"+
+		"\u0000\u0000\u00108\u0001\u0000\u0000\u0000\u0012\u0013\u0003\u0002\u0001"+
+		"\u0000\u0013\u0001\u0001\u0000\u0000\u0000\u0014\u0015\u0006\u0001\uffff"+
+		"\uffff\u0000\u0015\u0016\u0003\u0004\u0002\u0000\u0016\u001b\u0001\u0000"+
+		"\u0000\u0000\u0017\u0018\n\u0001\u0000\u0000\u0018\u001a\u0003\u0004\u0002"+
+		"\u0000\u0019\u0017\u0001\u0000\u0000\u0000\u001a\u001d\u0001\u0000\u0000"+
+		"\u0000\u001b\u0019\u0001\u0000\u0000\u0000\u001b\u001c\u0001\u0000\u0000"+
+		"\u0000\u001c\u0003\u0001\u0000\u0000\u0000\u001d\u001b\u0001\u0000\u0000"+
+		"\u0000\u001e\u001f\u0003\b\u0004\u0000\u001f \u0003\n\u0005\u0000 !\u0003"+
+		"\u0010\b\u0000!\"\u0003\f\u0006\u0000\"%\u0001\u0000\u0000\u0000#%\u0003"+
+		"\u0006\u0003\u0000$\u001e\u0001\u0000\u0000\u0000$#\u0001\u0000\u0000"+
+		"\u0000%\u0005\u0001\u0000\u0000\u0000&\'\u0005\u0003\u0000\u0000\'(\u0005"+
+		"\u0006\u0000\u0000()\u0005\b\u0000\u0000)*\u0005\u0006\u0000\u0000*+\u0005"+
+		"\f\u0000\u0000+\u0007\u0001\u0000\u0000\u0000,-\u0007\u0000\u0000\u0000"+
+		"-\t\u0001\u0000\u0000\u0000./\u0007\u0001\u0000\u0000/\u000b\u0001\u0000"+
+		"\u0000\u000001\u0003\u000e\u0007\u000012\u0003\n\u0005\u000023\u0005\f"+
+		"\u0000\u000034\u0005\u0001\u0000\u000045\u0005\f\u0000\u00005\r\u0001"+
+		"\u0000\u0000\u000067\u0007\u0002\u0000\u00007\u000f\u0001\u0000\u0000"+
+		"\u000089\u0001\u0000\u0000\u00009\u0011\u0001\u0000\u0000\u0000\u0002"+
+		"\u001b$";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

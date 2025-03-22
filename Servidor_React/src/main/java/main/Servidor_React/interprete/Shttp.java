@@ -3,6 +3,7 @@ package main.Servidor_React.interprete;
 import java.io.File;
 import java.io.IOException;
 import main.Servidor_React.antlr4.*;
+import main.Servidor_React.toml.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
@@ -11,7 +12,7 @@ import org.antlr.v4.runtime.tree.*;
  * @author marco
  */
 public class Shttp {
-
+    Tomi toml = new Tomi();
     public void ejecutar(String codigo) {
         CharStream input = CharStreams.fromString(codigo);
         shttpLexer lexer = new shttpLexer(input);
@@ -31,6 +32,7 @@ public class Shttp {
         if (!carpeta.exists()) {
             if (carpeta.mkdir()) {
                 System.out.println("Sitio " + nombre + " creado");
+                toml.actualizarTomlSitio(nombre);
             } else {
                 System.out.println("No se pudo crear el sitio");
             }
@@ -45,6 +47,7 @@ public class Shttp {
         try {
             if (archivo.createNewFile()){
                 System.out.println("Pagina " + nombre + " creado");
+                toml.actualizarTomlPagina(ruta, nombre, archivo.getAbsolutePath());
             }
         } catch (IOException e) {
             System.out.println("Error al crear el archivo: " + e.getMessage());

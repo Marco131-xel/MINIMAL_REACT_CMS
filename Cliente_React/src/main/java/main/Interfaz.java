@@ -328,7 +328,7 @@ public class Interfaz extends javax.swing.JFrame {
                     JOptionPane.PLAIN_MESSAGE);
 
             if (nombreSitio != null && !nombreSitio.trim().isEmpty()) {
-                String mensaje = "post sitio \ncrear sitio " + nombreSitio.trim() + "\n";
+                String mensaje = "post sitio crear sitio " + nombreSitio.trim();
                 if (clienteWs != null) {
                     clienteWs.enviarMensajes(mensaje);
                 } else {
@@ -343,7 +343,7 @@ public class Interfaz extends javax.swing.JFrame {
                     JOptionPane.PLAIN_MESSAGE);
 
             if (nombrePagina != null && !nombrePagina.trim().isEmpty()) {
-                String mensaje = "post pagina \ncrear pagina " + nombrePagina.trim() + "\n";
+                String mensaje = "post pagina crear pagina " + nombrePagina.trim();
                 if (clienteWs != null) {
                     clienteWs.enviarMensajes(mensaje);
                 } else {

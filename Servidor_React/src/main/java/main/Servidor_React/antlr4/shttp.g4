@@ -15,13 +15,13 @@ instruccion: get
            | delete
 ;
 
-get: GET (SITIO | PAGINA) ABRIR (SITIO | PAGINA) parametros;
+get: GET (SITIO | PAGINA) ABRIR (MSITIO | MPAGINA) parametros;
 
-post: POST (SITIO | PAGINA) CREAR (SITIO | PAGINA) parametros;
+post: POST (SITIO | PAGINA) CREAR (MSITIO | MPAGINA) parametros;
 
-patch: PATCH (SITIO | PAGINA) (MODIFICAR | AGREGAR) (SITIO | PAGINA) parametros;
+patch: PATCH (SITIO | PAGINA) (MODIFICAR | AGREGAR) (MSITIO | MPAGINA) parametros;
 
-delete: DELETE (SITIO | PAGINA) ELIMINAR (SITIO | PAGINA) parametros;
+delete: DELETE (SITIO | PAGINA) ELIMINAR (MSITIO | MPAGINA) parametros;
 
 parametros: parametro (COMA parametro)*;
 
@@ -32,12 +32,14 @@ parametro: IDENTIFICADOR;
 COMA : ',';
 
 // PALABRAS RESERVADAS
-GET : 'get';
-POST : 'post';
-PATCH : 'patch';
-DELETE : 'delete';
-SITIO : 'sitio';
-PAGINA : 'pagina';
+GET : 'GET';
+POST : 'POST';
+PATCH : 'PATCH';
+DELETE : 'DELETE';
+SITIO : 'SITIO';
+PAGINA : 'PAGINA';
+MSITIO : 'sitio';
+MPAGINA : 'pagina';
 ABRIR: 'abrir';
 CREAR : 'crear';
 AGREGAR : 'agregar';

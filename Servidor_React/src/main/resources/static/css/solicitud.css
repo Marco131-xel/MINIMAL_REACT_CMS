@@ -11,6 +11,10 @@ body {
     background: #212F3D;
     color: white;
     text-align: left;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 5px;
 }
 
 

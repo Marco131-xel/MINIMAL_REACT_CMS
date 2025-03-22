@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  * @author marco
  */
 public class ShttpInterpreter implements shttpListener {
+
     Shttp shttp = new Shttp();
 
     @Override
@@ -49,8 +50,8 @@ public class ShttpInterpreter implements shttpListener {
     @Override
     public void enterPost(shttpParser.PostContext ctx) {
         // identificar si es sitio o pagina
-        boolean esSitio = ctx.SITIO(0) != null;
-        boolean esPagina = ctx.PAGINA(0) != null;
+        boolean esSitio = ctx.getToken(shttpParser.SITIO, 0) != null;
+        boolean esPagina = ctx.getToken(shttpParser.PAGINA, 0) != null;
         // obtener lista de parametros
         List<shttpParser.ParametroContext> parametros = ctx.parametros().parametro();
         // si no hay parametros error
@@ -62,14 +63,13 @@ public class ShttpInterpreter implements shttpListener {
         // crear sitios con o sin parametros
         if (esSitio) {
             String ruta = parametros.get(0).IDENTIFICADOR().getText();
-            for (int i = 1; i < parametros.size(); i++){
+            for (int i = 1; i < parametros.size(); i++) {
                 String subcarpeta = parametros.get(i).IDENTIFICADOR().getText();
                 ruta = ruta + "/" + subcarpeta;
             }
             shttp.crearSitio(ruta);
-            ServidorSocket.getInst().enviarMensajes("Servidor: SUCCES");
-        } 
-        else if (esPagina){
+            ServidorSocket.getInst().enviarMensajes("Servidor: SUCCESS");
+        } else if (esPagina) {
             if (parametros.size() < 2) {
                 System.out.println("Error: se debe indicar el sitio para crear la pagina");
                 ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
@@ -81,8 +81,8 @@ public class ShttpInterpreter implements shttpListener {
                 rutaCarpeta += "/" + parametros.get(i).IDENTIFICADOR().getText();
             }
             String nombrePagina = parametros.get(parametros.size() - 1).IDENTIFICADOR().getText();
-            shttp.crearPagina(rutaCarpeta,nombrePagina);
-            ServidorSocket.getInst().enviarMensajes("Servidor: SUCCES");
+            shttp.crearPagina(rutaCarpeta, nombrePagina);
+            ServidorSocket.getInst().enviarMensajes("Servidor: SUCCESS");
         }
 
     }

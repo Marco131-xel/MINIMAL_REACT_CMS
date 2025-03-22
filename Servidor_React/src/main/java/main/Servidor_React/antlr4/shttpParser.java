@@ -19,8 +19,9 @@ public class shttpParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		COMA=1, GET=2, POST=3, PATCH=4, DELETE=5, SITIO=6, PAGINA=7, ABRIR=8, 
-		CREAR=9, AGREGAR=10, ELIMINAR=11, MODIFICAR=12, IDENTIFICADOR=13, BLANCOS=14;
+		COMA=1, GET=2, POST=3, PATCH=4, DELETE=5, SITIO=6, PAGINA=7, MSITIO=8, 
+		MPAGINA=9, ABRIR=10, CREAR=11, AGREGAR=12, ELIMINAR=13, MODIFICAR=14, 
+		IDENTIFICADOR=15, BLANCOS=16;
 	public static final int
 		RULE_init = 0, RULE_instrucciones = 1, RULE_instruccion = 2, RULE_get = 3, 
 		RULE_post = 4, RULE_patch = 5, RULE_delete = 6, RULE_parametros = 7, RULE_parametro = 8;
@@ -34,15 +35,17 @@ public class shttpParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "','", "'get'", "'post'", "'patch'", "'delete'", "'sitio'", "'pagina'", 
-			"'abrir'", "'crear'", "'agregar'", "'eliminar'", "'modificar'"
+			null, "','", "'GET'", "'POST'", "'PATCH'", "'DELETE'", "'SITIO'", "'PAGINA'", 
+			"'sitio'", "'pagina'", "'abrir'", "'crear'", "'agregar'", "'eliminar'", 
+			"'modificar'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "COMA", "GET", "POST", "PATCH", "DELETE", "SITIO", "PAGINA", "ABRIR", 
-			"CREAR", "AGREGAR", "ELIMINAR", "MODIFICAR", "IDENTIFICADOR", "BLANCOS"
+			null, "COMA", "GET", "POST", "PATCH", "DELETE", "SITIO", "PAGINA", "MSITIO", 
+			"MPAGINA", "ABRIR", "CREAR", "AGREGAR", "ELIMINAR", "MODIFICAR", "IDENTIFICADOR", 
+			"BLANCOS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -277,14 +280,10 @@ public class shttpParser extends Parser {
 		public ParametrosContext parametros() {
 			return getRuleContext(ParametrosContext.class,0);
 		}
-		public List<TerminalNode> SITIO() { return getTokens(shttpParser.SITIO); }
-		public TerminalNode SITIO(int i) {
-			return getToken(shttpParser.SITIO, i);
-		}
-		public List<TerminalNode> PAGINA() { return getTokens(shttpParser.PAGINA); }
-		public TerminalNode PAGINA(int i) {
-			return getToken(shttpParser.PAGINA, i);
-		}
+		public TerminalNode SITIO() { return getToken(shttpParser.SITIO, 0); }
+		public TerminalNode PAGINA() { return getToken(shttpParser.PAGINA, 0); }
+		public TerminalNode MSITIO() { return getToken(shttpParser.MSITIO, 0); }
+		public TerminalNode MPAGINA() { return getToken(shttpParser.MPAGINA, 0); }
 		public GetContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -322,7 +321,7 @@ public class shttpParser extends Parser {
 			match(ABRIR);
 			setState(34);
 			_la = _input.LA(1);
-			if ( !(_la==SITIO || _la==PAGINA) ) {
+			if ( !(_la==MSITIO || _la==MPAGINA) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -352,14 +351,10 @@ public class shttpParser extends Parser {
 		public ParametrosContext parametros() {
 			return getRuleContext(ParametrosContext.class,0);
 		}
-		public List<TerminalNode> SITIO() { return getTokens(shttpParser.SITIO); }
-		public TerminalNode SITIO(int i) {
-			return getToken(shttpParser.SITIO, i);
-		}
-		public List<TerminalNode> PAGINA() { return getTokens(shttpParser.PAGINA); }
-		public TerminalNode PAGINA(int i) {
-			return getToken(shttpParser.PAGINA, i);
-		}
+		public TerminalNode SITIO() { return getToken(shttpParser.SITIO, 0); }
+		public TerminalNode PAGINA() { return getToken(shttpParser.PAGINA, 0); }
+		public TerminalNode MSITIO() { return getToken(shttpParser.MSITIO, 0); }
+		public TerminalNode MPAGINA() { return getToken(shttpParser.MPAGINA, 0); }
 		public PostContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -397,7 +392,7 @@ public class shttpParser extends Parser {
 			match(CREAR);
 			setState(40);
 			_la = _input.LA(1);
-			if ( !(_la==SITIO || _la==PAGINA) ) {
+			if ( !(_la==MSITIO || _la==MPAGINA) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -426,16 +421,12 @@ public class shttpParser extends Parser {
 		public ParametrosContext parametros() {
 			return getRuleContext(ParametrosContext.class,0);
 		}
-		public List<TerminalNode> SITIO() { return getTokens(shttpParser.SITIO); }
-		public TerminalNode SITIO(int i) {
-			return getToken(shttpParser.SITIO, i);
-		}
-		public List<TerminalNode> PAGINA() { return getTokens(shttpParser.PAGINA); }
-		public TerminalNode PAGINA(int i) {
-			return getToken(shttpParser.PAGINA, i);
-		}
+		public TerminalNode SITIO() { return getToken(shttpParser.SITIO, 0); }
+		public TerminalNode PAGINA() { return getToken(shttpParser.PAGINA, 0); }
 		public TerminalNode MODIFICAR() { return getToken(shttpParser.MODIFICAR, 0); }
 		public TerminalNode AGREGAR() { return getToken(shttpParser.AGREGAR, 0); }
+		public TerminalNode MSITIO() { return getToken(shttpParser.MSITIO, 0); }
+		public TerminalNode MPAGINA() { return getToken(shttpParser.MPAGINA, 0); }
 		public PatchContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -481,7 +472,7 @@ public class shttpParser extends Parser {
 			}
 			setState(46);
 			_la = _input.LA(1);
-			if ( !(_la==SITIO || _la==PAGINA) ) {
+			if ( !(_la==MSITIO || _la==MPAGINA) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -511,14 +502,10 @@ public class shttpParser extends Parser {
 		public ParametrosContext parametros() {
 			return getRuleContext(ParametrosContext.class,0);
 		}
-		public List<TerminalNode> SITIO() { return getTokens(shttpParser.SITIO); }
-		public TerminalNode SITIO(int i) {
-			return getToken(shttpParser.SITIO, i);
-		}
-		public List<TerminalNode> PAGINA() { return getTokens(shttpParser.PAGINA); }
-		public TerminalNode PAGINA(int i) {
-			return getToken(shttpParser.PAGINA, i);
-		}
+		public TerminalNode SITIO() { return getToken(shttpParser.SITIO, 0); }
+		public TerminalNode PAGINA() { return getToken(shttpParser.PAGINA, 0); }
+		public TerminalNode MSITIO() { return getToken(shttpParser.MSITIO, 0); }
+		public TerminalNode MPAGINA() { return getToken(shttpParser.MPAGINA, 0); }
 		public DeleteContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -556,7 +543,7 @@ public class shttpParser extends Parser {
 			match(ELIMINAR);
 			setState(52);
 			_la = _input.LA(1);
-			if ( !(_la==SITIO || _la==PAGINA) ) {
+			if ( !(_la==MSITIO || _la==MPAGINA) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -682,7 +669,7 @@ public class shttpParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u000eB\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0010B\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0001\u0000\u0001\u0000\u0001\u0001\u0004\u0001\u0016\b\u0001"+
@@ -693,34 +680,34 @@ public class shttpParser extends Parser {
 		"\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006"+
 		"\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001\u0007\u0005\u0007"+
 		";\b\u0007\n\u0007\f\u0007>\t\u0007\u0001\b\u0001\b\u0001\b\u0000\u0000"+
-		"\t\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0000\u0002\u0001\u0000\u0006"+
-		"\u0007\u0002\u0000\n\n\f\f=\u0000\u0012\u0001\u0000\u0000\u0000\u0002"+
-		"\u0015\u0001\u0000\u0000\u0000\u0004\u001d\u0001\u0000\u0000\u0000\u0006"+
-		"\u001f\u0001\u0000\u0000\u0000\b%\u0001\u0000\u0000\u0000\n+\u0001\u0000"+
-		"\u0000\u0000\f1\u0001\u0000\u0000\u0000\u000e7\u0001\u0000\u0000\u0000"+
-		"\u0010?\u0001\u0000\u0000\u0000\u0012\u0013\u0003\u0002\u0001\u0000\u0013"+
-		"\u0001\u0001\u0000\u0000\u0000\u0014\u0016\u0003\u0004\u0002\u0000\u0015"+
-		"\u0014\u0001\u0000\u0000\u0000\u0016\u0017\u0001\u0000\u0000\u0000\u0017"+
-		"\u0015\u0001\u0000\u0000\u0000\u0017\u0018\u0001\u0000\u0000\u0000\u0018"+
-		"\u0003\u0001\u0000\u0000\u0000\u0019\u001e\u0003\u0006\u0003\u0000\u001a"+
-		"\u001e\u0003\b\u0004\u0000\u001b\u001e\u0003\n\u0005\u0000\u001c\u001e"+
-		"\u0003\f\u0006\u0000\u001d\u0019\u0001\u0000\u0000\u0000\u001d\u001a\u0001"+
-		"\u0000\u0000\u0000\u001d\u001b\u0001\u0000\u0000\u0000\u001d\u001c\u0001"+
-		"\u0000\u0000\u0000\u001e\u0005\u0001\u0000\u0000\u0000\u001f \u0005\u0002"+
-		"\u0000\u0000 !\u0007\u0000\u0000\u0000!\"\u0005\b\u0000\u0000\"#\u0007"+
-		"\u0000\u0000\u0000#$\u0003\u000e\u0007\u0000$\u0007\u0001\u0000\u0000"+
-		"\u0000%&\u0005\u0003\u0000\u0000&\'\u0007\u0000\u0000\u0000\'(\u0005\t"+
-		"\u0000\u0000()\u0007\u0000\u0000\u0000)*\u0003\u000e\u0007\u0000*\t\u0001"+
-		"\u0000\u0000\u0000+,\u0005\u0004\u0000\u0000,-\u0007\u0000\u0000\u0000"+
-		"-.\u0007\u0001\u0000\u0000./\u0007\u0000\u0000\u0000/0\u0003\u000e\u0007"+
-		"\u00000\u000b\u0001\u0000\u0000\u000012\u0005\u0005\u0000\u000023\u0007"+
-		"\u0000\u0000\u000034\u0005\u000b\u0000\u000045\u0007\u0000\u0000\u0000"+
-		"56\u0003\u000e\u0007\u00006\r\u0001\u0000\u0000\u00007<\u0003\u0010\b"+
-		"\u000089\u0005\u0001\u0000\u00009;\u0003\u0010\b\u0000:8\u0001\u0000\u0000"+
-		"\u0000;>\u0001\u0000\u0000\u0000<:\u0001\u0000\u0000\u0000<=\u0001\u0000"+
-		"\u0000\u0000=\u000f\u0001\u0000\u0000\u0000><\u0001\u0000\u0000\u0000"+
-		"?@\u0005\r\u0000\u0000@\u0011\u0001\u0000\u0000\u0000\u0003\u0017\u001d"+
-		"<";
+		"\t\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0000\u0003\u0001\u0000\u0006"+
+		"\u0007\u0001\u0000\b\t\u0002\u0000\f\f\u000e\u000e=\u0000\u0012\u0001"+
+		"\u0000\u0000\u0000\u0002\u0015\u0001\u0000\u0000\u0000\u0004\u001d\u0001"+
+		"\u0000\u0000\u0000\u0006\u001f\u0001\u0000\u0000\u0000\b%\u0001\u0000"+
+		"\u0000\u0000\n+\u0001\u0000\u0000\u0000\f1\u0001\u0000\u0000\u0000\u000e"+
+		"7\u0001\u0000\u0000\u0000\u0010?\u0001\u0000\u0000\u0000\u0012\u0013\u0003"+
+		"\u0002\u0001\u0000\u0013\u0001\u0001\u0000\u0000\u0000\u0014\u0016\u0003"+
+		"\u0004\u0002\u0000\u0015\u0014\u0001\u0000\u0000\u0000\u0016\u0017\u0001"+
+		"\u0000\u0000\u0000\u0017\u0015\u0001\u0000\u0000\u0000\u0017\u0018\u0001"+
+		"\u0000\u0000\u0000\u0018\u0003\u0001\u0000\u0000\u0000\u0019\u001e\u0003"+
+		"\u0006\u0003\u0000\u001a\u001e\u0003\b\u0004\u0000\u001b\u001e\u0003\n"+
+		"\u0005\u0000\u001c\u001e\u0003\f\u0006\u0000\u001d\u0019\u0001\u0000\u0000"+
+		"\u0000\u001d\u001a\u0001\u0000\u0000\u0000\u001d\u001b\u0001\u0000\u0000"+
+		"\u0000\u001d\u001c\u0001\u0000\u0000\u0000\u001e\u0005\u0001\u0000\u0000"+
+		"\u0000\u001f \u0005\u0002\u0000\u0000 !\u0007\u0000\u0000\u0000!\"\u0005"+
+		"\n\u0000\u0000\"#\u0007\u0001\u0000\u0000#$\u0003\u000e\u0007\u0000$\u0007"+
+		"\u0001\u0000\u0000\u0000%&\u0005\u0003\u0000\u0000&\'\u0007\u0000\u0000"+
+		"\u0000\'(\u0005\u000b\u0000\u0000()\u0007\u0001\u0000\u0000)*\u0003\u000e"+
+		"\u0007\u0000*\t\u0001\u0000\u0000\u0000+,\u0005\u0004\u0000\u0000,-\u0007"+
+		"\u0000\u0000\u0000-.\u0007\u0002\u0000\u0000./\u0007\u0001\u0000\u0000"+
+		"/0\u0003\u000e\u0007\u00000\u000b\u0001\u0000\u0000\u000012\u0005\u0005"+
+		"\u0000\u000023\u0007\u0000\u0000\u000034\u0005\r\u0000\u000045\u0007\u0001"+
+		"\u0000\u000056\u0003\u000e\u0007\u00006\r\u0001\u0000\u0000\u00007<\u0003"+
+		"\u0010\b\u000089\u0005\u0001\u0000\u00009;\u0003\u0010\b\u0000:8\u0001"+
+		"\u0000\u0000\u0000;>\u0001\u0000\u0000\u0000<:\u0001\u0000\u0000\u0000"+
+		"<=\u0001\u0000\u0000\u0000=\u000f\u0001\u0000\u0000\u0000><\u0001\u0000"+
+		"\u0000\u0000?@\u0005\u000f\u0000\u0000@\u0011\u0001\u0000\u0000\u0000"+
+		"\u0003\u0017\u001d<";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

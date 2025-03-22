@@ -85,7 +85,7 @@ public class Interfaz extends javax.swing.JFrame {
         solicitudes.setRows(5);
         jScrollPane1.setViewportView(solicitudes);
 
-        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 550, 370, 140));
+        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 550, 510, 140));
 
         jLabel2.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -242,7 +242,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Solicitudes");
-        bg.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 500, -1, -1));
+        bg.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 510, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

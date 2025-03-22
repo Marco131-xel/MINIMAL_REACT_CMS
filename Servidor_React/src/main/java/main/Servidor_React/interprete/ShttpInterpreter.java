@@ -2,6 +2,7 @@ package main.Servidor_React.interprete;
 
 import java.util.List;
 import main.Servidor_React.antlr4.*;
+import main.Servidor_React.socket.ServidorSocket;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -54,7 +55,8 @@ public class ShttpInterpreter implements shttpListener {
         List<shttpParser.ParametroContext> parametros = ctx.parametros().parametro();
         // si no hay parametros error
         if (parametros.isEmpty()) {
-            System.out.println("Error: ser requiere al menos un parametros para crear sitio o pagina");
+            System.out.println("Error: ser requiere al menos un parametro para crear sitio o pagina");
+            ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
             return;
         }
         // crear sitios con o sin parametros
@@ -65,10 +67,12 @@ public class ShttpInterpreter implements shttpListener {
                 ruta = ruta + "/" + subcarpeta;
             }
             shttp.crearSitio(ruta);
+            ServidorSocket.getInst().enviarMensajes("Servidor: SUCCES");
         } 
         else if (esPagina){
             if (parametros.size() < 2) {
                 System.out.println("Error: se debe indicar el sitio para crear la pagina");
+                ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
                 return;
             }
             // obtener la ruta de la carpeta para crear la pagina
@@ -78,6 +82,7 @@ public class ShttpInterpreter implements shttpListener {
             }
             String nombrePagina = parametros.get(parametros.size() - 1).IDENTIFICADOR().getText();
             shttp.crearPagina(rutaCarpeta,nombrePagina);
+            ServidorSocket.getInst().enviarMensajes("Servidor: SUCCES");
         }
 
     }

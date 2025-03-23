@@ -68,6 +68,17 @@ public class Tomi {
         }
         return false;
     }
+    
+    public List<String> relacion(String ruta) {
+        Map<String, Map<String, String>> tomlData = leerToml();
+        List<String> relacionadas = new ArrayList<>();
+        for (String key : tomlData.keySet()) {
+            if (key.startsWith(ruta + ".")) {
+                relacionadas.add(key);
+            }
+        }
+        return relacionadas;
+    }
 
     private void guardarToml(Map<String, Map<String, String>> data) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(TOML_PATH))) {

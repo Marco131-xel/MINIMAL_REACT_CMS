@@ -37,6 +37,9 @@ public class Toml {
         new ParseTreeWalker().walk(interpreter, tree);
 
         if (interpreter.fueEncontrado()) {
+            for (String subRuta : tomi.relacion(ruta)) {
+                tomi.eliminarSeccionToml(subRuta);
+            }
             tomi.eliminarSeccionToml(ruta);
             return eliminarCarpeta(BASE_PATH + ruta.replace(".", "/"));
         }

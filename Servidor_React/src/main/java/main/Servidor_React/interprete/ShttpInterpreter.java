@@ -14,6 +14,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 public class ShttpInterpreter implements shttpListener {
 
     Shttp shttp = new Shttp();
+    Toml toml = new Toml();
 
     @Override
     public void enterInit(shttpParser.InitContext ctx) {
@@ -101,6 +102,34 @@ public class ShttpInterpreter implements shttpListener {
 
     @Override
     public void enterDelete(shttpParser.DeleteContext ctx) {
+        boolean esSitio = ctx.getToken(shttpParser.SITIO, 0) != null;
+        boolean esPagina = ctx.getToken(shttpParser.PAGINA, 0) != null;
+        // obtener lista parametros
+        List<shttpParser.ParametroContext> parametros = ctx.parametros().parametro();
+        if (parametros.isEmpty()) {
+            System.out.println("Error: se requiere un parametro para eliminar");
+            ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
+            return;
+        }
+        // construir la ruta para los parametros
+        String ruta = parametros.get(0).IDENTIFICADOR().getText();
+        for (int  i = 1; i < parametros.size(); i++) {
+            ruta += "." + parametros.get(i).IDENTIFICADOR().getText();
+        }
+        
+        if (esSitio) {
+            if (toml.eliminarSitio(ruta)) {
+                ServidorSocket.getInst().enviarMensajes("Servidor: SUCCESS");
+            } else {
+                ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
+            }
+        } else if (esPagina) {
+            if (toml.eliminarPagina(ruta)) {
+                ServidorSocket.getInst().enviarMensajes("Servidor: SUCCESS");
+            } else {
+                ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
+            }
+        }
     }
 
     @Override

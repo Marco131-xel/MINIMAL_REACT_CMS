@@ -152,6 +152,11 @@ public class Interfaz extends javax.swing.JFrame {
         BT_eliminar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
         BT_eliminar.setForeground(new java.awt.Color(255, 255, 255));
         BT_eliminar.setText("Eliminar");
+        BT_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_eliminarActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(33, 47, 61));
         jButton1.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
@@ -361,6 +366,50 @@ public class Interfaz extends javax.swing.JFrame {
     private void BT_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_agregarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BT_agregarActionPerformed
+
+    private void BT_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_eliminarActionPerformed
+        // TODO add your handling code here:
+        String[] opciones = {"Sitio", "Pagina"};
+        int seleccion = JOptionPane.showOptionDialog(this,
+                "Seleccione que desea eliminar:",
+                "Eliminar Sitio o Pagina",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]);
+        // si eligio sitio
+        if (seleccion == 0) {
+            String nombreSitio = JOptionPane.showInputDialog(this,
+                    "Ingrese el nombre del sitio:",
+                    "Eliminar Sitio",
+                    JOptionPane.PLAIN_MESSAGE);
+
+            if (nombreSitio != null && !nombreSitio.trim().isEmpty()) {
+                String mensaje = "DELETE SITIO eliminar sitio " + nombreSitio.trim();
+                if (clienteWs != null) {
+                    clienteWs.enviarMensajes(mensaje);
+                } else {
+                    System.out.println("No hay cliente WEBSOCKET");
+                }
+            }
+        // si elegio pagina
+        } else if (seleccion == 1) {
+            String nombrePagina = JOptionPane.showInputDialog(this,
+                    "Ingrese el nombre de la pagina:",
+                    "Eliminar Pagina",
+                    JOptionPane.PLAIN_MESSAGE);
+
+            if (nombrePagina != null && !nombrePagina.trim().isEmpty()) {
+                String mensaje = "DELETE PAGINA eliminar pagina " + nombrePagina.trim();
+                if (clienteWs != null) {
+                    clienteWs.enviarMensajes(mensaje);
+                } else {
+                    System.out.println("No hay cliente WEBSOCKET");
+                }
+            }
+        }
+    }//GEN-LAST:event_BT_eliminarActionPerformed
 
     /**
      * @param args the command line arguments

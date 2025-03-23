@@ -10,6 +10,7 @@ import main.Servidor_React.interprete.*;
 public class Interfaz extends javax.swing.JFrame {
 
     NumeroLinea numerolinea;
+    Toml tomi = new Toml();
 
     /**
      * Creates new form Interfaz
@@ -43,6 +44,7 @@ public class Interfaz extends javax.swing.JFrame {
         ContadorLineas = new javax.swing.JScrollPane();
         TextPane = new javax.swing.JTextArea();
         BT_interpretar = new javax.swing.JButton();
+        BT_toml = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,6 +88,13 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        BT_toml.setText("Toml");
+        BT_toml.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_tomlActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -98,17 +107,18 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(ContadorLineas, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(BT_interpretar)
-                            .addComponent(BT_Limpiar))
-                        .addGap(106, 106, 106))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16))))
+                            .addComponent(BT_Limpiar)
+                            .addComponent(BT_toml))
+                        .addGap(106, 106, 106))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,7 +136,9 @@ public class Interfaz extends javax.swing.JFrame {
                                 .addGap(81, 81, 81)
                                 .addComponent(BT_interpretar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(BT_Limpiar)))
+                                .addComponent(BT_Limpiar)
+                                .addGap(47, 47, 47)
+                                .addComponent(BT_toml)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(55, Short.MAX_VALUE))
@@ -162,7 +174,7 @@ public class Interfaz extends javax.swing.JFrame {
                 return;
             }
 
-            String[] resultado = Interprete.ejecutar(codigo);
+            String[] resultado = Minimal.ejecutar(codigo);
             Panelito.setText(resultado[0]); // Consola
             TextErrores.setText(resultado[1]); // Errores
 
@@ -171,6 +183,22 @@ public class Interfaz extends javax.swing.JFrame {
             TextErrores.setText("Error en el analisis: " + e.getMessage());
         }
     }//GEN-LAST:event_BT_interpretarActionPerformed
+
+    private void BT_tomlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_tomlActionPerformed
+        // TODO add your handling code here:
+        try {
+            String codigo = TextPane.getText();
+            if (codigo.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No hay codigo para analizar.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }            
+            //tomi.ejecutar(codigo);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            TextErrores.setText("Error en el analisis: " + e.getMessage());
+        }
+    }//GEN-LAST:event_BT_tomlActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,6 +238,7 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Limpiar;
     private javax.swing.JButton BT_interpretar;
+    private javax.swing.JButton BT_toml;
     private javax.swing.JScrollPane ContadorLineas;
     private javax.swing.JTextPane Panelito;
     private javax.swing.JTextPane TextErrores;

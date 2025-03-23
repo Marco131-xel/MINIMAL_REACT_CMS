@@ -12,7 +12,7 @@ import java.util.LinkedList;
  *
  * @author marco
  */
-public class Interprete {
+public class Minimal {
 
     public static String[] ejecutar(String codigo) {
         try {

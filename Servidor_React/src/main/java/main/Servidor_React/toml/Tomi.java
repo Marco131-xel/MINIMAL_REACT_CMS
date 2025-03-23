@@ -3,6 +3,10 @@ package main.Servidor_React.toml;
 import java.util.*;
 import java.io.*;
 
+/**
+ *
+ * @author marco
+ */
 public class Tomi {
 
     private static final String TOML_PATH = "/home/marco/Documentos/Compi_2025/MINIMAL_REACT_CMS/data/recovery.toml";
@@ -51,6 +55,18 @@ public class Tomi {
             System.out.println("Error al leer el archivo TOML: " + e.getMessage());
         }
         return tomlData;
+    }
+
+    public boolean eliminarSeccionToml(String nombre) {
+        Map<String, Map<String, String>> tomlData = leerToml();
+        String claveSeccion = nombre.replace("/", ".");
+
+        if (tomlData.containsKey(claveSeccion)) {
+            tomlData.remove(claveSeccion);
+            guardarToml(tomlData);
+            return true;
+        }
+        return false;
     }
 
     private void guardarToml(Map<String, Map<String, String>> data) {

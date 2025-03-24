@@ -28,6 +28,7 @@ public class ClienteWs extends WebSocketClient {
     public void onMessage(String message) {
         System.out.println("Mensaje reciido del servidor: " + message);
         interfaz.agregarTexto(message + "\n");
+        interfaz.recibirMensaje(message);
     }
 
     @Override

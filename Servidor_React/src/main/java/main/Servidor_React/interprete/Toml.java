@@ -26,6 +26,26 @@ public class Toml {
         return parser.init();
     }
 
+    public String abrirPagina(String ruta) {
+        String contenido = leerArchivo(RECOVERY_PATH);
+        if (contenido == null || contenido.isEmpty()) {
+            return null;
+        }
+        ParseTree tree = ejecutar(contenido);
+        TomInterpreter interpreter = new TomInterpreter(ruta, false);
+        new ParseTreeWalker().walk(interpreter, tree);
+
+        if (interpreter.fueEncontrado()) {
+            String rutaArchivo = BASE_PATH + ruta.replace(".", "/") + ".html";
+            File archivo = new File(rutaArchivo);
+
+            if (archivo.exists() && archivo.canRead()) {
+                return rutaArchivo;
+            }
+        }
+        return null;
+    }
+
     public boolean eliminarSitio(String ruta) {
         String contenido = leerArchivo(RECOVERY_PATH);
         if (contenido == null || contenido.isEmpty()) {

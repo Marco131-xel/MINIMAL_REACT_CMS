@@ -1,14 +1,17 @@
 package main;
 
 import java.io.File;
+import java.io.IOException;
 import socket.ClienteWs;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import utils.GestionArchivos;
@@ -21,6 +24,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     NumeroLinea numerolinea;
     private ClienteWs clienteWs;
+    private static String RECOVERY_PATH = ("/home/marco/Documentos/Compi_2025/MINIMAL_REACT_CMS/data/recovery.toml");
     JFileChooser seleccionado = new JFileChooser();
     File archivo;
     GestionArchivos gestion = new GestionArchivos();
@@ -57,11 +61,12 @@ public class Interfaz extends javax.swing.JFrame {
         BT_abrir = new javax.swing.JButton();
         BT_Guardar = new javax.swing.JButton();
         BT_procesar = new javax.swing.JButton();
-        BT_crear = new javax.swing.JButton();
         BT_agregar = new javax.swing.JButton();
         BT_modificar = new javax.swing.JButton();
         BT_eliminar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        BT_limpiar = new javax.swing.JButton();
+        BT_toml = new javax.swing.JButton();
+        BT_crear = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Table_Errores = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
@@ -125,16 +130,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        BT_crear.setBackground(new java.awt.Color(33, 47, 61));
-        BT_crear.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
-        BT_crear.setForeground(new java.awt.Color(255, 255, 255));
-        BT_crear.setText("Crear");
-        BT_crear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_crearActionPerformed(evt);
-            }
-        });
-
         BT_agregar.setBackground(new java.awt.Color(33, 47, 61));
         BT_agregar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
         BT_agregar.setForeground(new java.awt.Color(255, 255, 255));
@@ -160,13 +155,33 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(33, 47, 61));
-        jButton1.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Limpiar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BT_limpiar.setBackground(new java.awt.Color(33, 47, 61));
+        BT_limpiar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_limpiar.setForeground(new java.awt.Color(255, 255, 255));
+        BT_limpiar.setText("Limpiar");
+        BT_limpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BT_limpiarActionPerformed(evt);
+            }
+        });
+
+        BT_toml.setBackground(new java.awt.Color(33, 47, 61));
+        BT_toml.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_toml.setForeground(new java.awt.Color(255, 255, 255));
+        BT_toml.setText("Toml");
+        BT_toml.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_tomlActionPerformed(evt);
+            }
+        });
+
+        BT_crear.setBackground(new java.awt.Color(33, 47, 61));
+        BT_crear.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_crear.setForeground(new java.awt.Color(255, 255, 255));
+        BT_crear.setText("Crear");
+        BT_crear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_crearActionPerformed(evt);
             }
         });
 
@@ -181,7 +196,9 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(BT_Guardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BT_procesar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(BT_toml)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
                 .addComponent(BT_crear)
                 .addGap(18, 18, 18)
                 .addComponent(BT_agregar)
@@ -190,7 +207,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(BT_eliminar)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(BT_limpiar)
                 .addGap(127, 127, 127))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(395, 395, 395)
@@ -207,11 +224,12 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(BT_abrir)
                     .addComponent(BT_Guardar)
                     .addComponent(BT_procesar)
-                    .addComponent(BT_crear)
                     .addComponent(BT_agregar)
                     .addComponent(BT_modificar)
                     .addComponent(BT_eliminar)
-                    .addComponent(jButton1))
+                    .addComponent(BT_limpiar)
+                    .addComponent(BT_toml)
+                    .addComponent(BT_crear))
                 .addContainerGap())
         );
 
@@ -285,32 +303,64 @@ public class Interfaz extends javax.swing.JFrame {
         });
     }
 
+    public void recibirMensaje(String mensaje) {
+        if (mensaje.startsWith("Servidor: SUCCESS")) {
+            System.out.println("SUCCESS");
+        } else if (mensaje.startsWith("RUTA ")) {
+            mensaje = mensaje.trim();
+            String rutaArchivo = mensaje.substring(5);
+            abrirArchivoEditor(rutaArchivo);
+        } else {
+        }
+    }
+
+    private void abrirArchivoEditor(String rutaArchivo) {
+        File archivo = new File(rutaArchivo);
+        if (archivo.exists() && archivo.canRead()) {
+            try {
+                String contenido = new String(Files.readAllBytes(Paths.get(rutaArchivo)));
+                panelito.setText(contenido);
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al abrir el archivo: " + e.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No se puede leer el archivo");
+        }
+    }
+
     private void BT_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_procesarActionPerformed
         // TODO add your handling code here:
-        try {
-            ClienteWs cliente = new ClienteWs(new URI("ws://localhost:8080/ws"), this);
-            cliente.connect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }//GEN-LAST:event_BT_procesarActionPerformed
 
     private void BT_abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_abrirActionPerformed
         // TODO add your handling code here:
-        if (seleccionado.showDialog(null, "Abrir Archivo") == JFileChooser.APPROVE_OPTION) {
-            archivo = seleccionado.getSelectedFile();
-            if (archivo.canRead()) {
-                if (archivo.getName().endsWith("mtsx")) {
-                    try {
-                        String codigo_fuente = gestion.AbrirATexto(archivo);
-                        panelito.setText(codigo_fuente);
+        String[] opciones = {"Sitio", "Pagina"};
+        int seleccion = JOptionPane.showOptionDialog(this,
+                "Seleccione que desea Abrir:",
+                "Abrir Sitio o Pagina",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]);
+        // si eligio sitio
+        if (seleccion == 0) {
+            // AUN NOSE DEFINE ESTO 
+            System.out.println("PROXIMAMENTE");
+            // si elegio pagina
+        } else if (seleccion == 1) {
+            String nombrePagina = JOptionPane.showInputDialog(this,
+                    "Ingrese el nombre de la pagina:",
+                    "Abrir Pagina",
+                    JOptionPane.PLAIN_MESSAGE);
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        JOptionPane.showMessageDialog(null, "Error al abrir el archivo.");
-                    }
+            if (nombrePagina != null && !nombrePagina.trim().isEmpty()) {
+                String mensaje = "GET PAGINA abrir pagina " + nombrePagina.trim();
+                if (clienteWs != null) {
+                    clienteWs.enviarMensajes(mensaje);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Por favor seleccione un archivo.mtsx");
+                    System.out.println("No hay cliente WEBSOCKET");
                 }
             }
         }
@@ -389,10 +439,10 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BT_crearActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BT_limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_limpiarActionPerformed
         // TODO add your handling code here:
         panelito.setText("");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_BT_limpiarActionPerformed
 
     private void BT_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_agregarActionPerformed
         // TODO add your handling code here:
@@ -442,6 +492,17 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BT_eliminarActionPerformed
 
+    private void BT_tomlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_tomlActionPerformed
+        // TODO add your handling code here:
+        String contenido = gestion.AbrirATexto(new File(RECOVERY_PATH));
+        JFrame ventanaEditor = new JFrame("Editor TOML");
+        ventanaEditor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        ventanaEditor.setSize(1100, 650);
+        editorToml editor = new editorToml(contenido);
+        ventanaEditor.add(editor);
+        ventanaEditor.setVisible(true);
+    }//GEN-LAST:event_BT_tomlActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -483,11 +544,12 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton BT_agregar;
     private javax.swing.JButton BT_crear;
     private javax.swing.JButton BT_eliminar;
+    private javax.swing.JButton BT_limpiar;
     private javax.swing.JButton BT_modificar;
     private javax.swing.JButton BT_procesar;
+    private javax.swing.JButton BT_toml;
     private javax.swing.JTable Table_Errores;
     private javax.swing.JPanel bg;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

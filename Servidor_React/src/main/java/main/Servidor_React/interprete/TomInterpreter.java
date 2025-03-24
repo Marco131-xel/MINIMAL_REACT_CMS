@@ -11,13 +11,13 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  */
 public class TomInterpreter implements tomlListener {
 
-    private String rutaEliminar;
+    private String rutaEncontrar;
     private boolean esSitio;
     private boolean encontrado = false;
     private StringBuilder nuevoContenido = new StringBuilder();
 
-    public TomInterpreter(String rutaEliminar, boolean esSitio) {
-        this.rutaEliminar = rutaEliminar;
+    public TomInterpreter(String rutaEncontrar, boolean esSitio) {
+        this.rutaEncontrar = rutaEncontrar;
         this.esSitio = esSitio;
     }
 
@@ -48,7 +48,7 @@ public class TomInterpreter implements tomlListener {
     @Override
     public void enterEtiquetas(tomlParser.EtiquetasContext ctx) {
         String etiqueta = ctx.getText().replace("[", "").replace("]", "").trim();
-        if (etiqueta.equals(rutaEliminar)) {
+        if (etiqueta.equals(rutaEncontrar)) {
             encontrado = true;
         } else {
             nuevoContenido.append(ctx.getText()).append("\n");
@@ -79,7 +79,7 @@ public class TomInterpreter implements tomlListener {
     public void enterAtributos(tomlParser.AtributosContext ctx) {
         if (!esSitio) {
             String path = ctx.getText();
-            if (path.contains("path=\"" + rutaEliminar.replace(".", "/") + ".html\"")) {
+            if (path.contains("path=\"" + rutaEncontrar.replace(".", "/") + ".html\"")) {
                 encontrado = true;
             } else {
                 nuevoContenido.append(path).append("\n");

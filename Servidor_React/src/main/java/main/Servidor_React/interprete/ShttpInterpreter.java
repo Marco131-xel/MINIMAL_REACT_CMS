@@ -42,6 +42,33 @@ public class ShttpInterpreter implements shttpListener {
 
     @Override
     public void enterGet(shttpParser.GetContext ctx) {
+        boolean esSitio = ctx.getToken(shttpParser.SITIO, 0) != null;
+        boolean esPagina = ctx.getToken(shttpParser.PAGINA, 0) != null;
+        // obtener lista parametros
+        List<shttpParser.ParametroContext> parametros = ctx.parametros().parametro();
+        if (parametros.isEmpty()) {
+            System.out.println("Error: se requiere un parametro para eliminar");
+            ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
+            return;
+        }
+        // construir la ruta para los parametros
+        String ruta = parametros.get(0).IDENTIFICADOR().getText();
+        for (int i = 1; i < parametros.size(); i++) {
+            ruta += "." + parametros.get(i).IDENTIFICADOR().getText();
+        }
+        
+        if (esSitio) {
+            // AUN NO SE DEFINE ESTO
+            System.out.println("PROXIMAMENTE");
+        } else if (esPagina) {
+            String rutaArchivo = toml.abrirPagina(ruta);
+            if (rutaArchivo != null) {
+                ServidorSocket.getInst().enviarMensajes("Servidor: SUCCESS");
+                ServidorSocket.getInst().enviarMensajes("RUTA " + rutaArchivo);
+            } else {
+                ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
+            }
+        }
     }
 
     @Override

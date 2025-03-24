@@ -82,8 +82,10 @@ public class ShttpInterpreter implements shttpListener {
                 rutaCarpeta += "/" + parametros.get(i).IDENTIFICADOR().getText();
             }
             String nombrePagina = parametros.get(parametros.size() - 1).IDENTIFICADOR().getText();
-            shttp.crearPagina(rutaCarpeta, nombrePagina);
-            ServidorSocket.getInst().enviarMensajes("Servidor: SUCCESS");
+            String contenido = (ctx.body() != null && ctx.body().CONTENIDO() != null) ? ctx.body().CONTENIDO().getText() : "";
+            shttp.crearPagina(rutaCarpeta, nombrePagina, contenido);
+            ServidorSocket.getInst().enviarMensajes(contenido.isEmpty()
+                    ? "Servidor: SUCCESS" : "Servidor: SUCCESS " + "... " + contenido + " ...");
         }
 
     }
@@ -113,10 +115,10 @@ public class ShttpInterpreter implements shttpListener {
         }
         // construir la ruta para los parametros
         String ruta = parametros.get(0).IDENTIFICADOR().getText();
-        for (int  i = 1; i < parametros.size(); i++) {
+        for (int i = 1; i < parametros.size(); i++) {
             ruta += "." + parametros.get(i).IDENTIFICADOR().getText();
         }
-        
+
         if (esSitio) {
             if (toml.eliminarSitio(ruta)) {
                 ServidorSocket.getInst().enviarMensajes("Servidor: SUCCESS");
@@ -166,5 +168,13 @@ public class ShttpInterpreter implements shttpListener {
 
     @Override
     public void exitEveryRule(ParserRuleContext prc) {
+    }
+
+    @Override
+    public void enterBody(shttpParser.BodyContext ctx) {
+    }
+
+    @Override
+    public void exitBody(shttpParser.BodyContext ctx) {
     }
 }

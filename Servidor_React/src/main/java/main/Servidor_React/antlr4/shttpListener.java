@@ -99,4 +99,14 @@ public interface shttpListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParametro(shttpParser.ParametroContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link shttpParser#body}.
+	 * @param ctx the parse tree
+	 */
+	void enterBody(shttpParser.BodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link shttpParser#body}.
+	 * @param ctx the parse tree
+	 */
+	void exitBody(shttpParser.BodyContext ctx);
 }

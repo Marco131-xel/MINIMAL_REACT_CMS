@@ -19,33 +19,34 @@ public class shttpParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		COMA=1, GET=2, POST=3, PATCH=4, DELETE=5, SITIO=6, PAGINA=7, MSITIO=8, 
-		MPAGINA=9, ABRIR=10, CREAR=11, AGREGAR=12, ELIMINAR=13, MODIFICAR=14, 
-		IDENTIFICADOR=15, BLANCOS=16;
+		COMA=1, TREPTS=2, GET=3, POST=4, PATCH=5, DELETE=6, SITIO=7, PAGINA=8, 
+		MSITIO=9, MPAGINA=10, ABRIR=11, CREAR=12, AGREGAR=13, ELIMINAR=14, MODIFICAR=15, 
+		IDENTIFICADOR=16, BLANCOS=17, CONTENIDO=18;
 	public static final int
 		RULE_init = 0, RULE_instrucciones = 1, RULE_instruccion = 2, RULE_get = 3, 
-		RULE_post = 4, RULE_patch = 5, RULE_delete = 6, RULE_parametros = 7, RULE_parametro = 8;
+		RULE_post = 4, RULE_patch = 5, RULE_delete = 6, RULE_parametros = 7, RULE_parametro = 8, 
+		RULE_body = 9;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"init", "instrucciones", "instruccion", "get", "post", "patch", "delete", 
-			"parametros", "parametro"
+			"parametros", "parametro", "body"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "','", "'GET'", "'POST'", "'PATCH'", "'DELETE'", "'SITIO'", "'PAGINA'", 
-			"'sitio'", "'pagina'", "'abrir'", "'crear'", "'agregar'", "'eliminar'", 
-			"'modificar'"
+			null, "','", "'...'", "'GET'", "'POST'", "'PATCH'", "'DELETE'", "'SITIO'", 
+			"'PAGINA'", "'sitio'", "'pagina'", "'abrir'", "'crear'", "'agregar'", 
+			"'eliminar'", "'modificar'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "COMA", "GET", "POST", "PATCH", "DELETE", "SITIO", "PAGINA", "MSITIO", 
-			"MPAGINA", "ABRIR", "CREAR", "AGREGAR", "ELIMINAR", "MODIFICAR", "IDENTIFICADOR", 
-			"BLANCOS"
+			null, "COMA", "TREPTS", "GET", "POST", "PATCH", "DELETE", "SITIO", "PAGINA", 
+			"MSITIO", "MPAGINA", "ABRIR", "CREAR", "AGREGAR", "ELIMINAR", "MODIFICAR", 
+			"IDENTIFICADOR", "BLANCOS", "CONTENIDO"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -124,7 +125,7 @@ public class shttpParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(18);
+			setState(20);
 			instrucciones();
 			}
 		}
@@ -168,20 +169,20 @@ public class shttpParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(21); 
+			setState(23); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(20);
+				setState(22);
 				instruccion();
 				}
 				}
-				setState(23); 
+				setState(25); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 60L) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 120L) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -227,34 +228,34 @@ public class shttpParser extends Parser {
 		InstruccionContext _localctx = new InstruccionContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_instruccion);
 		try {
-			setState(29);
+			setState(31);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case GET:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(25);
+				setState(27);
 				get();
 				}
 				break;
 			case POST:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(26);
+				setState(28);
 				post();
 				}
 				break;
 			case PATCH:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(27);
+				setState(29);
 				patch();
 				}
 				break;
 			case DELETE:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(28);
+				setState(30);
 				delete();
 				}
 				break;
@@ -305,9 +306,9 @@ public class shttpParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(31);
+			setState(33);
 			match(GET);
-			setState(32);
+			setState(34);
 			_la = _input.LA(1);
 			if ( !(_la==SITIO || _la==PAGINA) ) {
 			_errHandler.recoverInline(this);
@@ -317,9 +318,9 @@ public class shttpParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(33);
+			setState(35);
 			match(ABRIR);
-			setState(34);
+			setState(36);
 			_la = _input.LA(1);
 			if ( !(_la==MSITIO || _la==MPAGINA) ) {
 			_errHandler.recoverInline(this);
@@ -329,7 +330,7 @@ public class shttpParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(35);
+			setState(37);
 			parametros();
 			}
 		}
@@ -355,6 +356,9 @@ public class shttpParser extends Parser {
 		public TerminalNode PAGINA() { return getToken(shttpParser.PAGINA, 0); }
 		public TerminalNode MSITIO() { return getToken(shttpParser.MSITIO, 0); }
 		public TerminalNode MPAGINA() { return getToken(shttpParser.MPAGINA, 0); }
+		public BodyContext body() {
+			return getRuleContext(BodyContext.class,0);
+		}
 		public PostContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -376,9 +380,9 @@ public class shttpParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(37);
+			setState(39);
 			match(POST);
-			setState(38);
+			setState(40);
 			_la = _input.LA(1);
 			if ( !(_la==SITIO || _la==PAGINA) ) {
 			_errHandler.recoverInline(this);
@@ -388,9 +392,9 @@ public class shttpParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(39);
+			setState(41);
 			match(CREAR);
-			setState(40);
+			setState(42);
 			_la = _input.LA(1);
 			if ( !(_la==MSITIO || _la==MPAGINA) ) {
 			_errHandler.recoverInline(this);
@@ -400,8 +404,18 @@ public class shttpParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(41);
+			setState(43);
 			parametros();
+			setState(45);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==TREPTS) {
+				{
+				setState(44);
+				body();
+				}
+			}
+
 			}
 		}
 		catch (RecognitionException re) {
@@ -448,9 +462,9 @@ public class shttpParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(43);
+			setState(47);
 			match(PATCH);
-			setState(44);
+			setState(48);
 			_la = _input.LA(1);
 			if ( !(_la==SITIO || _la==PAGINA) ) {
 			_errHandler.recoverInline(this);
@@ -460,7 +474,7 @@ public class shttpParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(45);
+			setState(49);
 			_la = _input.LA(1);
 			if ( !(_la==AGREGAR || _la==MODIFICAR) ) {
 			_errHandler.recoverInline(this);
@@ -470,7 +484,7 @@ public class shttpParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(46);
+			setState(50);
 			_la = _input.LA(1);
 			if ( !(_la==MSITIO || _la==MPAGINA) ) {
 			_errHandler.recoverInline(this);
@@ -480,7 +494,7 @@ public class shttpParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(47);
+			setState(51);
 			parametros();
 			}
 		}
@@ -527,9 +541,9 @@ public class shttpParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(49);
+			setState(53);
 			match(DELETE);
-			setState(50);
+			setState(54);
 			_la = _input.LA(1);
 			if ( !(_la==SITIO || _la==PAGINA) ) {
 			_errHandler.recoverInline(this);
@@ -539,9 +553,9 @@ public class shttpParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(51);
+			setState(55);
 			match(ELIMINAR);
-			setState(52);
+			setState(56);
 			_la = _input.LA(1);
 			if ( !(_la==MSITIO || _la==MPAGINA) ) {
 			_errHandler.recoverInline(this);
@@ -551,7 +565,7 @@ public class shttpParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(53);
+			setState(57);
 			parametros();
 			}
 		}
@@ -599,21 +613,21 @@ public class shttpParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(55);
+			setState(59);
 			parametro();
-			setState(60);
+			setState(64);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMA) {
 				{
 				{
-				setState(56);
+				setState(60);
 				match(COMA);
-				setState(57);
+				setState(61);
 				parametro();
 				}
 				}
-				setState(62);
+				setState(66);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -653,7 +667,7 @@ public class shttpParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(63);
+			setState(67);
 			match(IDENTIFICADOR);
 			}
 		}
@@ -668,46 +682,95 @@ public class shttpParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
+	public static class BodyContext extends ParserRuleContext {
+		public List<TerminalNode> TREPTS() { return getTokens(shttpParser.TREPTS); }
+		public TerminalNode TREPTS(int i) {
+			return getToken(shttpParser.TREPTS, i);
+		}
+		public TerminalNode CONTENIDO() { return getToken(shttpParser.CONTENIDO, 0); }
+		public BodyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_body; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).enterBody(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof shttpListener ) ((shttpListener)listener).exitBody(this);
+		}
+	}
+
+	public final BodyContext body() throws RecognitionException {
+		BodyContext _localctx = new BodyContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_body);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(69);
+			match(TREPTS);
+			setState(70);
+			match(CONTENIDO);
+			setState(71);
+			match(TREPTS);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static final String _serializedATN =
-		"\u0004\u0001\u0010B\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0012J\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
-		"\b\u0007\b\u0001\u0000\u0001\u0000\u0001\u0001\u0004\u0001\u0016\b\u0001"+
-		"\u000b\u0001\f\u0001\u0017\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0003\u0002\u001e\b\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003"+
-		"\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
-		"\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005"+
-		"\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006"+
-		"\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001\u0007\u0005\u0007"+
-		";\b\u0007\n\u0007\f\u0007>\t\u0007\u0001\b\u0001\b\u0001\b\u0000\u0000"+
-		"\t\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0000\u0003\u0001\u0000\u0006"+
-		"\u0007\u0001\u0000\b\t\u0002\u0000\f\f\u000e\u000e=\u0000\u0012\u0001"+
-		"\u0000\u0000\u0000\u0002\u0015\u0001\u0000\u0000\u0000\u0004\u001d\u0001"+
-		"\u0000\u0000\u0000\u0006\u001f\u0001\u0000\u0000\u0000\b%\u0001\u0000"+
-		"\u0000\u0000\n+\u0001\u0000\u0000\u0000\f1\u0001\u0000\u0000\u0000\u000e"+
-		"7\u0001\u0000\u0000\u0000\u0010?\u0001\u0000\u0000\u0000\u0012\u0013\u0003"+
-		"\u0002\u0001\u0000\u0013\u0001\u0001\u0000\u0000\u0000\u0014\u0016\u0003"+
-		"\u0004\u0002\u0000\u0015\u0014\u0001\u0000\u0000\u0000\u0016\u0017\u0001"+
-		"\u0000\u0000\u0000\u0017\u0015\u0001\u0000\u0000\u0000\u0017\u0018\u0001"+
-		"\u0000\u0000\u0000\u0018\u0003\u0001\u0000\u0000\u0000\u0019\u001e\u0003"+
-		"\u0006\u0003\u0000\u001a\u001e\u0003\b\u0004\u0000\u001b\u001e\u0003\n"+
-		"\u0005\u0000\u001c\u001e\u0003\f\u0006\u0000\u001d\u0019\u0001\u0000\u0000"+
-		"\u0000\u001d\u001a\u0001\u0000\u0000\u0000\u001d\u001b\u0001\u0000\u0000"+
-		"\u0000\u001d\u001c\u0001\u0000\u0000\u0000\u001e\u0005\u0001\u0000\u0000"+
-		"\u0000\u001f \u0005\u0002\u0000\u0000 !\u0007\u0000\u0000\u0000!\"\u0005"+
-		"\n\u0000\u0000\"#\u0007\u0001\u0000\u0000#$\u0003\u000e\u0007\u0000$\u0007"+
-		"\u0001\u0000\u0000\u0000%&\u0005\u0003\u0000\u0000&\'\u0007\u0000\u0000"+
-		"\u0000\'(\u0005\u000b\u0000\u0000()\u0007\u0001\u0000\u0000)*\u0003\u000e"+
-		"\u0007\u0000*\t\u0001\u0000\u0000\u0000+,\u0005\u0004\u0000\u0000,-\u0007"+
-		"\u0000\u0000\u0000-.\u0007\u0002\u0000\u0000./\u0007\u0001\u0000\u0000"+
-		"/0\u0003\u000e\u0007\u00000\u000b\u0001\u0000\u0000\u000012\u0005\u0005"+
-		"\u0000\u000023\u0007\u0000\u0000\u000034\u0005\r\u0000\u000045\u0007\u0001"+
-		"\u0000\u000056\u0003\u000e\u0007\u00006\r\u0001\u0000\u0000\u00007<\u0003"+
-		"\u0010\b\u000089\u0005\u0001\u0000\u00009;\u0003\u0010\b\u0000:8\u0001"+
-		"\u0000\u0000\u0000;>\u0001\u0000\u0000\u0000<:\u0001\u0000\u0000\u0000"+
-		"<=\u0001\u0000\u0000\u0000=\u000f\u0001\u0000\u0000\u0000><\u0001\u0000"+
-		"\u0000\u0000?@\u0005\u000f\u0000\u0000@\u0011\u0001\u0000\u0000\u0000"+
-		"\u0003\u0017\u001d<";
+		"\b\u0007\b\u0002\t\u0007\t\u0001\u0000\u0001\u0000\u0001\u0001\u0004\u0001"+
+		"\u0018\b\u0001\u000b\u0001\f\u0001\u0019\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0001\u0002\u0003\u0002 \b\u0002\u0001\u0003\u0001\u0003\u0001"+
+		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001"+
+		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0003\u0004.\b\u0004\u0001"+
+		"\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001"+
+		"\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
+		"\u0007\u0001\u0007\u0001\u0007\u0005\u0007?\b\u0007\n\u0007\f\u0007B\t"+
+		"\u0007\u0001\b\u0001\b\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0000\u0000"+
+		"\n\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0000\u0003\u0001\u0000"+
+		"\u0007\b\u0001\u0000\t\n\u0002\u0000\r\r\u000f\u000fE\u0000\u0014\u0001"+
+		"\u0000\u0000\u0000\u0002\u0017\u0001\u0000\u0000\u0000\u0004\u001f\u0001"+
+		"\u0000\u0000\u0000\u0006!\u0001\u0000\u0000\u0000\b\'\u0001\u0000\u0000"+
+		"\u0000\n/\u0001\u0000\u0000\u0000\f5\u0001\u0000\u0000\u0000\u000e;\u0001"+
+		"\u0000\u0000\u0000\u0010C\u0001\u0000\u0000\u0000\u0012E\u0001\u0000\u0000"+
+		"\u0000\u0014\u0015\u0003\u0002\u0001\u0000\u0015\u0001\u0001\u0000\u0000"+
+		"\u0000\u0016\u0018\u0003\u0004\u0002\u0000\u0017\u0016\u0001\u0000\u0000"+
+		"\u0000\u0018\u0019\u0001\u0000\u0000\u0000\u0019\u0017\u0001\u0000\u0000"+
+		"\u0000\u0019\u001a\u0001\u0000\u0000\u0000\u001a\u0003\u0001\u0000\u0000"+
+		"\u0000\u001b \u0003\u0006\u0003\u0000\u001c \u0003\b\u0004\u0000\u001d"+
+		" \u0003\n\u0005\u0000\u001e \u0003\f\u0006\u0000\u001f\u001b\u0001\u0000"+
+		"\u0000\u0000\u001f\u001c\u0001\u0000\u0000\u0000\u001f\u001d\u0001\u0000"+
+		"\u0000\u0000\u001f\u001e\u0001\u0000\u0000\u0000 \u0005\u0001\u0000\u0000"+
+		"\u0000!\"\u0005\u0003\u0000\u0000\"#\u0007\u0000\u0000\u0000#$\u0005\u000b"+
+		"\u0000\u0000$%\u0007\u0001\u0000\u0000%&\u0003\u000e\u0007\u0000&\u0007"+
+		"\u0001\u0000\u0000\u0000\'(\u0005\u0004\u0000\u0000()\u0007\u0000\u0000"+
+		"\u0000)*\u0005\f\u0000\u0000*+\u0007\u0001\u0000\u0000+-\u0003\u000e\u0007"+
+		"\u0000,.\u0003\u0012\t\u0000-,\u0001\u0000\u0000\u0000-.\u0001\u0000\u0000"+
+		"\u0000.\t\u0001\u0000\u0000\u0000/0\u0005\u0005\u0000\u000001\u0007\u0000"+
+		"\u0000\u000012\u0007\u0002\u0000\u000023\u0007\u0001\u0000\u000034\u0003"+
+		"\u000e\u0007\u00004\u000b\u0001\u0000\u0000\u000056\u0005\u0006\u0000"+
+		"\u000067\u0007\u0000\u0000\u000078\u0005\u000e\u0000\u000089\u0007\u0001"+
+		"\u0000\u00009:\u0003\u000e\u0007\u0000:\r\u0001\u0000\u0000\u0000;@\u0003"+
+		"\u0010\b\u0000<=\u0005\u0001\u0000\u0000=?\u0003\u0010\b\u0000><\u0001"+
+		"\u0000\u0000\u0000?B\u0001\u0000\u0000\u0000@>\u0001\u0000\u0000\u0000"+
+		"@A\u0001\u0000\u0000\u0000A\u000f\u0001\u0000\u0000\u0000B@\u0001\u0000"+
+		"\u0000\u0000CD\u0005\u0010\u0000\u0000D\u0011\u0001\u0000\u0000\u0000"+
+		"EF\u0005\u0002\u0000\u0000FG\u0005\u0012\u0000\u0000GH\u0005\u0002\u0000"+
+		"\u0000H\u0013\u0001\u0000\u0000\u0000\u0004\u0019\u001f-@";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -122,6 +122,18 @@ public class shttpBaseListener implements shttpListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParametro(shttpParser.ParametroContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBody(shttpParser.BodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBody(shttpParser.BodyContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

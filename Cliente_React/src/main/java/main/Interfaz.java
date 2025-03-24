@@ -5,6 +5,8 @@ import socket.ClienteWs;
 import java.net.URI;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
@@ -325,7 +327,7 @@ public class Interfaz extends javax.swing.JFrame {
                 null,
                 opciones,
                 opciones[0]);
-        // si eligio sitio
+        // Si eligio sitio
         if (seleccion == 0) {
             String nombreSitio = JOptionPane.showInputDialog(this,
                     "Ingrese el nombre del sitio:",
@@ -340,7 +342,7 @@ public class Interfaz extends javax.swing.JFrame {
                     System.out.println("No hay cliente WEBSOCKET");
                 }
             }
-        // si elegio pagina
+            // Si eligio pagina
         } else if (seleccion == 1) {
             String nombrePagina = JOptionPane.showInputDialog(this,
                     "Ingrese el nombre de la pagina:",
@@ -348,7 +350,36 @@ public class Interfaz extends javax.swing.JFrame {
                     JOptionPane.PLAIN_MESSAGE);
 
             if (nombrePagina != null && !nombrePagina.trim().isEmpty()) {
-                String mensaje = "POST PAGINA crear pagina " + nombrePagina.trim();
+                // Preguntar si quiere agregar contenido HTML
+                int respuesta = JOptionPane.showConfirmDialog(this,
+                        "¿Desea agregar contenido HTML o MTSX?",
+                        "Agregar contenido",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+
+                String mensaje;
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    // jtextarea para agregar contenido html
+                    JTextArea textArea = new JTextArea(10, 30);
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    int resultado = JOptionPane.showConfirmDialog(this, scrollPane,
+                            "Ingrese el contenido HTML", JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE);
+
+                    if (resultado == JOptionPane.OK_OPTION) {
+                        String contenidoHtml = textArea.getText().trim();
+                        if (!contenidoHtml.isEmpty()) {
+                            mensaje = "POST PAGINA\ncrear pagina " + nombrePagina.trim() + "\n...\n <main>\n" + contenidoHtml + "\n</main>\n...";
+                        } else {
+                            mensaje = "POST PAGINA crear pagina " + nombrePagina.trim();
+                        }
+                    } else {
+                        mensaje = "POST PAGINA crear pagina " + nombrePagina.trim();
+                    }
+                } else {
+                    mensaje = "POST PAGINA crear pagina " + nombrePagina.trim();
+                }
+
                 if (clienteWs != null) {
                     clienteWs.enviarMensajes(mensaje);
                 } else {
@@ -393,7 +424,7 @@ public class Interfaz extends javax.swing.JFrame {
                     System.out.println("No hay cliente WEBSOCKET");
                 }
             }
-        // si elegio pagina
+            // si elegio pagina
         } else if (seleccion == 1) {
             String nombrePagina = JOptionPane.showInputDialog(this,
                     "Ingrese el nombre de la pagina:",

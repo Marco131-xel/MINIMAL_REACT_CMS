@@ -1,6 +1,7 @@
 package main.Servidor_React.interprete;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import main.Servidor_React.antlr4.*;
 import main.Servidor_React.toml.*;
@@ -41,13 +42,19 @@ public class Shttp {
         }
     }
     
-    public void crearPagina(String ruta, String nombre) {
+    public void crearPagina(String ruta, String nombre, String contenido) {
         File carpeta = new File("/home/marco/Documentos/Compi_2025/MINIMAL_REACT_CMS/data/" + ruta);
         File archivo = new File(carpeta, nombre+".html");
         try {
             if (archivo.createNewFile()){
                 System.out.println("Pagina " + nombre + " creado");
                 toml.actualizarTomlPagina(ruta, nombre, archivo.getAbsolutePath());
+                // si tiene contenido html
+                if(contenido != null && !contenido.trim().isEmpty()){
+                    try (FileWriter writer = new FileWriter(archivo)) {
+                        writer.write(contenido);
+                    }
+                }
             }
         } catch (IOException e) {
             System.out.println("Error al crear el archivo: " + e.getMessage());

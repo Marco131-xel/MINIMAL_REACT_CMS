@@ -304,13 +304,10 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     public void recibirMensaje(String mensaje) {
-        if (mensaje.startsWith("Servidor: SUCCESS")) {
-            System.out.println("SUCCESS");
-        } else if (mensaje.startsWith("RUTA ")) {
+        if (mensaje.startsWith("RUTA ")) {
             mensaje = mensaje.trim();
             String rutaArchivo = mensaje.substring(5);
             abrirArchivoEditor(rutaArchivo);
-        } else {
         }
     }
 

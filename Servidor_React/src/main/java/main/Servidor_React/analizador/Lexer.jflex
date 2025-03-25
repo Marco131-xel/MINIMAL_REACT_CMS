@@ -66,7 +66,14 @@ ELSE="else"
 FOR="for"
 TRUE="true"
 FALSE="false"
-
+// HTML
+MAIN="main"
+HNUM="h"[1-6]
+PARRAFO="p"
+INPUT="input"
+BUTTON="button"
+VALUE="value"
+ONCLICK="onClick"
 // PATRONES
 BLANCOS=[\ \r\t\f\n]+
 ENTERO=[0-9]+
@@ -115,6 +122,13 @@ CARACTER = [\']([^\'])*[\']
 <YYINITIAL> {FOR} { return new Symbol(sym.FOR, yyline, yycolumn, yytext()); }
 <YYINITIAL> {TRUE} {return new Symbol(sym.TRUE, yyline, yycolumn,yytext());}
 <YYINITIAL> {FALSE} {return new Symbol(sym.FALSE, yyline, yycolumn,yytext());}
+<YYINITIAL> {MAIN} {return new Symbol(sym.MAIN, yyline, yycolumn,yytext());}
+<YYINITIAL> {HNUM} {return new Symbol(sym.HNUM, yyline, yycolumn,yytext());}
+<YYINITIAL> {PARRAFO} {return new Symbol(sym.PARRAFO, yyline, yycolumn,yytext());}
+<YYINITIAL> {INPUT} {return new Symbol(sym.INPUT, yyline, yycolumn,yytext());}
+<YYINITIAL> {BUTTON} {return new Symbol(sym.BUTTON, yyline, yycolumn,yytext());}
+<YYINITIAL> {VALUE} {return new Symbol(sym.VALUE, yyline, yycolumn,yytext());}
+<YYINITIAL> {ONCLICK} {return new Symbol(sym.ONCLICK, yyline, yycolumn,yytext());}
 
 <YYINITIAL> {ENTERO} {return new Symbol(sym.ENTERO, yyline, yycolumn,yytext());}
 <YYINITIAL> {DECIMAL} {return new Symbol(sym.DECIMAL, yyline, yycolumn,yytext());}

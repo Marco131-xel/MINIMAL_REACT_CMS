@@ -49,18 +49,22 @@ terminal LLAVE1, LLAVE2, DOSPTS, COMA, PUNTO;
 terminal CONST, RETURN, NUMBER, STRING, CHAR, BREAK;
 terminal BOOLEAN, VOID, VAR, CONSOLE, LOG;
 terminal FUNCTION, IF, ELSE, FOR, TRUE, FALSE;
+terminal MAIN, HNUM, PARRAFO, INPUT, BUTTON, VALUE, ONCLICK;
 terminal String ENTERO, DECIMAL, IDENTIFICADOR, CADENA, CARACTER;
 // NO TERMINALES
-non terminal LinkedList<Instruccion>INICIO, INSTRUCCIONES;
-non terminal Instruccion INSTRUCCION;
+non terminal LinkedList<Instruccion>INICIO, INSTRUCCIONES, CONTENIDOS;
+non terminal Instruccion INSTRUCCION, CONTENIDO;
 non terminal Instruccion IMPRESION, DECLARACION, ASIGNACION;
 non terminal Instruccion SIF, BREAKK, RETU;
 non terminal Instruccion EXPRESION;
 non terminal Instruccion CFOR;
 non terminal Instruccion FUNCION, LLAMADA_FUNCION;
+non terminal Instruccion ETIQUETAS, PARRAFOS, INPUTS, BUTTONS;
+non terminal Instruccion DATO, VARIABLE;
 non terminal LinkedList<Parametro> PARAMETROS;
 non terminal Parametro PARAMETRO;
 non terminal Tipo TIPOS;
+non terminal MAIN1, MAIN2;
 // PRECEDENCIA
 precedence left AND, OR, DIFER;
 precedence left MENOR, MAYOR;
@@ -74,7 +78,16 @@ precedence left NOT;
 // PRODUCCIONES Y GRAMATICAS
 start with INICIO;
 
-INICIO ::= INSTRUCCIONES:a {: RESULT = a; :};
+INICIO ::= CONST IDENTIFICADOR IGUAL PAR1 PAR2 IGUAL MAYOR
+            LLAVE1 INSTRUCCIONES:a RETURN PAR1          {: RESULT = a; :}
+            MAIN1 CONTENIDOS MAIN2 PAR2 FINCADENA LLAVE2 
+;
+
+MAIN1 ::= MENOR MAIN MAYOR
+;
+
+MAIN2 ::= MENOR DIV MAIN MAYOR
+;
 
 INSTRUCCIONES ::= INSTRUCCION:a                 {: RESULT = new LinkedList<>(); RESULT.add(a); :}
                 | INSTRUCCIONES:a INSTRUCCION:b {: RESULT = a; RESULT.add(b); :}
@@ -161,4 +174,34 @@ EXPRESION ::= MENOS EXPRESION:a {: RESULT = new Aritmeticas(a, OperadoresAritmet
             | FALSE:a          {: RESULT = new Nativo(false, new Tipo(TipoDato.BOOLEANO), aleft, aright ); :}
             | IDENTIFICADOR:a   {: RESULT = new Variable(a, aleft, aright); :}
             | PAR1 EXPRESION:a PAR2 {: RESULT = a; :}
+;
+
+CONTENIDOS ::= CONTENIDO:a              {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+             | CONTENIDOS:a CONTENIDO:b {: RESULT = a; RESULT.add(b); :}
+;
+
+CONTENIDO ::= ETIQUETAS:a {: RESULT = a; :}
+            | PARRAFOS:a {: RESULT = a; :}
+            | INPUTS:a {: RESULT = a; :}
+            | BUTTONS:a {: RESULT = a; :}
+            | error
+;
+
+ETIQUETAS ::= MENOR HNUM MAYOR DATO MENOR DIV HNUM MAYOR
+;
+
+PARRAFOS ::= MENOR PARRAFO MAYOR DATO MENOR DIV PARRAFO MAYOR
+;
+
+DATO ::= VARIABLE:a {: RESULT = a; :}
+        | /*vacio*/
+;
+
+VARIABLE ::= LLAVE1 IDENTIFICADOR:a LLAVE2 {: RESULT = new Variable(a, aleft, aright); :}
+;
+
+INPUTS ::=  MENOR INPUT VALUE IGUAL VARIABLE DIV MAYOR
+;
+
+BUTTONS ::= MENOR BUTTON ONCLICK IGUAL VARIABLE MAYOR MENOR DIV BUTTON MAYOR
 ;

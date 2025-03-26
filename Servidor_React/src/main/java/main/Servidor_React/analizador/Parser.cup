@@ -10,6 +10,7 @@ import main.Servidor_React.ast.*;
 import main.Servidor_React.operadores.*;
 import main.Servidor_React.sentencias.*;
 import main.Servidor_React.function.*;
+import main.Servidor_React.html.*;
 
 // CODIGO USUARIO
 parser code {:
@@ -49,8 +50,12 @@ terminal LLAVE1, LLAVE2, DOSPTS, COMA, PUNTO;
 terminal CONST, RETURN, NUMBER, STRING, CHAR, BREAK;
 terminal BOOLEAN, VOID, VAR, CONSOLE, LOG;
 terminal FUNCTION, IF, ELSE, FOR, TRUE, FALSE;
-terminal MAIN, HNUM, PARRAFO, INPUT, BUTTON, VALUE, ONCLICK;
+terminal String TAG_OPEN, TAG_CLOSE;
+terminal String PARRAFO_OPEN, PARRAFO_CLOSE;
+terminal String BUTTON_OPEN, BUTTON_CLOSE;
+terminal MAIN, INPUT, VALUE, ONCLICK;
 terminal String ENTERO, DECIMAL, IDENTIFICADOR, CADENA, CARACTER;
+terminal String HTML_CONTENT;
 // NO TERMINALES
 non terminal LinkedList<Instruccion>INICIO, INSTRUCCIONES, CONTENIDOS;
 non terminal Instruccion INSTRUCCION, CONTENIDO;
@@ -78,9 +83,9 @@ precedence left NOT;
 // PRODUCCIONES Y GRAMATICAS
 start with INICIO;
 
-INICIO ::= CONST IDENTIFICADOR IGUAL PAR1 PAR2 IGUAL MAYOR
-            LLAVE1 INSTRUCCIONES:a RETURN PAR1          {: RESULT = a; :}
-            MAIN1 CONTENIDOS MAIN2 PAR2 FINCADENA LLAVE2 
+INICIO ::= CONST IDENTIFICADOR IGUAL PAR1 PAR2 IGUAL MAYOR LLAVE1 
+           INSTRUCCIONES:a RETURN PAR1 MAIN1 CONTENIDOS:b MAIN2 PAR2 FINCADENA LLAVE2
+           {: RESULT = new LinkedList<>();  RESULT.addAll(a); RESULT.addAll(b); :}
 ;
 
 MAIN1 ::= MENOR MAIN MAYOR
@@ -187,14 +192,13 @@ CONTENIDO ::= ETIQUETAS:a {: RESULT = a; :}
             | error
 ;
 
-ETIQUETAS ::= MENOR HNUM MAYOR DATO MENOR DIV HNUM MAYOR
+ETIQUETAS ::= TAG_OPEN:a DATO:b TAG_CLOSE:c {: RESULT = new Etiqueta(a, b, c, aleft, aright); :}
 ;
 
-PARRAFOS ::= MENOR PARRAFO MAYOR DATO MENOR DIV PARRAFO MAYOR
+PARRAFOS ::= PARRAFO_OPEN:a DATO:b PARRAFO_CLOSE:c {: RESULT = new Parrafo(a, b, c, aleft, aright); :}
 ;
 
-DATO ::= VARIABLE:a {: RESULT = a; :}
-        | /*vacio*/
+DATO ::= HTML_CONTENT:a {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
 ;
 
 VARIABLE ::= LLAVE1 IDENTIFICADOR:a LLAVE2 {: RESULT = new Variable(a, aleft, aright); :}
@@ -203,5 +207,5 @@ VARIABLE ::= LLAVE1 IDENTIFICADOR:a LLAVE2 {: RESULT = new Variable(a, aleft, ar
 INPUTS ::=  MENOR INPUT VALUE IGUAL VARIABLE DIV MAYOR
 ;
 
-BUTTONS ::= MENOR BUTTON ONCLICK IGUAL VARIABLE MAYOR MENOR DIV BUTTON MAYOR
+BUTTONS ::= BUTTON_OPEN:a DATO:b BUTTON_CLOSE:c {: RESULT = new Button(a, b, c, aleft, aright); :}
 ;

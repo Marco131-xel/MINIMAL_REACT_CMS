@@ -8,6 +8,7 @@ package main.Servidor_React.analizador;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
+  public static final int HTML_CONTENT = 58;
   public static final int PAR2 = 11;
   public static final int PAR1 = 10;
   public static final int FUNCTION = 37;
@@ -17,31 +18,36 @@ public class sym {
   public static final int CHAR = 30;
   public static final int LLAVE2 = 22;
   public static final int EQUALS = 15;
+  public static final int BUTTON_OPEN = 47;
   public static final int LLAVE1 = 21;
-  public static final int ENTERO = 50;
-  public static final int INPUT = 46;
-  public static final int ONCLICK = 49;
+  public static final int ENTERO = 53;
+  public static final int INPUT = 50;
+  public static final int ONCLICK = 52;
+  public static final int PARRAFO_CLOSE = 46;
+  public static final int TAG_OPEN = 43;
+  public static final int BUTTON_CLOSE = 48;
   public static final int FOR = 40;
-  public static final int IDENTIFICADOR = 52;
+  public static final int IDENTIFICADOR = 55;
+  public static final int PARRAFO_OPEN = 45;
   public static final int NOT = 19;
   public static final int FINCADENA = 20;
   public static final int AND = 17;
   public static final int IGUAL = 12;
-  public static final int CARACTER = 54;
+  public static final int CARACTER = 57;
   public static final int OR = 16;
   public static final int DIV = 8;
-  public static final int MAIN = 43;
+  public static final int MAIN = 49;
   public static final int IF = 38;
   public static final int UMENOS = 9;
   public static final int DECRE = 3;
-  public static final int DECIMAL = 51;
+  public static final int DECIMAL = 54;
   public static final int EOF = 0;
   public static final int BOOLEAN = 32;
   public static final int RETURN = 27;
   public static final int TRUE = 41;
   public static final int error = 1;
   public static final int COMA = 24;
-  public static final int CADENA = 53;
+  public static final int CADENA = 56;
   public static final int MENOS = 6;
   public static final int MENOR = 13;
   public static final int NUMBER = 28;
@@ -51,15 +57,13 @@ public class sym {
   public static final int LOG = 36;
   public static final int ELSE = 39;
   public static final int PUNTO = 25;
-  public static final int PARRAFO = 45;
   public static final int INCRE = 2;
   public static final int STRING = 29;
   public static final int DIFER = 18;
-  public static final int VALUE = 48;
+  public static final int VALUE = 51;
   public static final int FALSE = 42;
-  public static final int BUTTON = 47;
   public static final int VAR = 34;
-  public static final int HNUM = 44;
+  public static final int TAG_CLOSE = 44;
   public static final int CONSOLE = 35;
   public static final int DOSPTS = 23;
   public static final int MAS = 5;
@@ -107,18 +111,22 @@ public class sym {
   "FOR",
   "TRUE",
   "FALSE",
+  "TAG_OPEN",
+  "TAG_CLOSE",
+  "PARRAFO_OPEN",
+  "PARRAFO_CLOSE",
+  "BUTTON_OPEN",
+  "BUTTON_CLOSE",
   "MAIN",
-  "HNUM",
-  "PARRAFO",
   "INPUT",
-  "BUTTON",
   "VALUE",
   "ONCLICK",
   "ENTERO",
   "DECIMAL",
   "IDENTIFICADOR",
   "CADENA",
-  "CARACTER"
+  "CARACTER",
+  "HTML_CONTENT"
   };
 }
 

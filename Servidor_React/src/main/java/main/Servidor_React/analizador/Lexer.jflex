@@ -24,7 +24,7 @@ import main.Servidor_React.excepciones.Errores;
 %char
 %column
 %full
-
+%state HTML_CONTENT
 // TOKENS
 INCRE="++"
 DECRE="--"
@@ -69,9 +69,13 @@ FALSE="false"
 // HTML
 MAIN="main"
 HNUM="h"[1-6]
-PARRAFO="p"
+TAG_OPEN="<"{HNUM}">"  
+TAG_CLOSE="</"{HNUM}">"
+PARRAFO_OPEN="<p>"
+PARRAFO_CLOSE="</p>"
+BUTTON_OPEN="<button" ([^>])* ">"
+BUTTON_CLOSE="</button>"
 INPUT="input"
-BUTTON="button"
 VALUE="value"
 ONCLICK="onClick"
 // PATRONES
@@ -123,10 +127,20 @@ CARACTER = [\']([^\'])*[\']
 <YYINITIAL> {TRUE} {return new Symbol(sym.TRUE, yyline, yycolumn,yytext());}
 <YYINITIAL> {FALSE} {return new Symbol(sym.FALSE, yyline, yycolumn,yytext());}
 <YYINITIAL> {MAIN} {return new Symbol(sym.MAIN, yyline, yycolumn,yytext());}
-<YYINITIAL> {HNUM} {return new Symbol(sym.HNUM, yyline, yycolumn,yytext());}
-<YYINITIAL> {PARRAFO} {return new Symbol(sym.PARRAFO, yyline, yycolumn,yytext());}
+
+<YYINITIAL> {TAG_OPEN} { yybegin(HTML_CONTENT); return new Symbol(sym.TAG_OPEN, yyline, yycolumn, yytext()); }
+<YYINITIAL> {TAG_CLOSE} { return new Symbol(sym.TAG_CLOSE, yyline, yycolumn, yytext()); }
+<YYINITIAL> {PARRAFO_OPEN} { yybegin(HTML_CONTENT); return new Symbol(sym.PARRAFO_OPEN, yyline, yycolumn, yytext()); }
+<YYINITIAL> {PARRAFO_CLOSE} { return new Symbol(sym.PARRAFO_CLOSE, yyline, yycolumn, yytext()); }
+<YYINITIAL> {BUTTON_OPEN} { yybegin(HTML_CONTENT); return new Symbol(sym.BUTTON_OPEN, yyline, yycolumn, yytext()); }
+<YYINITIAL> {BUTTON_CLOSE} { return new Symbol(sym.BUTTON_CLOSE, yyline, yycolumn, yytext()); }
+
+<HTML_CONTENT> [^<]+ { return new Symbol(sym.HTML_CONTENT, yyline, yycolumn, yytext()); }
+<HTML_CONTENT> {TAG_CLOSE} { yybegin(YYINITIAL); return new Symbol(sym.TAG_CLOSE, yyline, yycolumn, yytext()); }
+<HTML_CONTENT> {PARRAFO_CLOSE} { yybegin(YYINITIAL); return new Symbol(sym.PARRAFO_CLOSE, yyline, yycolumn, yytext()); }
+<HTML_CONTENT> {BUTTON_CLOSE} { yybegin(YYINITIAL); return new Symbol(sym.BUTTON_CLOSE, yyline, yycolumn, yytext()); }
+
 <YYINITIAL> {INPUT} {return new Symbol(sym.INPUT, yyline, yycolumn,yytext());}
-<YYINITIAL> {BUTTON} {return new Symbol(sym.BUTTON, yyline, yycolumn,yytext());}
 <YYINITIAL> {VALUE} {return new Symbol(sym.VALUE, yyline, yycolumn,yytext());}
 <YYINITIAL> {ONCLICK} {return new Symbol(sym.ONCLICK, yyline, yycolumn,yytext());}
 

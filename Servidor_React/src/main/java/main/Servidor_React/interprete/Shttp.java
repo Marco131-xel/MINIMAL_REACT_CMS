@@ -13,7 +13,9 @@ import org.antlr.v4.runtime.tree.*;
  * @author marco
  */
 public class Shttp {
+
     Tomi toml = new Tomi();
+
     public void ejecutar(String codigo) {
         CharStream input = CharStreams.fromString(codigo);
         shttpLexer lexer = new shttpLexer(input);
@@ -27,7 +29,7 @@ public class Shttp {
         walker.walk(new ShttpInterpreter(), tree);
 
     }
-    
+
     public void crearSitio(String nombre) {
         File carpeta = new File("/home/marco/Documentos/Compi_2025/MINIMAL_REACT_CMS/data/" + nombre);
         if (!carpeta.exists()) {
@@ -41,19 +43,21 @@ public class Shttp {
             System.out.println("El sitio " + nombre + "ya existe");
         }
     }
-    
+
     public void crearPagina(String ruta, String nombre, String contenido) {
         File carpeta = new File("/home/marco/Documentos/Compi_2025/MINIMAL_REACT_CMS/data/" + ruta);
-        File archivo = new File(carpeta, nombre+".html");
+        File archivo = new File(carpeta, nombre + ".mtsx");
         try {
-            if (archivo.createNewFile()){
-                System.out.println("Pagina " + nombre + " creado");
+            if (archivo.createNewFile()) {
+                System.out.println("Pagina " + nombre + " creada");
                 toml.actualizarTomlPagina(ruta, nombre, archivo.getAbsolutePath());
-                // si tiene contenido html
-                if(contenido != null && !contenido.trim().isEmpty()){
-                    try (FileWriter writer = new FileWriter(archivo)) {
-                        writer.write(contenido);
-                    }
+                String estructuraBase = "const " + nombre + " = () => {\n\n"
+                        + "\treturn (\n"
+                        + (contenido != null && !contenido.trim().isEmpty() ? "\t\t" + contenido + "\n" : "")
+                        + "\t);\n"
+                        + "}";
+                try (FileWriter writer = new FileWriter(archivo)) {
+                    writer.write(estructuraBase);
                 }
             }
         } catch (IOException e) {

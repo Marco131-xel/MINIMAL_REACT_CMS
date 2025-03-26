@@ -79,7 +79,7 @@ public class TomInterpreter implements tomlListener {
     public void enterAtributos(tomlParser.AtributosContext ctx) {
         if (!esSitio) {
             String path = ctx.getText();
-            if (path.contains("path=\"" + rutaEncontrar.replace(".", "/") + ".html\"")) {
+            if (path.contains("path=\"" + rutaEncontrar.replace(".", "/") + ".mtsx\"")) {
                 encontrado = true;
             } else {
                 nuevoContenido.append(path).append("\n");

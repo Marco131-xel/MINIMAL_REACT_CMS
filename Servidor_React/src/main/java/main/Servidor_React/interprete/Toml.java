@@ -36,7 +36,7 @@ public class Toml {
         new ParseTreeWalker().walk(interpreter, tree);
 
         if (interpreter.fueEncontrado()) {
-            String rutaArchivo = BASE_PATH + ruta.replace(".", "/") + ".html";
+            String rutaArchivo = BASE_PATH + ruta.replace(".", "/") + ".mtsx";
             File archivo = new File(rutaArchivo);
 
             if (archivo.exists() && archivo.canRead()) {
@@ -78,7 +78,7 @@ public class Toml {
 
         if (interpreter.fueEncontrado()) {
             tomi.eliminarSeccionToml(ruta);
-            return eliminarArchivo(BASE_PATH + ruta.replace(".", "/") + ".html");
+            return eliminarArchivo(BASE_PATH + ruta.replace(".", "/") + ".mtsx");
         }
         return false;
     }

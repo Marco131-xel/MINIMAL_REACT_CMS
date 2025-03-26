@@ -3,7 +3,7 @@ package main.Servidor_React.socket;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import main.Servidor_React.interprete.Shttp;
+import main.Servidor_React.interprete.*;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -17,12 +17,12 @@ public class ServidorSocket extends TextWebSocketHandler {
     private static final Set<WebSocketSession> sesiones = Collections.synchronizedSet(new HashSet<>());
     private static ServidorSocket inst;
     Shttp shttp = new Shttp();
-    
-    public ServidorSocket(){
+
+    public ServidorSocket() {
         inst = this;
     }
-    
-    public static ServidorSocket getInst(){
+
+    public static ServidorSocket getInst() {
         return inst;
     }
 
@@ -36,9 +36,17 @@ public class ServidorSocket extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String recibido = message.getPayload();
         System.out.println("Mensaje recibido: " + recibido);
-        
-        enviarMensajes("Cliente: " + recibido);
-        shttp.ejecutar(recibido);
+
+        if (recibido.startsWith("EJECUTAR_MTSX ")) {
+            String codigo = recibido.substring(14);
+            String[] resultado = Minimal.ejecutar(codigo);
+
+            enviarMensajes("CONSOLA " + resultado[0]);
+            enviarMensajes("ERRORES " + resultado[1]);
+        } else {
+            enviarMensajes("Cliente: " + recibido);
+            shttp.ejecutar(recibido);
+        }
     }
 
     @Override
@@ -46,8 +54,8 @@ public class ServidorSocket extends TextWebSocketHandler {
         sesiones.remove(session);
         System.out.println("Conexion cerrada: " + session.getId());
     }
-    
-    public void enviarMensajes(String mensaje){
+
+    public void enviarMensajes(String mensaje) {
         for (WebSocketSession s : sesiones) {
             if (s.isOpen()) {
                 try {

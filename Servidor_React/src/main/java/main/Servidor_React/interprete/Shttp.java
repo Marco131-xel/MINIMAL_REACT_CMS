@@ -3,6 +3,8 @@ package main.Servidor_React.interprete;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import main.Servidor_React.antlr4.*;
 import main.Servidor_React.toml.*;
 import org.antlr.v4.runtime.*;
@@ -51,11 +53,19 @@ public class Shttp {
             if (archivo.createNewFile()) {
                 System.out.println("Pagina " + nombre + " creada");
                 toml.actualizarTomlPagina(ruta, nombre, archivo.getAbsolutePath());
+                String contenidoFormateado = "";
+                if (contenido != null && !contenido.trim().isEmpty()) {
+                    contenidoFormateado = Arrays.stream(contenido.split("\n"))
+                            .map(linea -> "\t\t" + linea)
+                            .collect(Collectors.joining("\n")) + "\n";
+                }
+
                 String estructuraBase = "const " + nombre + " = () => {\n\n"
                         + "\treturn (\n"
-                        + (contenido != null && !contenido.trim().isEmpty() ? "\t\t" + contenido + "\n" : "")
+                        + contenidoFormateado
                         + "\t);\n"
                         + "}";
+
                 try (FileWriter writer = new FileWriter(archivo)) {
                     writer.write(estructuraBase);
                 }
@@ -64,4 +74,5 @@ public class Shttp {
             System.out.println("Error al crear el archivo: " + e.getMessage());
         }
     }
+
 }

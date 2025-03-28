@@ -11,6 +11,7 @@ import main.Servidor_React.operadores.*;
 import main.Servidor_React.sentencias.*;
 import main.Servidor_React.function.*;
 import main.Servidor_React.html.*;
+import main.Servidor_React.reportes.*;
 
 // CODIGO USUARIO
 parser code {:
@@ -21,6 +22,7 @@ parser code {:
     }
 
     public LinkedList<Errores> listaErrores = new LinkedList<>();
+    public List<Ocurrencia> ocurrencias = new ArrayList<>();
 
     public void syntax_error(Symbol s){
         System.out.println("Error sintactico detectado: " + s.value + " en linea " + s.left + " columna " + s.right);
@@ -37,6 +39,16 @@ parser code {:
                         s.left,
                         s.right));
     }
+
+    public List<Ocurrencia> getOcurrencia(){
+        return ocurrencias;
+    }
+
+    public void registrarOcurrencia(String operador, String op1, String op2) {
+        Ocurrencia nueva = new Ocurrencia(operador, op1, op2);
+        ocurrencias.add(nueva);
+    }
+
 :};
 
 action code {::};
@@ -161,11 +173,11 @@ TIPOS ::= NUMBER {: RESULT = new Tipo(TipoDato.NUMERO); :}
 
 EXPRESION ::= MENOS EXPRESION:a {: RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright); :} %prec UMENOS
             | DIFER EXPRESION:a             {:   RESULT = new Booleanos(a, OperadoresBooleanas.NOT, aleft, aright);  :} %prec NOT
-            | EXPRESION:a MAS EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); :}
-            | EXPRESION:a MENOS EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.RESTA, aleft, aright); :}
-            | EXPRESION:a POR EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.MULTIPLICACION, aleft, aright); :}
-            | EXPRESION:a DIV EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.DIVISION, aleft, aright); :}
-            | EXPRESION:a POT EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.POTENCIA, aleft, aright); :}
+            | EXPRESION:a MAS EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); String op1 = a.toString(); String op2 = b.toString(); registrarOcurrencia("+", op1, op2); :}
+            | EXPRESION:a MENOS EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.RESTA, aleft, aright); String op1 = a.toString(); String op2 = b.toString(); registrarOcurrencia("-", op1, op2); :}
+            | EXPRESION:a POR EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.MULTIPLICACION, aleft, aright); String op1 = a.toString(); String op2 = b.toString(); registrarOcurrencia("*", op1, op2); :}
+            | EXPRESION:a DIV EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.DIVISION, aleft, aright); String op1 = a.toString(); String op2 = b.toString(); registrarOcurrencia("/", op1, op2); :}
+            | EXPRESION:a POT EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.POTENCIA, aleft, aright); String op1 = a.toString(); String op2 = b.toString(); registrarOcurrencia("^", op1, op2); :}
             | EXPRESION:a MENOR IGUAL EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.MENORIGUAL, aleft, aright); :}%prec EQUALS
             | EXPRESION:a MAYOR IGUAL EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.MAYORIGUAL, aleft, aright); :}%prec EQUALS
             | EXPRESION:a MENOR EXPRESION:b     {: RESULT = new Relacionales(a, b, OperadoresRelacionales.MENORQUE, aleft, aright); :}

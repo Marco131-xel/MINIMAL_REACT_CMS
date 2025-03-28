@@ -52,7 +52,7 @@ public class For extends Instruccion {
             // crear un nuevo ambito
             var newTabla2 = new TablaSimbolos(newTabla);
 
-            for(var i : this.instrucciones) {
+            for (var i : this.instrucciones) {
                 var resIns = i.interpretar(arbol, newTabla2);
 
                 if (resIns instanceof Break) {
@@ -62,7 +62,7 @@ public class For extends Instruccion {
                     return resIns;
                 }
             }
-            
+
             // Ejecutar la actualizacion
             var act = this.actualizar.interpretar(arbol, newTabla);
             if (act instanceof Errores) {
@@ -71,5 +71,5 @@ public class For extends Instruccion {
         }
         return null;
     }
-    
+
 }

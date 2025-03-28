@@ -7,6 +7,7 @@ import main.Servidor_React.analizador.*;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.LinkedList;
+import main.Servidor_React.reportes.Ast;
 
 /**
  *
@@ -21,6 +22,8 @@ public class Minimal {
             var resultado = p.parse();
             var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
             var tabla = new TablaSimbolos();
+            var ocurrencias = p.getOcurrencia();
+            var astOcur = new Ast(ocurrencias);
             tabla.setNombre("Global");
             ast.setConsola("");
             LinkedList<Errores> lista = new LinkedList<>();
@@ -38,6 +41,9 @@ public class Minimal {
                     lista.add((Errores) res);
                 }
             }
+            
+            String dotContent = astOcur.generarDot();
+            System.out.println("Archivo dot generado: \n" + dotContent);
 
             StringBuilder erroresStr = new StringBuilder();
             for (var i : lista) {

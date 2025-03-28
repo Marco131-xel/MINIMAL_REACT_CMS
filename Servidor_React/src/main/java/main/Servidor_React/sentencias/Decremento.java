@@ -8,8 +8,8 @@ import main.Servidor_React.excepciones.*;
  *
  * @author marco
  */
-
 public class Decremento extends Instruccion {
+
     private String id;
 
     public Decremento(String id, int linea, int col) {
@@ -20,14 +20,14 @@ public class Decremento extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, TablaSimbolos tabla) {
         var variable = tabla.getVariable(id);
-        
-        if(variable == null){
+
+        if (variable == null) {
             return new Errores("SEMANTICO", "Variable no existente", this.linea, this.col);
         }
-        
+
         Object valorActual = variable.getValor();
-        if(valorActual instanceof Double){
-            double nuevoValor = (double) valorActual -1.0;
+        if (valorActual instanceof Double) {
+            double nuevoValor = (double) valorActual - 1.0;
             variable.setValor(nuevoValor);
             return nuevoValor;
         } else {

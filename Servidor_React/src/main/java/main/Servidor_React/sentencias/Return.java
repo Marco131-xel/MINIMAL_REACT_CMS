@@ -9,7 +9,7 @@ import main.Servidor_React.excepciones.*;
  * @author marco
  */
 public class Return extends Instruccion {
-    
+
     private Instruccion expresion;
 
     public Return(Instruccion expresion, int linea, int col) {
@@ -19,9 +19,9 @@ public class Return extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, TablaSimbolos tabla) {
-        if(this.expresion != null) {
+        if (this.expresion != null) {
             var resultado = this.expresion.interpretar(arbol, tabla);
-            
+
             if (resultado instanceof Errores) {
                 return resultado;
             }
@@ -29,9 +29,9 @@ public class Return extends Instruccion {
         }
         return this;
     }
-    
-    public boolean valor(){
+
+    public boolean valor() {
         return this.expresion != null;
     }
-    
+
 }

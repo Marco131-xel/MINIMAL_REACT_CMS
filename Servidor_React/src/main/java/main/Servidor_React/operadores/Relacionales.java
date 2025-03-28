@@ -146,5 +146,5 @@ public class Relacionales extends Instruccion {
                 new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);
         };
     }
-    
+
 }

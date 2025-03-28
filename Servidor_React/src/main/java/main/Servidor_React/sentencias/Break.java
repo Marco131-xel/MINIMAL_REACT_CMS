@@ -17,5 +17,5 @@ public class Break extends Instruccion {
     public Object interpretar(Arbol arbol, TablaSimbolos tabla) {
         return null;
     }
-    
+
 }

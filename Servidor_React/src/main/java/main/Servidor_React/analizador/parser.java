@@ -16,6 +16,7 @@ import main.Servidor_React.operadores.*;
 import main.Servidor_React.sentencias.*;
 import main.Servidor_React.function.*;
 import main.Servidor_React.html.*;
+import main.Servidor_React.reportes.*;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -428,6 +429,7 @@ public class parser extends java_cup.runtime.lr_parser {
     }
 
     public LinkedList<Errores> listaErrores = new LinkedList<>();
+    public List<Ocurrencia> ocurrencias = new ArrayList<>();
 
     public void syntax_error(Symbol s){
         System.out.println("Error sintactico detectado: " + s.value + " en linea " + s.left + " columna " + s.right);
@@ -444,6 +446,16 @@ public class parser extends java_cup.runtime.lr_parser {
                         s.left,
                         s.right));
     }
+
+    public List<Ocurrencia> getOcurrencia(){
+        return ocurrencias;
+    }
+
+    public void registrarOcurrencia(String operador, String op1, String op2) {
+        Ocurrencia nueva = new Ocurrencia(operador, op1, op2);
+        ocurrencias.add(nueva);
+    }
+
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -1039,7 +1051,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); 
+		 RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); String op1 = a.toString(); String op2 = b.toString(); registrarOcurrencia("+", op1, op2); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("EXPRESION",11, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1054,7 +1066,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.RESTA, aleft, aright); 
+		 RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.RESTA, aleft, aright); String op1 = a.toString(); String op2 = b.toString(); registrarOcurrencia("-", op1, op2); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("EXPRESION",11, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1069,7 +1081,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.MULTIPLICACION, aleft, aright); 
+		 RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.MULTIPLICACION, aleft, aright); String op1 = a.toString(); String op2 = b.toString(); registrarOcurrencia("*", op1, op2); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("EXPRESION",11, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1084,7 +1096,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.DIVISION, aleft, aright); 
+		 RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.DIVISION, aleft, aright); String op1 = a.toString(); String op2 = b.toString(); registrarOcurrencia("/", op1, op2); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("EXPRESION",11, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1099,7 +1111,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.POTENCIA, aleft, aright); 
+		 RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.POTENCIA, aleft, aright); String op1 = a.toString(); String op2 = b.toString(); registrarOcurrencia("^", op1, op2); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("EXPRESION",11, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

@@ -56,7 +56,7 @@ public class ShttpInterpreter implements shttpListener {
         for (int i = 1; i < parametros.size(); i++) {
             ruta += "." + parametros.get(i).IDENTIFICADOR().getText();
         }
-        
+
         if (esSitio) {
             // AUN NO SE DEFINE ESTO
             System.out.println("PROXIMAMENTE");
@@ -123,6 +123,58 @@ public class ShttpInterpreter implements shttpListener {
 
     @Override
     public void enterPatch(shttpParser.PatchContext ctx) {
+        // entrada shttp
+        boolean esSitio = ctx.getToken(shttpParser.SITIO, 0) != null;
+        boolean esPagina = ctx.getToken(shttpParser.PAGINA, 0) != null;
+        // entrada scl
+        boolean esModificar = ctx.getToken(shttpParser.MODIFICAR, 0) != null;
+        boolean esAgregar = ctx.getToken(shttpParser.AGREGAR, 0) != null;
+        boolean esMSitio = ctx.getToken(shttpParser.MSITIO, 0) != null;
+        boolean esMPagina = ctx.getToken(shttpParser.MPAGINA, 0) != null;
+        // Identificar el tipo de operacion
+        boolean esSitioModificar = esSitio && esModificar && esMSitio;
+        boolean esPaginaModificar = esPagina && esModificar && esMPagina;
+        boolean esPaginaAgregar = esPagina && esAgregar && esMPagina;
+        // Obtener lista de parametros
+        List<shttpParser.ParametroContext> parametros = ctx.parametros().parametro();
+        if (parametros.isEmpty()) {
+            System.out.println("Error: Se requiere al menos un parámetro");
+            ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
+            return;
+        }
+        // Construir la ruta
+        String ruta = parametros.get(0).IDENTIFICADOR().getText();
+        for (int i = 1; i < parametros.size(); i++) {
+            ruta += "." + parametros.get(i).IDENTIFICADOR().getText();
+        }
+        // Obtener contenido si hay body
+        String contenido = (ctx.body() != null && ctx.body().CONTENIDO() != null) ? ctx.body().CONTENIDO().getText() : "";
+
+        if (esSitioModificar) {
+            System.out.println("Modificando sitio: " + ruta);
+            if (toml.modificarSitio(ruta)) {
+                ServidorSocket.getInst().enviarMensajes("Servidor: SUCCESS");
+            } else {
+                ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
+            }
+        } else if (esPaginaModificar) {
+            System.out.println("Modificando pagina: " + ruta);
+            if (toml.modificarPagina(ruta)) {
+                ServidorSocket.getInst().enviarMensajes("Servidor: SUCCESS");
+            } else {
+                ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
+            }
+        } else if (esPaginaAgregar) {
+            System.out.println("Agregando contenido a pagina: " + ruta);
+            if (toml.agregarPagina(ruta, contenido)) {
+                ServidorSocket.getInst().enviarMensajes("Servidor: SUCCESS");
+            } else {
+                ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
+            }
+        } else {
+            System.out.println("Error: Comando PATCH no reconocido");
+            ServidorSocket.getInst().enviarMensajes("Servidor: BAD_REQUEST");
+        }
     }
 
     @Override

@@ -27,6 +27,7 @@ public class Interfaz extends javax.swing.JFrame {
     private ClienteWs clienteWs;
     private static String RECOVERY_PATH = ("/home/marco/Documentos/Compi_2025/MINIMAL_REACT_CMS/data/recovery.toml");
     JFileChooser seleccionado = new JFileChooser();
+    private String rutaActual;
     File archivo;
     GestionArchivos gestion = new GestionArchivos();
 
@@ -126,6 +127,11 @@ public class Interfaz extends javax.swing.JFrame {
         BT_Guardar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
         BT_Guardar.setForeground(new java.awt.Color(255, 255, 255));
         BT_Guardar.setText("Guardar");
+        BT_Guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_GuardarActionPerformed(evt);
+            }
+        });
 
         BT_procesar.setBackground(new java.awt.Color(33, 47, 61));
         BT_procesar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
@@ -344,8 +350,8 @@ public class Interfaz extends javax.swing.JFrame {
     public void recibirMensaje(String mensaje) {
         if (mensaje.startsWith("RUTA ")) {
             mensaje = mensaje.trim();
-            String rutaArchivo = mensaje.substring(5);
-            abrirArchivoEditor(rutaArchivo);
+            rutaActual = mensaje.substring(5);
+            abrirArchivoEditor(rutaActual);
         } else if (mensaje.startsWith("CONSOLA ")) {
             String salidaConsola = mensaje.substring(8);
             text_console.setText("run:\n" + salidaConsola);
@@ -405,7 +411,17 @@ public class Interfaz extends javax.swing.JFrame {
             modelo.addRow(new Object[]{tipo, desc, lineaNum, columnaNum});
         }
     }
-
+    
+    public void guardarArchivo(){
+        // Obtener el contenido del JTextPane
+        String contenido = panelito.getText();
+        // Guardar el contenido 
+        String resultado = gestion.GuardarATexto(new File(rutaActual), contenido);
+        // Mostrar un mensaje de confirmacion
+        JOptionPane.showMessageDialog(this, resultado);
+        agregarTexto("Cliente: archivo guardado\n"+"Ruta: \n"+rutaActual);
+    }
+    /* ------------------------ BOTONES DE INTERFAZ -----------------------*/
     private void BT_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_procesarActionPerformed
         // TODO add your handling code here:
         if (clienteWs != null) {
@@ -537,6 +553,35 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void BT_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_agregarActionPerformed
         // TODO add your handling code here:
+        String nombrePagina = JOptionPane.showInputDialog(this,
+                "Ingrese el nombre de la pagina:",
+                "Agregar pagina",
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (nombrePagina != null && !nombrePagina.trim().isEmpty()) {
+            JTextArea textArea = new JTextArea(10, 30);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            int resultado = JOptionPane.showConfirmDialog(this, scrollPane,
+                    "Ingrese el contenido MTSX", JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE);
+
+            if (resultado == JOptionPane.OK_OPTION) {
+                String contenido = textArea.getText().trim();
+                if (!contenido.isEmpty()) {
+                    String mensaje = "PATCH PAGINA\nagregar pagina " + nombrePagina.trim() + "\n...\n <main>\n" + contenido + "\n</main>\n...";
+
+                    if (clienteWs != null) {
+                        clienteWs.enviarMensajes(mensaje);
+                    } else {
+                        System.out.println("No hay cliente WEBSOCKET");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Debe ingresar contenido MTSX.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Debe ingresar contenido para la pagina.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_BT_agregarActionPerformed
 
     private void BT_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_eliminarActionPerformed
@@ -601,6 +646,11 @@ public class Interfaz extends javax.swing.JFrame {
     private void BT_reportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_reportesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BT_reportesActionPerformed
+
+    private void BT_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_GuardarActionPerformed
+        // TODO add your handling code here:
+        guardarArchivo();
+    }//GEN-LAST:event_BT_GuardarActionPerformed
 
     /**
      * @param args the command line arguments

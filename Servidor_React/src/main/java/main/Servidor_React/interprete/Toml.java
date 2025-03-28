@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import main.Servidor_React.toml.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
@@ -44,6 +46,72 @@ public class Toml {
             }
         }
         return null;
+    }
+
+    public boolean agregarPagina(String ruta, String nuevoContenido) {
+        String contenido = leerArchivo(RECOVERY_PATH);
+        if (contenido == null || contenido.isEmpty()) {
+            return false;
+        }
+
+        ParseTree tree = ejecutar(contenido);
+        TomInterpreter interpreter = new TomInterpreter(ruta, false);
+        new ParseTreeWalker().walk(interpreter, tree);
+
+        if (interpreter.fueEncontrado()) {
+            String rutaArchivo = BASE_PATH + ruta.replace(".", "/") + ".mtsx";
+            File archivo = new File(rutaArchivo);
+
+            if (archivo.exists() && archivo.canRead()) {
+                try {
+                    String contenidoArchivo = new String(Files.readAllBytes(Paths.get(rutaArchivo)));
+                    String nuevoContenidoFormateado = Arrays.stream(nuevoContenido.split("\n"))
+                            .map(linea -> "\t" + linea)
+                            .collect(Collectors.joining("\n")) + "\n";
+                    // Buscar main en la pagina
+                    String contenidoActualizado = contenidoArchivo.replaceAll(
+                            "(?s)(<main>)(.*?)(</main>)", "$1$2\n" + nuevoContenidoFormateado + "$3");
+                    // Guardar el contenido en la pagina
+                    Files.write(Paths.get(rutaArchivo), contenidoActualizado.getBytes());
+                    return true;
+                } catch (IOException e) {
+                    System.out.println("Error al modificar la pagina: " + e.getMessage());
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean modificarSitio(String ruta) {
+        String contenido = leerArchivo(RECOVERY_PATH);
+        if (contenido == null || contenido.isEmpty()) {
+            return false;
+        }
+
+        ParseTree tree = ejecutar(contenido);
+        TomInterpreter interpreter = new TomInterpreter(ruta, false);
+        new ParseTreeWalker().walk(interpreter, tree);
+
+        if (interpreter.fueEncontrado()) {
+            // modificar sitio
+        }
+        return false;
+    }
+
+    public boolean modificarPagina(String ruta) {
+        String contenido = leerArchivo(RECOVERY_PATH);
+        if (contenido == null || contenido.isEmpty()) {
+            return false;
+        }
+
+        ParseTree tree = ejecutar(contenido);
+        TomInterpreter interpreter = new TomInterpreter(ruta, false);
+        new ParseTreeWalker().walk(interpreter, tree);
+
+        if (interpreter.fueEncontrado()) {
+            // modifcar pagina
+        }
+        return false;
     }
 
     public boolean eliminarSitio(String ruta) {

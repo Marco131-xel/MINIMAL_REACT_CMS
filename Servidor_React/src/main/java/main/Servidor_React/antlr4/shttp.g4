@@ -19,7 +19,7 @@ get: GET (SITIO | PAGINA) ABRIR (MSITIO | MPAGINA) parametros;
 
 post: POST (SITIO | PAGINA) CREAR (MSITIO | MPAGINA) parametros body?;
 
-patch: PATCH (SITIO | PAGINA) (MODIFICAR | AGREGAR) (MSITIO | MPAGINA) parametros;
+patch: PATCH (SITIO | PAGINA) (MODIFICAR | AGREGAR) (MSITIO | MPAGINA) parametros body?;
 
 delete: DELETE (SITIO | PAGINA) ELIMINAR (MSITIO | MPAGINA) parametros;
 

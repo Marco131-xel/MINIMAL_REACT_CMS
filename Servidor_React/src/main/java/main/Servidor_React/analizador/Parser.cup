@@ -219,7 +219,7 @@ DATO ::= HTML_CONTENT:a {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), ale
 VARIABLE ::= LLAVE1 IDENTIFICADOR:a LLAVE2 {: RESULT = new Variable(a, aleft, aright); :}
 ;
 
-INPUTS ::=  MENOR INPUT VALUE IGUAL VARIABLE DIV MAYOR
+INPUTS ::=  MENOR INPUT VALUE IGUAL VARIABLE:a DIV MAYOR {: RESULT = new Input(a, aleft, aright); :}
 ;
 
 BUTTONS ::= BUTTON_OPEN:a DATO:b BUTTON_CLOSE:c {: RESULT = new Button(a, b, c, aleft, aright); :}

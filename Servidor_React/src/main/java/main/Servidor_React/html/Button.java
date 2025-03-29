@@ -3,6 +3,7 @@ package main.Servidor_React.html;
 import main.Servidor_React.abstracto.*;
 import main.Servidor_React.ast.*;
 import main.Servidor_React.excepciones.*;
+import main.Servidor_React.reportes.*;
 
 /**
  *
@@ -29,7 +30,10 @@ public class Button extends Instruccion {
         }
         
         String boton = bt1 + resultado.toString() + bt2;
-        arbol.Print(boton);
+        GeneradorHtml generador = arbol.getGenerarHtml();
+        if (generador != null) {
+            generador.agregarEtiqueta(boton);
+        }
         return null;
     }
  

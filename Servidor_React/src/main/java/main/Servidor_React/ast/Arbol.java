@@ -3,6 +3,7 @@ package main.Servidor_React.ast;
 import java.util.LinkedList;
 import main.Servidor_React.excepciones.*;
 import main.Servidor_React.abstracto.*;
+import main.Servidor_React.reportes.*;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Arbol {
     private LinkedList<Instruccion> funciones;
     public int contador;
     private static LinkedList<Errores> historialErrores = new LinkedList<>();
+    private GeneradorHtml generarHtml;
 
     public Arbol(LinkedList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
@@ -25,6 +27,7 @@ public class Arbol {
         this.errores = new LinkedList<>();
         this.funciones = new LinkedList<>();
         this.contador = 0;
+        this.generarHtml = null;
     }
 
     public LinkedList<Instruccion> getInstrucciones() {
@@ -92,6 +95,14 @@ public class Arbol {
 
     public static void limpiarHistorialErrores() {
         historialErrores.clear();
+    }
+
+    public GeneradorHtml getGenerarHtml() {
+        return generarHtml;
+    }
+
+    public void setGenerarHtml(GeneradorHtml generarHtml) {
+        this.generarHtml = generarHtml;
     }
 
 }

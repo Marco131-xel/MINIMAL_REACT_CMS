@@ -24,12 +24,16 @@ public class Minimal {
             var tabla = new TablaSimbolos();
             var ocurrencias = p.getOcurrencia();
             var astOcur = new Ast(ocurrencias);
+            String nombre = p.identificador != null ? p.identificador.getId() : "AST";
             tabla.setNombre("Global");
             ast.setConsola("");
             LinkedList<Errores> lista = new LinkedList<>();
             lista.addAll(l.listaErrores);
             lista.addAll(p.listaErrores);
             ast.setErrores(lista);
+            
+            GeneradorHtml generador = new GeneradorHtml(nombre, ruta);
+            ast.setGenerarHtml(generador);
 
             for (var a : ast.getInstrucciones()) {
                 if (a == null) {
@@ -42,7 +46,8 @@ public class Minimal {
                 }
             }
             
-            String nombre = p.identificador != null ? p.identificador.getId() : "AST";
+            generador.cerrarHTML();
+            generador.guardarArchivo();
             GenerarGraficas.generarImagen(astOcur, ruta, nombre);
 
             StringBuilder erroresStr = new StringBuilder();

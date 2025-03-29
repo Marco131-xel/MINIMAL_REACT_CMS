@@ -3,6 +3,7 @@ package main.Servidor_React.html;
 import main.Servidor_React.abstracto.*;
 import main.Servidor_React.ast.*;
 import main.Servidor_React.excepciones.*;
+import main.Servidor_React.reportes.*;
 
 /**
  *
@@ -32,7 +33,12 @@ public class Parrafo extends Instruccion {
         String conteVar = resultado.toString();
         conteVar = procesarVariables(conteVar, tabla);
         String etiqueta = p1 + conteVar + p2;
-        arbol.Print(etiqueta);
+        
+        GeneradorHtml generador = arbol.getGenerarHtml();
+        if (generador != null) {
+            generador.agregarEtiqueta(etiqueta);
+        }
+        
         return null;
     }
 

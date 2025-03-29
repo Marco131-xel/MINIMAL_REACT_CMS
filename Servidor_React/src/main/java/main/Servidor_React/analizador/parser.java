@@ -430,6 +430,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
     public LinkedList<Errores> listaErrores = new LinkedList<>();
     public List<Ocurrencia> ocurrencias = new ArrayList<>();
+    public Identificador identificador;
 
     public void syntax_error(Symbol s){
         System.out.println("Error sintactico detectado: " + s.value + " en linea " + s.left + " columna " + s.right);
@@ -502,13 +503,17 @@ class CUP$parser$actions {
           case 1: // INICIO ::= CONST IDENTIFICADOR IGUAL PAR1 PAR2 IGUAL MAYOR LLAVE1 INSTRUCCIONES RETURN PAR1 MAIN1 CONTENIDOS MAIN2 PAR2 FINCADENA LLAVE2 
             {
               LinkedList<Instruccion> RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-15)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-15)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-15)).value;
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-8)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-8)).right;
 		LinkedList<Instruccion> a = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-8)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
 		LinkedList<Instruccion> b = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
-		 RESULT = new LinkedList<>();  RESULT.addAll(a); RESULT.addAll(b); 
+		 RESULT = new LinkedList<>();  RESULT.addAll(a); RESULT.addAll(b);
+           Identificador identificador = new Identificador(id); parser.identificador = identificador; 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-16)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

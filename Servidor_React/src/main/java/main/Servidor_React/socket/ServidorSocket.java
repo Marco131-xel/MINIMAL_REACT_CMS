@@ -38,8 +38,14 @@ public class ServidorSocket extends TextWebSocketHandler {
         System.out.println("Mensaje recibido: " + recibido);
 
         if (recibido.startsWith("EJECUTAR_MTSX ")) {
-            String codigo = recibido.substring(14);
-            String[] resultado = Minimal.ejecutar(codigo);
+            String[] partes = recibido.substring(14).split("\n", 2);
+            if (partes.length < 2) {
+                enviarMensajes("ERRORES No se pudo obtener la ruta o codigo.");
+                return;
+            }
+            String rutaArchivo = partes[0].trim();
+            String codigo = partes[1];
+            String[] resultado = Minimal.ejecutar(codigo, rutaArchivo);
 
             enviarMensajes("CONSOLA " + resultado[0]);
             enviarMensajes("ERRORES " + resultado[1]);

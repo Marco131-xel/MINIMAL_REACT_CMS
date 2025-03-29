@@ -23,6 +23,7 @@ parser code {:
 
     public LinkedList<Errores> listaErrores = new LinkedList<>();
     public List<Ocurrencia> ocurrencias = new ArrayList<>();
+    public Identificador identificador;
 
     public void syntax_error(Symbol s){
         System.out.println("Error sintactico detectado: " + s.value + " en linea " + s.left + " columna " + s.right);
@@ -95,9 +96,10 @@ precedence left NOT;
 // PRODUCCIONES Y GRAMATICAS
 start with INICIO;
 
-INICIO ::= CONST IDENTIFICADOR IGUAL PAR1 PAR2 IGUAL MAYOR LLAVE1 
+INICIO ::= CONST IDENTIFICADOR:id IGUAL PAR1 PAR2 IGUAL MAYOR LLAVE1 
            INSTRUCCIONES:a RETURN PAR1 MAIN1 CONTENIDOS:b MAIN2 PAR2 FINCADENA LLAVE2
-           {: RESULT = new LinkedList<>();  RESULT.addAll(a); RESULT.addAll(b); :}
+           {: RESULT = new LinkedList<>();  RESULT.addAll(a); RESULT.addAll(b);
+           Identificador identificador = new Identificador(id); parser.identificador = identificador; :}
            | error|
 ;
 

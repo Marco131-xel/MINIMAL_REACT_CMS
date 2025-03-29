@@ -427,7 +427,7 @@ public class Interfaz extends javax.swing.JFrame {
         if (clienteWs != null) {
             String codigoMtsx = panelito.getText();
             if (!codigoMtsx.trim().isEmpty()) {
-                String mensaje = "EJECUTAR_MTSX " + codigoMtsx;
+                String mensaje = "EJECUTAR_MTSX " + rutaActual + "\n" + codigoMtsx;
                 clienteWs.enviarMensajes(mensaje);
             } else {
                 JOptionPane.showMessageDialog(this, "El editor esta vacio.", "Advertencia", JOptionPane.WARNING_MESSAGE);

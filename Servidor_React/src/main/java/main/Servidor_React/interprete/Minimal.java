@@ -7,7 +7,7 @@ import main.Servidor_React.analizador.*;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.LinkedList;
-import main.Servidor_React.reportes.Ast;
+import main.Servidor_React.reportes.*;
 
 /**
  *
@@ -15,7 +15,7 @@ import main.Servidor_React.reportes.Ast;
  */
 public class Minimal {
 
-    public static String[] ejecutar(String codigo) {
+    public static String[] ejecutar(String codigo, String ruta) {
         try {
             Lexer l = new Lexer(new BufferedReader(new StringReader((codigo))));
             parser p = new parser(l);
@@ -42,8 +42,8 @@ public class Minimal {
                 }
             }
             
-            String dotContent = astOcur.generarDot();
-            System.out.println("Archivo dot generado: \n" + dotContent);
+            String nombre = p.identificador != null ? p.identificador.getId() : "AST";
+            GenerarGraficas.generarImagen(astOcur, ruta, nombre);
 
             StringBuilder erroresStr = new StringBuilder();
             for (var i : lista) {

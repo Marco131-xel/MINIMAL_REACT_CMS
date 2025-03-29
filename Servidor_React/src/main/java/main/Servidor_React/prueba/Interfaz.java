@@ -174,9 +174,9 @@ public class Interfaz extends javax.swing.JFrame {
                 return;
             }
 
-            String[] resultado = Minimal.ejecutar(codigo);
-            Panelito.setText(resultado[0]); // Consola
-            TextErrores.setText(resultado[1]); // Errores
+            //String[] resultado = Minimal.ejecutar(codigo);
+            //Panelito.setText(resultado[0]); // Consola
+            //TextErrores.setText(resultado[1]); // Errores
 
         } catch (Exception e) {
             e.printStackTrace();

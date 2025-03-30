@@ -3,13 +3,14 @@ package main.Servidor_React.operadores;
 import main.Servidor_React.abstracto.*;
 import main.Servidor_React.ast.*;
 import main.Servidor_React.excepciones.*;
+import main.Servidor_React.reportes.*;
 
 /**
  *
  * @author marco
  */
 public class Relacionales extends Instruccion {
-    
+
     private Instruccion cond1;
     private Instruccion cond2;
     private OperadoresRelacionales relacional;
@@ -33,7 +34,7 @@ public class Relacionales extends Instruccion {
             return condDer;
         }
 
-        return switch (relacional) {
+        Object resultado = switch (relacional) {
             case MENORIGUAL ->
                 this.menorigual(condIzq, condDer);
             case MAYORIGUAL ->
@@ -45,6 +46,14 @@ public class Relacionales extends Instruccion {
             default ->
                 new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);
         };
+        
+        GeneradorHtml generador = arbol.getGenerarHtml();
+        if (generador != null) {
+            String codigoJs = generarJS();
+            generador.agregarScript(codigoJs);
+        }
+
+        return resultado;
     }
 
     // FUNCION PARA EL MENOR IGUAL
@@ -145,6 +154,27 @@ public class Relacionales extends Instruccion {
             default ->
                 new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);
         };
+    }
+
+    // Funcion para generar el script
+    public String generarJS() {
+        String op1 = this.cond1.toString();
+        String op2 = this.cond2.toString();
+
+        String operadorJs = switch (this.relacional) {
+            case MENORIGUAL ->
+                "<=";
+            case MAYORIGUAL ->
+                ">=";
+            case MENORQUE ->
+                "<";
+            case MAYORQUE ->
+                ">";
+            default ->
+                "";
+        };
+
+        return op1 + " " + operadorJs + " " + op2;
     }
 
 }

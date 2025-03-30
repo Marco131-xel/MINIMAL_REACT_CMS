@@ -3,6 +3,7 @@ package main.Servidor_React.sentencias;
 import main.Servidor_React.abstracto.*;
 import main.Servidor_React.ast.*;
 import main.Servidor_React.excepciones.*;
+import main.Servidor_React.reportes.*;
 
 /**
  *
@@ -40,7 +41,20 @@ public class Asignacion extends Instruccion {
                     this.linea, this.col);
         }
         variable.setValor(newValor);
+        GeneradorHtml generador = arbol.getGenerarHtml();
+        if (generador != null) {
+            String codigoJs = generarJS(newValor);
+            generador.agregarScript(codigoJs);
+        }
         return null;
+    }
+
+    public String generarJS(Object valor) {
+        if (valor instanceof String) {
+            return id + " = \"" + valor + "\";";
+        } else {
+            return id + " = " + valor.toString() + ";";
+        }
     }
 
 }

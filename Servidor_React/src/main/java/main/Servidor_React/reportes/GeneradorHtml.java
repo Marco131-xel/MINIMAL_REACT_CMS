@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 public class GeneradorHtml {
 
     private StringBuilder contenido;
+    private StringBuilder script;
     private String titulo;
     private String ruta;
 
@@ -18,6 +19,7 @@ public class GeneradorHtml {
         this.titulo = titulo;
         this.ruta = ruta;
         this.contenido = new StringBuilder();
+        this.script = new StringBuilder();
         iniciarHTML();
     }
 
@@ -42,7 +44,14 @@ public class GeneradorHtml {
         contenido.append(etiqueta).append("\n");
     }
 
+    public void agregarScript(String js) {
+        script.append(js).append("\n");
+    }
+
     public void cerrarHTML() {
+        if (script.length() > 0) {
+            contenido.append("<script>\n").append(script).append("</script>\n");
+        }
         contenido.append("</body>\n</html>");
     }
 

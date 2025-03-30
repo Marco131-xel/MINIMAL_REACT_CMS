@@ -48,7 +48,7 @@ public class Aritmeticas extends Instruccion {
                 return opDer;
             }
         }
-        return switch (operacion) {
+        Object resultado = switch (operacion) {
             case SUMA ->
                 this.suma(opIzq, opDer);
             case NEGACION ->
@@ -64,6 +64,7 @@ public class Aritmeticas extends Instruccion {
             default ->
                 new Errores("Semantico", "Operador invalido", this.linea, this.col);
         };
+        return resultado;
     }
 
     // Funcion para sumar
@@ -263,5 +264,5 @@ public class Aritmeticas extends Instruccion {
                 0;
         };
     }
-
+   
 }

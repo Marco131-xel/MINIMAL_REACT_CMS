@@ -3,7 +3,7 @@ package main.Servidor_React.operadores;
 import main.Servidor_React.abstracto.*;
 import main.Servidor_React.ast.*;
 import main.Servidor_React.excepciones.*;
-
+import main.Servidor_React.reportes.*;
 /**
  *
  * @author marco
@@ -49,7 +49,7 @@ public class Booleanos extends Instruccion {
             }
         }
 
-        return switch (logico) {
+        Object resultado = switch (logico) {
             case OR ->
                 this.or(logIzq, logDer);
             case AND ->
@@ -59,6 +59,13 @@ public class Booleanos extends Instruccion {
             default ->
                 new Errores("SEMANTICO", "Booleano Invalido", this.linea, this.col);
         };
+        GeneradorHtml generador = arbol.getGenerarHtml();
+        if (generador != null) {
+            String codigoJs = generarJS();
+            generador.agregarScript(codigoJs);
+        }
+
+        return resultado;
     }
 
     // FUNCION PARA OR
@@ -76,12 +83,35 @@ public class Booleanos extends Instruccion {
         }
         return new Errores("SEMANTICO", "Tipos incompatibles para el operador AND", this.linea, this.col);
     }
+
     // FUNCION PARA NOT
     public Object not(Object comp) {
         if (comp instanceof Boolean) {
             return !(Boolean) comp;
         }
         return new Errores("SEMANTICO", "Tipo incompatible para el operador NOT", this.linea, this.col);
+    }
+
+    // Funcion para generar el script
+    public String generarJS() {
+        if (this.log != null) {
+            return "!(" + this.log.toString() + ")";
+        }
+
+        String op1 = this.log1.toString();
+        String op2 = this.log2.toString();
+        String operadorJs = switch (this.logico) {
+            case OR ->
+                "||";
+            case AND ->
+                "&&";
+            case NOT ->
+                "!";
+            default ->
+                "";
+        };
+
+        return op1 + " " + operadorJs + " " + op2;
     }
 
 }

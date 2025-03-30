@@ -3,6 +3,8 @@ package main.Servidor_React.sentencias;
 import main.Servidor_React.abstracto.*;
 import main.Servidor_React.ast.*;
 import main.Servidor_React.excepciones.*;
+import main.Servidor_React.operadores.Nativo;
+import main.Servidor_React.reportes.*;
 
 /**
  *
@@ -49,6 +51,12 @@ public class Declaracion extends Instruccion {
             return new Errores("SEMANTICO", "Variable ya existente", this.linea, this.col);
         }
 
+        GeneradorHtml generador = arbol.getGenerarHtml();
+        if (generador != null) {
+            String codigoJs = generarJS(valorInterpretado);
+            generador.agregarScript(codigoJs);
+        }
+
         return null;
     }
 
@@ -65,6 +73,15 @@ public class Declaracion extends Instruccion {
             default ->
                 null;
         };
+    }
+
+    public String generarJS(Object valorInterpretado) {
+        String tipoJs = "let";
+        String valorJs = (valorInterpretado instanceof String)
+                ? "\"" + valorInterpretado + "\""
+                : valorInterpretado.toString();
+
+        return tipoJs + " " + this.identificador + " = " + valorJs + ";";
     }
 
 }

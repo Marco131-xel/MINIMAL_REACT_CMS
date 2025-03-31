@@ -46,11 +46,11 @@ public class Relacionales extends Instruccion {
             default ->
                 new Errores("SEMANTICO", "Relacional Invalido", this.linea, this.col);
         };
-        
+
         GeneradorHtml generador = arbol.getGenerarHtml();
         if (generador != null) {
             String codigoJs = generarJS();
-            generador.agregarScript(codigoJs);
+            //generador.agregarScript(codigoJs);
         }
 
         return resultado;
@@ -172,6 +172,27 @@ public class Relacionales extends Instruccion {
                 ">";
             default ->
                 "";
+        };
+
+        return op1 + " " + operadorJs + " " + op2;
+    }
+
+    @Override
+    public String toString() {
+        String op1 = cond1.toString();
+        String op2 = cond2.toString();
+
+        String operadorJs = switch (this.relacional) {
+            case MENORIGUAL ->
+                "<=";
+            case MAYORIGUAL ->
+                ">=";
+            case MENORQUE ->
+                "<";
+            case MAYORQUE ->
+                ">";
+            default ->
+                "??";
         };
 
         return op1 + " " + operadorJs + " " + op2;

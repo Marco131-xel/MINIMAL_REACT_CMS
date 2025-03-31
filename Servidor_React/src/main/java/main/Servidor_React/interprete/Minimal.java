@@ -23,7 +23,9 @@ public class Minimal {
             var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
             var tabla = new TablaSimbolos();
             var ocurrencias = p.getOcurrencia();
+            var modelos = p.getModel();
             var astOcur = new Ast(ocurrencias);
+            var dom = new Dom(modelos);
             String nombre = p.identificador != null ? p.identificador.getId() : "AST";
             tabla.setNombre("Global");
             ast.setConsola("");
@@ -48,8 +50,8 @@ public class Minimal {
             
             generador.cerrarHTML();
             generador.guardarArchivo();
-            GenerarGraficas.generarImagen(astOcur, ruta, nombre);
-
+            GenerarAst.generarImagen(astOcur, ruta, nombre);
+            GenerarDom.generarImagen(dom, ruta, nombre);
             StringBuilder erroresStr = new StringBuilder();
             for (var i : lista) {
                 erroresStr.append(i.toString()).append("\n");

@@ -15,7 +15,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-import utils.GestionArchivos;
+import utils.*;
 
 /**
  *
@@ -30,6 +30,7 @@ public class Interfaz extends javax.swing.JFrame {
     private String rutaActual;
     File archivo;
     GestionArchivos gestion = new GestionArchivos();
+    ColorText cote = new ColorText();
 
     /**
      * Creates new form Interfaz
@@ -91,7 +92,7 @@ public class Interfaz extends javax.swing.JFrame {
         panelito.setForeground(new java.awt.Color(255, 255, 255));
         scroll_num.setViewportView(panelito);
 
-        bg.add(scroll_num, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 690, 530));
+        bg.add(scroll_num, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 790, 530));
 
         solicitudes.setBackground(new java.awt.Color(46, 64, 83));
         solicitudes.setColumns(20);
@@ -100,12 +101,12 @@ public class Interfaz extends javax.swing.JFrame {
         solicitudes.setRows(5);
         jScrollPane1.setViewportView(solicitudes);
 
-        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 680, 510, 140));
+        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 670, 520, 140));
 
         jLabel2.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Tabla Errores");
-        bg.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 200, -1, -1));
+        bg.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 210, -1, -1));
 
         jPanel1.setBackground(new java.awt.Color(46, 64, 83));
 
@@ -218,10 +219,7 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(BT_abrir)
@@ -235,8 +233,12 @@ public class Interfaz extends javax.swing.JFrame {
                         .addComponent(BT_limpiar)
                         .addGap(18, 18, 18)
                         .addComponent(BT_reportes)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
-                        .addComponent(BT_crear)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 336, Short.MAX_VALUE)
+                        .addComponent(BT_crear))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(520, 520, 520)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(BT_agregar)
                 .addGap(18, 18, 18)
@@ -248,9 +250,9 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(36, 36, 36)
+                .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BT_abrir)
                     .addComponent(BT_Guardar)
@@ -265,7 +267,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1470, 160));
+        bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1620, 160));
 
         Table_Errores.setBackground(new java.awt.Color(33, 47, 61));
         Table_Errores.setFont(new java.awt.Font("FreeMono", 0, 16)); // NOI18N
@@ -294,24 +296,24 @@ public class Interfaz extends javax.swing.JFrame {
             Table_Errores.getColumnModel().getColumn(3).setMaxWidth(80);
         }
 
-        bg.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 250, 680, 160));
+        bg.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 250, 740, 160));
 
         jLabel3.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Consola");
-        bg.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 500, -1, 30));
+        bg.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 510, -1, 30));
 
         text_console.setBackground(new java.awt.Color(46, 64, 83));
         text_console.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
         text_console.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane3.setViewportView(text_console);
 
-        bg.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 460, 440, 130));
+        bg.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 470, 440, 130));
 
         jLabel4.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Solicitudes");
-        bg.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 690, -1, 30));
+        bg.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 700, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -374,6 +376,7 @@ public class Interfaz extends javax.swing.JFrame {
             try {
                 String contenido = new String(Files.readAllBytes(Paths.get(rutaArchivo)));
                 panelito.setText(contenido);
+                cote.colorearEditorTexto(panelito);
             } catch (IOException e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Error al abrir el archivo: " + e.getMessage());
@@ -427,6 +430,7 @@ public class Interfaz extends javax.swing.JFrame {
         if (clienteWs != null) {
             String codigoMtsx = panelito.getText();
             if (!codigoMtsx.trim().isEmpty()) {
+                cote.colorearEditorTexto(panelito);
                 String mensaje = "EJECUTAR_MTSX " + rutaActual + "\n" + codigoMtsx;
                 clienteWs.enviarMensajes(mensaje);
             } else {

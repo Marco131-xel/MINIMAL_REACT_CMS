@@ -9,18 +9,18 @@ import java.nio.file.Paths;
  *
  * @author marco
  */
-public class GenerarGraficas {
+public class GenerarDom {
 
-    public static void generarImagen(Ast ast, String rutaArchivo, String nombreArchivo) {
+    public static void generarImagen(Dom dom, String rutaArchivo, String nombreArchivo) {
         // Obtener el directorio del archivo .mtsx
         String directorio = Paths.get(rutaArchivo).getParent().toString();
 
         // Crear nombres de archivo en la misma carpeta
-        String dotFilename = Paths.get(directorio, nombreArchivo + ".dot").toString();
-        String pngFilename = Paths.get(directorio, nombreArchivo + ".png").toString();
+        String dotFilename = Paths.get(directorio, nombreArchivo + "Dom.dot").toString();
+        String pngFilename = Paths.get(directorio, nombreArchivo + "Dom.png").toString();
 
         // Generar archivo DOT
-        String dotContent = ast.generarDot();
+        String dotContent = dom.generarDot(nombreArchivo);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(dotFilename))) {
             writer.write(dotContent);
             System.out.println("Archivo DOT guardado en: " + dotFilename);
@@ -37,4 +37,5 @@ public class GenerarGraficas {
             System.err.println("Error al generar el PNG: " + e.getMessage());
         }
     }
+
 }

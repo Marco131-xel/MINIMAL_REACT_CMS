@@ -430,6 +430,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
     public LinkedList<Errores> listaErrores = new LinkedList<>();
     public List<Ocurrencia> ocurrencias = new ArrayList<>();
+    public List<Model> modelos = new ArrayList<>();
     public Identificador identificador;
 
     public void syntax_error(Symbol s){
@@ -455,6 +456,15 @@ public class parser extends java_cup.runtime.lr_parser {
     public void registrarOcurrencia(String operador, String op1, String op2) {
         Ocurrencia nueva = new Ocurrencia(operador, op1, op2);
         ocurrencias.add(nueva);
+    }
+
+    public List<Model> getModel(){
+        return modelos;
+    }
+
+    public void registrarModel(String etiqueta){
+        Model nueva = new Model(etiqueta);
+        modelos.add(nueva);
     }
 
 
@@ -1404,7 +1414,7 @@ class CUP$parser$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String c = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Etiqueta(a, b, c, aleft, aright); 
+		 RESULT = new Etiqueta(a, b, c, aleft, aright); registrarModel(a); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ETIQUETAS",15, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1422,7 +1432,7 @@ class CUP$parser$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String c = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Parrafo(a, b, c, aleft, aright); 
+		 RESULT = new Parrafo(a, b, c, aleft, aright); registrarModel("p"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PARRAFOS",16, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1458,7 +1468,7 @@ class CUP$parser$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
 		Instruccion a = (Instruccion)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		 RESULT = new Input(a, aleft, aright); 
+		 RESULT = new Input(a, aleft, aright); registrarModel("input"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("INPUTS",17, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1476,7 +1486,7 @@ class CUP$parser$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String c = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Button(a, b, c, aleft, aright); 
+		 RESULT = new Button(a, b, c, aleft, aright); registrarModel("button"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("BUTTONS",18, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

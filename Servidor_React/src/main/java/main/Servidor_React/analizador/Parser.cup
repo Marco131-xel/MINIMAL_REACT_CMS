@@ -23,6 +23,7 @@ parser code {:
 
     public LinkedList<Errores> listaErrores = new LinkedList<>();
     public List<Ocurrencia> ocurrencias = new ArrayList<>();
+    public List<Model> modelos = new ArrayList<>();
     public Identificador identificador;
 
     public void syntax_error(Symbol s){
@@ -48,6 +49,15 @@ parser code {:
     public void registrarOcurrencia(String operador, String op1, String op2) {
         Ocurrencia nueva = new Ocurrencia(operador, op1, op2);
         ocurrencias.add(nueva);
+    }
+
+    public List<Model> getModel(){
+        return modelos;
+    }
+
+    public void registrarModel(String etiqueta){
+        Model nueva = new Model(etiqueta);
+        modelos.add(nueva);
     }
 
 :};
@@ -207,10 +217,10 @@ CONTENIDO ::= ETIQUETAS:a {: RESULT = a; :}
             | error
 ;
 
-ETIQUETAS ::= TAG_OPEN:a DATO:b TAG_CLOSE:c {: RESULT = new Etiqueta(a, b, c, aleft, aright); :}
+ETIQUETAS ::= TAG_OPEN:a DATO:b TAG_CLOSE:c {: RESULT = new Etiqueta(a, b, c, aleft, aright); registrarModel(a); :}
 ;
 
-PARRAFOS ::= PARRAFO_OPEN:a DATO:b PARRAFO_CLOSE:c {: RESULT = new Parrafo(a, b, c, aleft, aright); :}
+PARRAFOS ::= PARRAFO_OPEN:a DATO:b PARRAFO_CLOSE:c {: RESULT = new Parrafo(a, b, c, aleft, aright); registrarModel("p"); :}
 ;
 
 DATO ::= HTML_CONTENT:a {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
@@ -219,8 +229,8 @@ DATO ::= HTML_CONTENT:a {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), ale
 VARIABLE ::= LLAVE1 IDENTIFICADOR:a LLAVE2 {: RESULT = new Variable(a, aleft, aright); :}
 ;
 
-INPUTS ::=  MENOR INPUT VALUE IGUAL VARIABLE:a DIV MAYOR {: RESULT = new Input(a, aleft, aright); :}
+INPUTS ::=  MENOR INPUT VALUE IGUAL VARIABLE:a DIV MAYOR {: RESULT = new Input(a, aleft, aright); registrarModel("input"); :}
 ;
 
-BUTTONS ::= BUTTON_OPEN:a DATO:b BUTTON_CLOSE:c {: RESULT = new Button(a, b, c, aleft, aright); :}
+BUTTONS ::= BUTTON_OPEN:a DATO:b BUTTON_CLOSE:c {: RESULT = new Button(a, b, c, aleft, aright); registrarModel("button"); :}
 ;

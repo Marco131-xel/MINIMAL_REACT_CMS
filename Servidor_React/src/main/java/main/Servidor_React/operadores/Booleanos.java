@@ -4,6 +4,7 @@ import main.Servidor_React.abstracto.*;
 import main.Servidor_React.ast.*;
 import main.Servidor_React.excepciones.*;
 import main.Servidor_React.reportes.*;
+
 /**
  *
  * @author marco
@@ -62,7 +63,7 @@ public class Booleanos extends Instruccion {
         GeneradorHtml generador = arbol.getGenerarHtml();
         if (generador != null) {
             String codigoJs = generarJS();
-            generador.agregarScript(codigoJs);
+            //generador.agregarScript(codigoJs);
         }
 
         return resultado;
@@ -90,6 +91,28 @@ public class Booleanos extends Instruccion {
             return !(Boolean) comp;
         }
         return new Errores("SEMANTICO", "Tipo incompatible para el operador NOT", this.linea, this.col);
+    }
+
+    @Override
+    public String toString() {
+        if (this.log != null) {
+            return "!(" + this.log.toString() + ")";
+        }
+
+        String op1 = this.log1.toString();
+        String op2 = this.log2.toString();
+        String operadorJs = switch (this.logico) {
+            case OR ->
+                "||";
+            case AND ->
+                "&&";
+            case NOT ->
+                "!";
+            default ->
+                "";
+        };
+
+        return op1 + " " + operadorJs + " " + op2;
     }
 
     // Funcion para generar el script

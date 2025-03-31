@@ -33,6 +33,7 @@ public class Dom {
     public String generarDot(String nombre) {
         StringBuilder dot = new StringBuilder();
         dot.append("digraph Dom {\n");
+        dot.append("    bgcolor=\"#212F3D\";\n");
         dot.append("    node [style=filled, color=lightgreen];\n");
 
         String document = nombre;
@@ -58,7 +59,7 @@ public class Dom {
         dot.append("nodo1 -> nodo3;\n");
         dot.append("nodo2 -> nodo4;\n");
         dot.append("nodo2 -> nodo5;\n");
-        dot.append("nodo3 -> nodo6;\n");
+        dot.append("nodo2 -> nodo6;\n");
         dot.append("nodo3 -> nodo7;\n");
         
         List<String> nodos = new ArrayList<>();

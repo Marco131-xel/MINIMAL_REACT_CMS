@@ -22,7 +22,7 @@ public class ColorText {
     java.awt.Color yellow = java.awt.Color.yellow;
 
     private List<String> palabrasclave = Arrays.asList("const", "return", "break", "number",
-            "string", "char", "boolean", "void", "var", "console", "log", "function", "if",
+            "string", "char", "boolean", "void", "var", "console.log", "function", "if",
             "else", "for", "true", "false", "value", "onClick");
 
     private List<String> logicos = Arrays.asList("&&", "||", "!");
@@ -132,7 +132,7 @@ public class ColorText {
             while (inicio >= 0) {
                 int fin = inicio + palabra.length();
                 AttributeSet aset = new SimpleAttributeSet();
-                StyleConstants.setForeground((MutableAttributeSet) aset, green); // otros green
+                StyleConstants.setForeground((MutableAttributeSet) aset, cyan); // otros celeste
                 doc.setCharacterAttributes(inicio, fin - inicio, aset, false);
                 inicio = contenido.indexOf(palabra, fin);
             }
@@ -161,7 +161,7 @@ public class ColorText {
             int endIndex = matcher.end();
 
             AttributeSet aset = new SimpleAttributeSet();
-            StyleConstants.setForeground((MutableAttributeSet) aset, gray); // Comillas d en gris
+            StyleConstants.setForeground((MutableAttributeSet) aset, green); // Comillas d en verde
             doc.setCharacterAttributes(startIndex, endIndex - startIndex, aset, false);
         }
 
@@ -174,7 +174,7 @@ public class ColorText {
             int endIndex = matcher.end();
 
             AttributeSet aset = new SimpleAttributeSet();
-            StyleConstants.setForeground((MutableAttributeSet) aset, gray); // Comillas s en gris
+            StyleConstants.setForeground((MutableAttributeSet) aset, green); // Comillas s en verde
             doc.setCharacterAttributes(startIndex, endIndex - startIndex, aset, false);
         }
     }

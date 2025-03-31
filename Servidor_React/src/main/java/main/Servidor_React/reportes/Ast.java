@@ -30,6 +30,7 @@ public class Ast {
     public String generarDot() {
         StringBuilder dot = new StringBuilder();
         dot.append("digraph AST {\n");
+        dot.append("    bgcolor=\"#212F3D\";\n");
         dot.append("    node [shape=circle, style=filled, color=lightblue];\n");
 
         List<String> nodos = new ArrayList<>();

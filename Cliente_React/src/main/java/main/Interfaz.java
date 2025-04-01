@@ -79,12 +79,12 @@ public class Interfaz extends javax.swing.JFrame {
         BT_Guardar = new javax.swing.JButton();
         BT_procesar = new javax.swing.JButton();
         BT_agregar = new javax.swing.JButton();
-        BT_modificar = new javax.swing.JButton();
-        BT_eliminar = new javax.swing.JButton();
         BT_limpiar = new javax.swing.JButton();
         BT_toml = new javax.swing.JButton();
         BT_crear = new javax.swing.JButton();
         BT_reportes = new javax.swing.JButton();
+        BT_eliminar = new javax.swing.JButton();
+        BT_reiniciar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Table_Errores = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
@@ -166,26 +166,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        BT_modificar.setBackground(new java.awt.Color(33, 47, 61));
-        BT_modificar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
-        BT_modificar.setForeground(new java.awt.Color(255, 255, 255));
-        BT_modificar.setText("Modificar");
-        BT_modificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_modificarActionPerformed(evt);
-            }
-        });
-
-        BT_eliminar.setBackground(new java.awt.Color(33, 47, 61));
-        BT_eliminar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
-        BT_eliminar.setForeground(new java.awt.Color(255, 255, 255));
-        BT_eliminar.setText("Eliminar");
-        BT_eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_eliminarActionPerformed(evt);
-            }
-        });
-
         BT_limpiar.setBackground(new java.awt.Color(33, 47, 61));
         BT_limpiar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
         BT_limpiar.setForeground(new java.awt.Color(255, 255, 255));
@@ -226,6 +206,26 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        BT_eliminar.setBackground(new java.awt.Color(33, 47, 61));
+        BT_eliminar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_eliminar.setForeground(new java.awt.Color(255, 255, 255));
+        BT_eliminar.setText("Eliminar");
+        BT_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_eliminarActionPerformed(evt);
+            }
+        });
+
+        BT_reiniciar.setBackground(new java.awt.Color(33, 47, 61));
+        BT_reiniciar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_reiniciar.setForeground(new java.awt.Color(255, 255, 255));
+        BT_reiniciar.setText("Reiniciar");
+        BT_reiniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_reiniciarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -245,7 +245,7 @@ public class Interfaz extends javax.swing.JFrame {
                         .addComponent(BT_limpiar)
                         .addGap(18, 18, 18)
                         .addComponent(BT_reportes)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 336, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 328, Short.MAX_VALUE)
                         .addComponent(BT_crear))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(520, 520, 520)
@@ -254,10 +254,10 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(BT_agregar)
                 .addGap(18, 18, 18)
-                .addComponent(BT_modificar)
-                .addGap(18, 18, 18)
                 .addComponent(BT_eliminar)
-                .addGap(33, 33, 33))
+                .addGap(18, 18, 18)
+                .addComponent(BT_reiniciar)
+                .addGap(41, 41, 41))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,12 +270,12 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(BT_Guardar)
                     .addComponent(BT_procesar)
                     .addComponent(BT_agregar)
-                    .addComponent(BT_modificar)
-                    .addComponent(BT_eliminar)
                     .addComponent(BT_limpiar)
                     .addComponent(BT_toml)
                     .addComponent(BT_crear)
-                    .addComponent(BT_reportes))
+                    .addComponent(BT_reportes)
+                    .addComponent(BT_eliminar)
+                    .addComponent(BT_reiniciar))
                 .addContainerGap())
         );
 
@@ -294,7 +294,15 @@ public class Interfaz extends javax.swing.JFrame {
             new String [] {
                 "Tipo", "Descripcion", "Linea", "Columna"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(Table_Errores);
         if (Table_Errores.getColumnModel().getColumnCount() > 0) {
             Table_Errores.getColumnModel().getColumn(0).setMinWidth(125);
@@ -511,7 +519,9 @@ public class Interfaz extends javax.swing.JFrame {
     /* ------------------------ BOTONES DE INTERFAZ -----------------------*/
     private void BT_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_procesarActionPerformed
         // TODO add your handling code here:
-        if (clienteWs != null) {
+        if (clienteWs == null || !clienteWs.isOpen()) {
+            JOptionPane.showMessageDialog(this, "No hay conexión con el servidor.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+        } else {
             String codigoMtsx = panelito.getText();
             if (!codigoMtsx.trim().isEmpty()) {
                 cote.colorearEditorTexto(panelito);
@@ -520,8 +530,6 @@ public class Interfaz extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "El editor esta vacio.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay conexion WebSocket", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_BT_procesarActionPerformed
 
@@ -718,62 +726,83 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void BT_tomlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_tomlActionPerformed
         // TODO add your handling code here:
-        String contenido = gestion.AbrirATexto(new File(RECOVERY_PATH));
-        JFrame ventanaEditor = new JFrame("Editor TOML");
-        ventanaEditor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        ventanaEditor.setSize(1100, 650);
-        editorToml editor = new editorToml(contenido);
-        ventanaEditor.add(editor);
-        ventanaEditor.setVisible(true);
+        if (clienteWs == null || !clienteWs.isOpen()) {
+            JOptionPane.showMessageDialog(this, "No hay conexión con el servidor.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+        } else {
+            String contenido = gestion.AbrirATexto(new File(RECOVERY_PATH));
+            JFrame ventanaEditor = new JFrame("Editor TOML");
+            ventanaEditor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            ventanaEditor.setSize(1100, 650);
+            editorToml editor = new editorToml(contenido);
+            ventanaEditor.add(editor);
+            ventanaEditor.setVisible(true);
+        }
     }//GEN-LAST:event_BT_tomlActionPerformed
 
-    private void BT_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_modificarActionPerformed
+    private void BT_reiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_reiniciarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BT_modificarActionPerformed
+        if (clienteWs != null) {
+            try {
+                clienteWs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        solicitudes.setText("");
+        conectarWebSocket();
+    }//GEN-LAST:event_BT_reiniciarActionPerformed
 
     private void BT_reportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_reportesActionPerformed
         // TODO add your handling code here:
-        if (rutaActual == null || rutaActual.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No hay reportes que mostrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        String[] opciones = {"AST", "DOM", "Errores"};
-        int seleccion = JOptionPane.showOptionDialog(this,
-                "Seleccione el tipo de reporte:",
-                "Reportes",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                opciones,
-                opciones[0]);
+        if (clienteWs == null || !clienteWs.isOpen()) {
+            JOptionPane.showMessageDialog(this, "No hay conexión con el servidor.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (rutaActual == null || rutaActual.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No hay reportes que mostrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            String[] opciones = {"AST", "DOM", "Errores"};
+            int seleccion = JOptionPane.showOptionDialog(this,
+                    "Seleccione el tipo de reporte:",
+                    "Reportes",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[0]);
 
-        if (seleccion == -1) {
-            return;
-        }
+            if (seleccion == -1) {
+                return;
+            }
 
-        File archivo = new File(rutaActual);
-        String nombreSinExtension = archivo.getName().replaceFirst("[.][^.]+$", "");
-        String directorio = archivo.getParent();
-        String rutaReporte = "";
-        switch (seleccion) {
-            case 0: // AST
-                rutaReporte = directorio + "/" + nombreSinExtension + "Ast.png";
-                mostrarReporte(rutaReporte, "Ast");
-                break;
-            case 1: // DOM
-                rutaReporte = directorio + "/" + nombreSinExtension + "Dom.png";
-                mostrarReporte(rutaReporte, "Dom");
-                break;
-            case 2: // Errores
-                rutaReporte = directorio + "/" + nombreSinExtension + ".errores";
-                mostrarErrores(rutaReporte);
-                break;
+            File archivo = new File(rutaActual);
+            String nombreSinExtension = archivo.getName().replaceFirst("[.][^.]+$", "");
+            String directorio = archivo.getParent();
+            String rutaReporte = "";
+            switch (seleccion) {
+                case 0: // AST
+                    rutaReporte = directorio + "/" + nombreSinExtension + "Ast.png";
+                    mostrarReporte(rutaReporte, "Ast");
+                    break;
+                case 1: // DOM
+                    rutaReporte = directorio + "/" + nombreSinExtension + "Dom.png";
+                    mostrarReporte(rutaReporte, "Dom");
+                    break;
+                case 2: // Errores
+                    rutaReporte = directorio + "/" + nombreSinExtension + ".errores";
+                    mostrarErrores(rutaReporte);
+                    break;
+            }
         }
     }//GEN-LAST:event_BT_reportesActionPerformed
 
     private void BT_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_GuardarActionPerformed
         // TODO add your handling code here:
-        guardarArchivo();
+        if (clienteWs == null || !clienteWs.isOpen()) {
+            JOptionPane.showMessageDialog(this, "No hay conexión con el servidor.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+        } else {
+            guardarArchivo();
+        }
     }//GEN-LAST:event_BT_GuardarActionPerformed
 
     /**
@@ -818,8 +847,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton BT_crear;
     private javax.swing.JButton BT_eliminar;
     private javax.swing.JButton BT_limpiar;
-    private javax.swing.JButton BT_modificar;
     private javax.swing.JButton BT_procesar;
+    private javax.swing.JButton BT_reiniciar;
     private javax.swing.JButton BT_reportes;
     private javax.swing.JButton BT_toml;
     private javax.swing.JTable Table_Errores;

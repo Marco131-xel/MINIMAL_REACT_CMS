@@ -38,7 +38,6 @@ public class ColorText {
     public void colorearEditorTexto(JTextPane textPane) {
         StyledDocument doc = textPane.getStyledDocument();
         String contenido = null;
-        //cambiarTamanioDeFuente(textPane, 15);
 
         try {
             // Obtiene el texto completo del JTextPane
@@ -103,7 +102,7 @@ public class ColorText {
         }
 
         for (String palabra : logicos) {
-            Pattern pattern = Pattern.compile("\\b" + Pattern.quote(palabra) + "\\b");
+            Pattern pattern = Pattern.compile(Pattern.quote(palabra));
             Matcher matcher = pattern.matcher(contenido);
 
             while (matcher.find()) {

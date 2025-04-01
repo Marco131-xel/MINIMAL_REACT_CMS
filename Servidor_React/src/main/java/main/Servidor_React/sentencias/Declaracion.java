@@ -40,7 +40,7 @@ public class Declaracion extends Instruccion {
         //validamos los tipos
         if (this.valor != null) {
             if (this.valor.tipo.getTipo() != this.tipo.getTipo()) {
-                return new Errores("SEMANTICO", "Tipos erroneos", this.linea, this.col);
+                return new Errores("SEMANTICO", "Tipo "+ this.tipo.getTipo() + " erroneo", this.linea, this.col);
             }
         }
 
@@ -48,7 +48,7 @@ public class Declaracion extends Instruccion {
 
         boolean creacion = tabla.setVariable(s);
         if (!creacion) {
-            return new Errores("SEMANTICO", "Variable ya existente", this.linea, this.col);
+            return new Errores("SEMANTICO", "Variable " + this.identificador + " ya existe", this.linea, this.col);
         }
 
         GeneradorHtml generador = arbol.getGenerarHtml();

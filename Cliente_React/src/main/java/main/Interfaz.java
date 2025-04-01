@@ -1,18 +1,27 @@
 package main;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import socket.ClienteWs;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import utils.*;
@@ -44,6 +53,9 @@ public class Interfaz extends javax.swing.JFrame {
         solicitudes.setFocusable(false);
         text_console.setEditable(false);
         text_console.setFocusable(false);
+        Table_Errores.setBackground(Color.decode("#212F3D"));
+        JScrollPane scroll = (JScrollPane) Table_Errores.getParent().getParent();
+        scroll.getViewport().setBackground(Color.decode("#212F3D"));
     }
 
     /**
@@ -414,16 +426,88 @@ public class Interfaz extends javax.swing.JFrame {
             modelo.addRow(new Object[]{tipo, desc, lineaNum, columnaNum});
         }
     }
-    
-    public void guardarArchivo(){
+
+    public void guardarArchivo() {
+        if (rutaActual == null || rutaActual.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay pagina para Guardar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         // Obtener el contenido del JTextPane
         String contenido = panelito.getText();
         // Guardar el contenido 
         String resultado = gestion.GuardarATexto(new File(rutaActual), contenido);
         // Mostrar un mensaje de confirmacion
         JOptionPane.showMessageDialog(this, resultado);
-        agregarTexto("Cliente: archivo guardado\n"+"Ruta: \n"+rutaActual);
+        agregarTexto("Cliente: archivo guardado\n" + "Ruta: \n" + rutaActual);
     }
+
+    private void mostrarReporte(String rutaImagen, String nombre) {
+        System.out.println(rutaImagen);
+        JFrame frame = new JFrame("Reporte " + nombre);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(600, 600);
+
+        frame.getContentPane().setBackground(Color.decode("#212F3D"));
+        ImageIcon icono = new ImageIcon(rutaImagen);
+        JLabel label = new JLabel(icono);
+
+        JScrollPane scrollPane = new JScrollPane(label);
+        scrollPane.getViewport().setBackground(Color.decode("#212F3D"));
+        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.setVisible(true);
+    }
+
+    private void mostrarErrores(String rutaErrores) {
+        JFrame frame = new JFrame("Reporte de Errores");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(800, 400);
+        frame.getContentPane().setBackground(Color.decode("#212F3D"));
+        String[] columnas = {"Tipo", "Descripcion", "Linea", "Columna"};
+
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Hace que todas las celdas sean no editables
+            }
+        };
+
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaErrores))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(",", 4);
+                if (partes.length == 4) {
+                    modelo.addRow(new Object[]{partes[0].trim(), partes[1].trim(), partes[2].trim(), partes[3].trim()});
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo de errores:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JTable tabla = new JTable(modelo);
+        tabla.setBackground(Color.decode("#212F3D"));
+        tabla.setForeground(Color.WHITE);
+        tabla.setGridColor(Color.GRAY);
+        tabla.setSelectionBackground(Color.decode("#34495E"));
+
+        JTableHeader header = tabla.getTableHeader();
+        header.setBackground(Color.decode("#212F3D"));
+        header.setForeground(Color.BLACK);
+        header.setFont(new Font("SansSerif", Font.BOLD, 12));
+
+        tabla.getColumnModel().getColumn(0).setPreferredWidth(100);
+        tabla.getColumnModel().getColumn(1).setPreferredWidth(450);
+        tabla.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tabla.getColumnModel().getColumn(3).setPreferredWidth(100);
+        tabla.getTableHeader().setReorderingAllowed(false);
+
+        JScrollPane scrollPane = new JScrollPane(tabla);
+        scrollPane.getViewport().setBackground(Color.decode("#212F3D"));
+        frame.add(scrollPane, BorderLayout.CENTER);
+
+        frame.setVisible(true);
+    }
+
     /* ------------------------ BOTONES DE INTERFAZ -----------------------*/
     private void BT_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_procesarActionPerformed
         // TODO add your handling code here:
@@ -649,6 +733,42 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void BT_reportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_reportesActionPerformed
         // TODO add your handling code here:
+        if (rutaActual == null || rutaActual.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay reportes que mostrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        String[] opciones = {"AST", "DOM", "Errores"};
+        int seleccion = JOptionPane.showOptionDialog(this,
+                "Seleccione el tipo de reporte:",
+                "Reportes",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]);
+
+        if (seleccion == -1) {
+            return;
+        }
+
+        File archivo = new File(rutaActual);
+        String nombreSinExtension = archivo.getName().replaceFirst("[.][^.]+$", "");
+        String directorio = archivo.getParent();
+        String rutaReporte = "";
+        switch (seleccion) {
+            case 0: // AST
+                rutaReporte = directorio + "/" + nombreSinExtension + "Ast.png";
+                mostrarReporte(rutaReporte, "Ast");
+                break;
+            case 1: // DOM
+                rutaReporte = directorio + "/" + nombreSinExtension + "Dom.png";
+                mostrarReporte(rutaReporte, "Dom");
+                break;
+            case 2: // Errores
+                rutaReporte = directorio + "/" + nombreSinExtension + ".errores";
+                mostrarErrores(rutaReporte);
+                break;
+        }
     }//GEN-LAST:event_BT_reportesActionPerformed
 
     private void BT_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_GuardarActionPerformed

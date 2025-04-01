@@ -21,7 +21,7 @@ public class Variable extends Instruccion {
     public Object interpretar(Arbol arbol, TablaSimbolos tabla) {
         var valor = tabla.getVariable(this.id);
         if (valor == null) {
-            return new Errores("SEMANTICO", "La Variable no Existe", this.linea, this.col);
+            return new Errores("SEMANTICO", "La Variable "+this.id+" no existe ", this.linea, this.col);
         }
         this.tipo.setTipo(valor.getTipo().getTipo());
         return valor.getValor();

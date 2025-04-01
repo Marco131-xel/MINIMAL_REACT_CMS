@@ -20,7 +20,7 @@ public class GenerarErrores {
         }
 
         String directorio = Paths.get(ruta).getParent().toString();
-        String archivo = directorio + "/" + nombre + ".txt";
+        String archivo = directorio + "/" + nombre + ".errores";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo, true))) { 
             for (Errores error : listaErrores) {

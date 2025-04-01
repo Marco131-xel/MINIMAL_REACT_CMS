@@ -62,7 +62,7 @@ public class Aritmeticas extends Instruccion {
             case POTENCIA ->
                 this.potencia(opIzq, opDer);
             default ->
-                new Errores("Semantico", "Operador invalido", this.linea, this.col);
+                new Errores("Semantico", this.operacion + "Operador invalido", this.linea, this.col);
         };
         return resultado;
     }

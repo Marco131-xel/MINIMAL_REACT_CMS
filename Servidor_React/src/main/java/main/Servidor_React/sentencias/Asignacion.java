@@ -25,7 +25,7 @@ public class Asignacion extends Instruccion {
         //variable exista
         var variable = tabla.getVariable(id);
         if (variable == null) {
-            return new Errores("SEMANTICO", "Variable no existente",
+            return new Errores("SEMANTICO", "Variable "+this.id+" no existe",
                     this.linea, this.col);
         }
 
@@ -37,7 +37,7 @@ public class Asignacion extends Instruccion {
 
         //validar tipos
         if (variable.getTipo().getTipo() != this.exp.tipo.getTipo()) {
-            return new Errores("SEMANTICO", "Tipos erroneos en asignacion",
+            return new Errores("SEMANTICO", this.exp.tipo.getTipo()+ " tipo erroneo en asignacion",
                     this.linea, this.col);
         }
         variable.setValor(newValor);

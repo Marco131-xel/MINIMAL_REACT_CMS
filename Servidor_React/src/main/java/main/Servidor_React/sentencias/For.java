@@ -35,6 +35,19 @@ public class For extends Instruccion {
             return res1;
         }
 
+        GeneradorHtml generador = arbol.getGenerarHtml();
+        if (generador != null) {
+            StringBuilder cuerpoFor = new StringBuilder();
+            for (var instr : this.instrucciones) {
+                cuerpoFor.append("\t").append(instr.toString()).append("\n");
+            }
+            String codigoJs = "for (" + this.asignacion.toString()
+                    + this.condicion.toString() + "; "
+                    + this.actualizar.toString() + ") {\n"
+                    + cuerpoFor.toString() + "}";
+            generador.agregarScript(codigoJs);
+        }
+
         while (true) {
             // evualar la condicion si e booleana
             var cond = this.condicion.interpretar(arbol, newTabla);

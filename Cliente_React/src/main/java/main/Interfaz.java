@@ -1,29 +1,18 @@
 package main;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.awt.*;
+import java.io.*;
 import socket.ClienteWs;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
+import javax.swing.table.*;
+import javax.swing.text.*;
 import utils.*;
 
 /**
@@ -35,11 +24,12 @@ public class Interfaz extends javax.swing.JFrame {
     NumeroLinea numerolinea;
     private ClienteWs clienteWs;
     private static String RECOVERY_PATH = ("/home/marco/Documentos/Compi_2025/MINIMAL_REACT_CMS/data/recovery.toml");
-    JFileChooser seleccionado = new JFileChooser();
+    private String SITIO;
     private String rutaActual;
-    File archivo;
     GestionArchivos gestion = new GestionArchivos();
     ColorText cote = new ColorText();
+    ColorSolicitudes coso = new ColorSolicitudes();
+    ColorArchivos coar = new ColorArchivos();
 
     /**
      * Creates new form Interfaz
@@ -53,6 +43,8 @@ public class Interfaz extends javax.swing.JFrame {
         solicitudes.setFocusable(false);
         text_console.setEditable(false);
         text_console.setFocusable(false);
+        TEXT_FILES.setEditable(false);
+        TEXT_FILES.setFocusable(false);
         Table_Errores.setBackground(Color.decode("#212F3D"));
         JScrollPane scroll = (JScrollPane) Table_Errores.getParent().getParent();
         scroll.getViewport().setBackground(Color.decode("#212F3D"));
@@ -70,8 +62,6 @@ public class Interfaz extends javax.swing.JFrame {
         bg = new javax.swing.JPanel();
         scroll_num = new javax.swing.JScrollPane();
         panelito = new javax.swing.JTextPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        solicitudes = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -79,18 +69,24 @@ public class Interfaz extends javax.swing.JFrame {
         BT_Guardar = new javax.swing.JButton();
         BT_procesar = new javax.swing.JButton();
         BT_agregar = new javax.swing.JButton();
-        BT_limpiar = new javax.swing.JButton();
         BT_toml = new javax.swing.JButton();
         BT_crear = new javax.swing.JButton();
         BT_reportes = new javax.swing.JButton();
         BT_eliminar = new javax.swing.JButton();
         BT_reiniciar = new javax.swing.JButton();
+        BT_limpiar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Table_Errores = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         text_console = new javax.swing.JTextPane();
         jLabel4 = new javax.swing.JLabel();
+        BT_html = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        TEXT_FILES = new javax.swing.JTextPane();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        solicitudes = new javax.swing.JTextPane();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,21 +100,12 @@ public class Interfaz extends javax.swing.JFrame {
         panelito.setForeground(new java.awt.Color(255, 255, 255));
         scroll_num.setViewportView(panelito);
 
-        bg.add(scroll_num, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 790, 530));
-
-        solicitudes.setBackground(new java.awt.Color(46, 64, 83));
-        solicitudes.setColumns(20);
-        solicitudes.setFont(new java.awt.Font("FreeMono", 0, 16)); // NOI18N
-        solicitudes.setForeground(new java.awt.Color(255, 255, 255));
-        solicitudes.setRows(5);
-        jScrollPane1.setViewportView(solicitudes);
-
-        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 670, 520, 140));
+        bg.add(scroll_num, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 810, 600));
 
         jLabel2.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Tabla Errores");
-        bg.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 210, -1, -1));
+        bg.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 200, -1, -1));
 
         jPanel1.setBackground(new java.awt.Color(46, 64, 83));
 
@@ -163,16 +150,6 @@ public class Interfaz extends javax.swing.JFrame {
         BT_agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_agregarActionPerformed(evt);
-            }
-        });
-
-        BT_limpiar.setBackground(new java.awt.Color(33, 47, 61));
-        BT_limpiar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
-        BT_limpiar.setForeground(new java.awt.Color(255, 255, 255));
-        BT_limpiar.setText("Limpiar");
-        BT_limpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_limpiarActionPerformed(evt);
             }
         });
 
@@ -226,31 +203,35 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        BT_limpiar.setBackground(new java.awt.Color(33, 47, 61));
+        BT_limpiar.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_limpiar.setForeground(new java.awt.Color(255, 255, 255));
+        BT_limpiar.setText("Limpiar");
+        BT_limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_limpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(BT_abrir)
-                        .addGap(18, 18, 18)
-                        .addComponent(BT_Guardar)
-                        .addGap(18, 18, 18)
-                        .addComponent(BT_procesar)
-                        .addGap(18, 18, 18)
-                        .addComponent(BT_toml)
-                        .addGap(18, 18, 18)
-                        .addComponent(BT_limpiar)
-                        .addGap(18, 18, 18)
-                        .addComponent(BT_reportes)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 328, Short.MAX_VALUE)
-                        .addComponent(BT_crear))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(520, 520, 520)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(113, 113, 113)
+                .addComponent(BT_abrir)
+                .addGap(18, 18, 18)
+                .addComponent(BT_Guardar)
+                .addGap(18, 18, 18)
+                .addComponent(BT_procesar)
+                .addGap(18, 18, 18)
+                .addComponent(BT_toml)
+                .addGap(18, 18, 18)
+                .addComponent(BT_limpiar)
+                .addGap(18, 18, 18)
+                .addComponent(BT_reportes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 444, Short.MAX_VALUE)
+                .addComponent(BT_crear)
                 .addGap(18, 18, 18)
                 .addComponent(BT_agregar)
                 .addGap(18, 18, 18)
@@ -258,28 +239,32 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(BT_reiniciar)
                 .addGap(41, 41, 41))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(523, 523, 523))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
+                .addGap(43, 43, 43)
                 .addComponent(jLabel1)
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BT_abrir)
                     .addComponent(BT_Guardar)
                     .addComponent(BT_procesar)
                     .addComponent(BT_agregar)
-                    .addComponent(BT_limpiar)
                     .addComponent(BT_toml)
                     .addComponent(BT_crear)
                     .addComponent(BT_reportes)
                     .addComponent(BT_eliminar)
-                    .addComponent(BT_reiniciar))
+                    .addComponent(BT_reiniciar)
+                    .addComponent(BT_limpiar))
                 .addContainerGap())
         );
 
-        bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1620, 160));
+        bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1830, 160));
 
         Table_Errores.setBackground(new java.awt.Color(33, 47, 61));
         Table_Errores.setFont(new java.awt.Font("FreeMono", 0, 16)); // NOI18N
@@ -316,24 +301,54 @@ public class Interfaz extends javax.swing.JFrame {
             Table_Errores.getColumnModel().getColumn(3).setMaxWidth(80);
         }
 
-        bg.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 250, 740, 160));
+        bg.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 240, 740, 200));
 
         jLabel3.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Consola");
-        bg.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 510, -1, 30));
+        jLabel3.setText("Archivos");
+        bg.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, -1, 30));
 
         text_console.setBackground(new java.awt.Color(46, 64, 83));
         text_console.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
         text_console.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane3.setViewportView(text_console);
 
-        bg.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 470, 440, 130));
+        bg.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 500, 540, 150));
 
         jLabel4.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Solicitudes");
-        bg.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 700, -1, 30));
+        bg.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1420, 670, -1, 30));
+
+        BT_html.setBackground(new java.awt.Color(46, 64, 83));
+        BT_html.setFont(new java.awt.Font("FreeMono", 1, 18)); // NOI18N
+        BT_html.setForeground(new java.awt.Color(255, 255, 255));
+        BT_html.setText("HTML");
+        BT_html.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_htmlActionPerformed(evt);
+            }
+        });
+        bg.add(BT_html, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 690, -1, -1));
+
+        TEXT_FILES.setBackground(new java.awt.Color(46, 64, 83));
+        TEXT_FILES.setFont(new java.awt.Font("FreeMono", 1, 16)); // NOI18N
+        TEXT_FILES.setForeground(new java.awt.Color(255, 255, 255));
+        jScrollPane4.setViewportView(TEXT_FILES);
+
+        bg.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 210, 310));
+
+        solicitudes.setBackground(new java.awt.Color(46, 64, 83));
+        solicitudes.setFont(new java.awt.Font("FreeMono", 1, 16)); // NOI18N
+        solicitudes.setForeground(new java.awt.Color(255, 255, 255));
+        jScrollPane5.setViewportView(solicitudes);
+
+        bg.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 720, 590, 160));
+
+        jLabel5.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Consola");
+        bg.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1450, 460, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -343,7 +358,9 @@ public class Interfaz extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, 915, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -363,6 +380,7 @@ public class Interfaz extends javax.swing.JFrame {
             try {
                 Document doc = solicitudes.getDocument();
                 doc.insertString(doc.getLength(), texto, null);
+                coso.colorearSolicitudes(solicitudes);
             } catch (BadLocationException e) {
                 e.printStackTrace();
             }
@@ -377,7 +395,6 @@ public class Interfaz extends javax.swing.JFrame {
         } else if (mensaje.startsWith("CONSOLA ")) {
             String salidaConsola = mensaje.substring(8);
             text_console.setText("run:\n" + salidaConsola);
-            //agregarTexto("Salida:\n" + salidaConsola + "\n");
         } else if (mensaje.startsWith("ERRORES ")) {
             String errores = mensaje.substring(8);
             if (!errores.trim().isEmpty()) {
@@ -387,6 +404,10 @@ public class Interfaz extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) Table_Errores.getModel();
                 model.setRowCount(0);
             }
+        } else if (mensaje.startsWith("SITIO ")) {
+            mensaje = mensaje.trim();
+            SITIO = mensaje.substring(6);
+            abrirSitios(SITIO);
         }
     }
 
@@ -516,20 +537,72 @@ public class Interfaz extends javax.swing.JFrame {
         frame.setVisible(true);
     }
 
+    private void abrirSitios(String ruta) {
+        File dir = new File(ruta);
+        if (dir.exists() && dir.isDirectory()) {
+            StringBuilder contenido = new StringBuilder();
+            contenido.append(dir.getName()).append("\n");
+            listFiles(dir, contenido, "");
+            TEXT_FILES.setText(contenido.toString());
+            coar.colorearEditorTexto(TEXT_FILES);
+        } else {
+            TEXT_FILES.setText("La carpeta no existe o no es un directorio.");
+        }
+    }
+
+    private void listFiles(File dir, StringBuilder contenido, String indent) {
+        File[] files = dir.listFiles();
+        if (files != null) {
+
+            List<File> htmlFiles = new ArrayList<>();
+            List<File> mtsxFiles = new ArrayList<>();
+            List<File> folders = new ArrayList<>();
+
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    folders.add(file);
+                } else if (file.getName().endsWith(".html")) {
+                    htmlFiles.add(file);
+                } else if (file.getName().endsWith(".mtsx")) {
+                    mtsxFiles.add(file);
+                }
+            }
+
+            for (File file : htmlFiles) {
+                contenido.append(indent).append("|____").append(file.getName()).append("\n");
+            }
+
+            for (File file : mtsxFiles) {
+                contenido.append(indent).append("|____").append(file.getName()).append("\n");
+            }
+
+            for (File folder : folders) {
+                contenido.append(indent).append(folder.getName()).append("\n");
+                listFiles(folder, contenido, indent + "    ");
+            }
+        } else {
+            contenido.append(indent).append("No hay archivos .html, .mtsx ni carpetas.\n");
+        }
+    }
+
     /* ------------------------ BOTONES DE INTERFAZ -----------------------*/
     private void BT_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_procesarActionPerformed
         // TODO add your handling code here:
-        if (clienteWs == null || !clienteWs.isOpen()) {
-            JOptionPane.showMessageDialog(this, "No hay conexión con el servidor.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
-        } else {
-            String codigoMtsx = panelito.getText();
-            if (!codigoMtsx.trim().isEmpty()) {
-                cote.colorearEditorTexto(panelito);
-                String mensaje = "EJECUTAR_MTSX " + rutaActual + "\n" + codigoMtsx;
-                clienteWs.enviarMensajes(mensaje);
+        if (rutaActual != null) {
+            if (clienteWs == null || !clienteWs.isOpen()) {
+                JOptionPane.showMessageDialog(this, "No hay conexión con el servidor.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "El editor esta vacio.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                String codigoMtsx = panelito.getText();
+                if (!codigoMtsx.trim().isEmpty()) {
+                    cote.colorearEditorTexto(panelito);
+                    String mensaje = "EJECUTAR_MTSX " + rutaActual + "\n" + codigoMtsx;
+                    clienteWs.enviarMensajes(mensaje);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El editor esta vacio.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay pagina para procesar", "Error de Servidor", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_BT_procesarActionPerformed
 
@@ -546,8 +619,18 @@ public class Interfaz extends javax.swing.JFrame {
                 opciones[0]);
         // si eligio sitio
         if (seleccion == 0) {
-            // AUN NOSE DEFINE ESTO 
-            System.out.println("PROXIMAMENTE");
+            String nombreSitio = JOptionPane.showInputDialog(this,
+                    "Ingrese el nombre del sitio",
+                    "Abrir Sitio",
+                    JOptionPane.PLAIN_MESSAGE);
+            if (nombreSitio != null && !nombreSitio.trim().isEmpty()) {
+                String mensaje = "GET SITIO abrir sitio " + nombreSitio.trim();
+                if (clienteWs != null) {
+                    clienteWs.enviarMensajes(mensaje);
+                } else {
+                    System.out.println("No hay cliente WEBSOCKET");
+                }
+            }
             // si elegio pagina
         } else if (seleccion == 1) {
             String nombrePagina = JOptionPane.showInputDialog(this,
@@ -727,7 +810,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void BT_tomlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_tomlActionPerformed
         // TODO add your handling code here:
         if (clienteWs == null || !clienteWs.isOpen()) {
-            JOptionPane.showMessageDialog(this, "No hay conexión con el servidor.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No hay conexion con el servidor", "Error de conexion", JOptionPane.ERROR_MESSAGE);
         } else {
             String contenido = gestion.AbrirATexto(new File(RECOVERY_PATH));
             JFrame ventanaEditor = new JFrame("Editor TOML");
@@ -755,7 +838,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void BT_reportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_reportesActionPerformed
         // TODO add your handling code here:
         if (clienteWs == null || !clienteWs.isOpen()) {
-            JOptionPane.showMessageDialog(this, "No hay conexión con el servidor.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No hay conexion con el servidor", "Error de conexion", JOptionPane.ERROR_MESSAGE);
         } else {
             if (rutaActual == null || rutaActual.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay reportes que mostrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -799,11 +882,40 @@ public class Interfaz extends javax.swing.JFrame {
     private void BT_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_GuardarActionPerformed
         // TODO add your handling code here:
         if (clienteWs == null || !clienteWs.isOpen()) {
-            JOptionPane.showMessageDialog(this, "No hay conexión con el servidor.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No hay conexion con el servidor", "Error de conexion", JOptionPane.ERROR_MESSAGE);
         } else {
             guardarArchivo();
         }
     }//GEN-LAST:event_BT_GuardarActionPerformed
+
+    private void BT_htmlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_htmlActionPerformed
+        // TODO add your handling code here:
+        if (rutaActual != null) {
+            File archivo = new File(rutaActual);
+            String nombreSinExtension = archivo.getName().replaceFirst("[.][^.]+$", "");
+            String directorio = archivo.getParent();
+            String rutaHtml = directorio + "/" + nombreSinExtension + ".html";
+            System.out.println(rutaHtml);
+            File archivoHtml = new File(rutaHtml);
+            if (archivoHtml.exists()) {
+                try {
+                    if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+                        Runtime.getRuntime().exec(new String[]{"xdg-open", archivoHtml.getAbsolutePath()});
+                    } else if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().browse(archivoHtml.toURI());
+                    } else {
+                        System.out.println("No se puede abrir el navegador en este sistema");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No se ah creado la pagina HTML", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+             JOptionPane.showMessageDialog(this, "No se ah creado html", "Error de Servidor", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_BT_htmlActionPerformed
 
     /**
      * @param args the command line arguments
@@ -846,24 +958,28 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton BT_agregar;
     private javax.swing.JButton BT_crear;
     private javax.swing.JButton BT_eliminar;
+    private javax.swing.JButton BT_html;
     private javax.swing.JButton BT_limpiar;
     private javax.swing.JButton BT_procesar;
     private javax.swing.JButton BT_reiniciar;
     private javax.swing.JButton BT_reportes;
     private javax.swing.JButton BT_toml;
+    private javax.swing.JTextPane TEXT_FILES;
     private javax.swing.JTable Table_Errores;
     private javax.swing.JPanel bg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextPane panelito;
     private javax.swing.JScrollPane scroll_num;
-    private javax.swing.JTextArea solicitudes;
+    private javax.swing.JTextPane solicitudes;
     private javax.swing.JTextPane text_console;
     // End of variables declaration//GEN-END:variables
 }

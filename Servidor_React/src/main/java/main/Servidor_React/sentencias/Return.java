@@ -28,7 +28,7 @@ public class Return extends Instruccion {
             }
             GeneradorHtml generador = arbol.getGenerarHtml();
             if (generador != null) {
-                //generador.agregarScript("return " + this.expresion.toString() + ";");
+                generador.agregarScript("return " + this.expresion.toString() + ";");
             }
             return resultado;
         }

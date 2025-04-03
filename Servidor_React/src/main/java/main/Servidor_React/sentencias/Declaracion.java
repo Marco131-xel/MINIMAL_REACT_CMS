@@ -3,7 +3,6 @@ package main.Servidor_React.sentencias;
 import main.Servidor_React.abstracto.*;
 import main.Servidor_React.ast.*;
 import main.Servidor_React.excepciones.*;
-import main.Servidor_React.operadores.Nativo;
 import main.Servidor_React.reportes.*;
 
 /**
@@ -53,7 +52,7 @@ public class Declaracion extends Instruccion {
 
         GeneradorHtml generador = arbol.getGenerarHtml();
         if (generador != null) {
-            String codigoJs = generarJS(valorInterpretado);
+            String codigoJs = "let " + this.identificador + " = " + this.valor + " ;";
             generador.agregarScript(codigoJs);
         }
 
@@ -74,14 +73,9 @@ public class Declaracion extends Instruccion {
                 null;
         };
     }
-
-    public String generarJS(Object valorInterpretado) {
-        String tipoJs = "let";
-        String valorJs = (valorInterpretado instanceof String)
-                ? "\"" + valorInterpretado + "\""
-                : valorInterpretado.toString();
-
-        return tipoJs + " " + this.identificador + " = " + valorJs + ";";
+    
+    @Override
+    public String toString(){
+        return "let " + this.identificador + " = " + this.valor + " ;";
     }
-
 }

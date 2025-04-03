@@ -58,8 +58,13 @@ public class ShttpInterpreter implements shttpListener {
         }
 
         if (esSitio) {
-            // AUN NO SE DEFINE ESTO
-            System.out.println("PROXIMAMENTE");
+            String rutaArchivo = toml.abrirSitio(ruta);
+            if (rutaArchivo != null) {
+                ServidorSocket.getInst().enviarMensajes("Servidor: SUCCESS");
+                ServidorSocket.getInst().enviarMensajes("SITIO " + rutaArchivo);
+            } else {
+                ServidorSocket.getInst().enviarMensajes("Servidor: NOT_FOUND");
+            }
         } else if (esPagina) {
             String rutaArchivo = toml.abrirPagina(ruta);
             if (rutaArchivo != null) {
@@ -239,6 +244,8 @@ public class ShttpInterpreter implements shttpListener {
 
     @Override
     public void visitErrorNode(ErrorNode en) {
+        System.out.println("Error de sintaxis: " + en.getText());
+        ServidorSocket.getInst().enviarMensajes("Servidor: INTERNAL_SERVER_ERROR");
     }
 
     @Override

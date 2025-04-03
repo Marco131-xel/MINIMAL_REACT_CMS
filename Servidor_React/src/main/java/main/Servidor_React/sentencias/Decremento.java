@@ -3,6 +3,7 @@ package main.Servidor_React.sentencias;
 import main.Servidor_React.abstracto.*;
 import main.Servidor_React.ast.*;
 import main.Servidor_React.excepciones.*;
+import main.Servidor_React.reportes.*;
 
 /**
  *
@@ -29,9 +30,19 @@ public class Decremento extends Instruccion {
         if (valorActual instanceof Double) {
             double nuevoValor = (double) valorActual - 1.0;
             variable.setValor(nuevoValor);
+            GeneradorHtml generador = arbol.getGenerarHtml();
+            if (generador != null) {
+                String codigoJs = this.id + "--";
+                generador.agregarScript(codigoJs);
+            }
             return nuevoValor;
         } else {
             return new Errores("SEMANTICO", "Decremento solo aplicable a tipos numericos", this.linea, this.col);
         }
+    }
+    
+    @Override
+    public String toString(){
+        return this.id + "--";
     }
 }

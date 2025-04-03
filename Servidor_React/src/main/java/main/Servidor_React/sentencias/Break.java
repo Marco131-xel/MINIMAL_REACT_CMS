@@ -18,7 +18,7 @@ public class Break extends Instruccion {
     public Object interpretar(Arbol arbol, TablaSimbolos tabla) {
         GeneradorHtml generador = arbol.getGenerarHtml();
         if (generador != null) {
-            //generador.agregarScript("break;");
+            //generador.agregarScript("break;"); 
         }
         return null;
     }

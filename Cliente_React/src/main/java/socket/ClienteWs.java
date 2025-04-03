@@ -21,7 +21,7 @@ public class ClienteWs extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake sh) {
         System.out.println("Conectado al servidor WebSocket");
-        interfaz.agregarTexto("\t Servidor Activo\n");
+        interfaz.agregarTexto("\t\t SERVIDOR ACTIVO \n");
     }
 
     @Override
@@ -33,8 +33,8 @@ public class ClienteWs extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        System.out.println("Conexion cerrada: " + reason);
-        interfaz.agregarTexto("Conexion cerrada: " + reason);
+        System.out.println("conexion cerrada: " + reason);
+        interfaz.agregarTexto("CONEXION CERRADA: " + reason);
     }
 
     @Override
@@ -47,7 +47,6 @@ public class ClienteWs extends WebSocketClient {
         if (this.isOpen()) {
             this.send(mensaje);
             System.out.println("Mensaje enviado: " + mensaje);
-            //interfaz.agregarTexto(mensaje + "\n");
         } else {
             System.out.println("No hay conexion con el servidor");
             interfaz.agregarTexto("No hay conexion con el servidor");

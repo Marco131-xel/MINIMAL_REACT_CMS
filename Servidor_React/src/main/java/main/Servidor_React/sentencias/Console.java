@@ -24,32 +24,19 @@ public class Console extends Instruccion {
         if (resultado instanceof Errores) {
             return resultado;
         }
+        
         GeneradorHtml generador = arbol.getGenerarHtml();
         if (generador != null) {
-            String codigoJs = "console.log(" + formatearValor(resultado) + ");";
+            String codigoJs = "console.log(" + this.expresion + ");";
             generador.agregarScript(codigoJs);
         }
         arbol.Print(resultado.toString());
         return null;
     }
-
+    
     @Override
-    public String toString() {
-        return "console.log(" + formatearValor(expresion) + ");";
-    }
-
-    private String formatearValor(Object valor) {
-        if (valor == null) {
-            return "null";
-        }
-        if (valor instanceof String) {
-            return "\"" + valor + "\"";
-        }
-        if (valor instanceof Instruccion) {
-            Object interpretado = ((Instruccion) valor).interpretar(null, null);
-            return formatearValor(interpretado);
-        }
-        return valor.toString();
+    public String toString(){
+        return "console.log(" + this.expresion + ");";
     }
 
 }

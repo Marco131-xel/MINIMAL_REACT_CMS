@@ -43,18 +43,10 @@ public class Asignacion extends Instruccion {
         variable.setValor(newValor);
         GeneradorHtml generador = arbol.getGenerarHtml();
         if (generador != null) {
-            String codigoJs = generarJS(newValor);
+            String codigoJs = this.id + " = " + this.exp + ";";
             generador.agregarScript(codigoJs);
         }
         return null;
-    }
-
-    public String generarJS(Object valor) {
-        if (valor instanceof String) {
-            return id + " = \"" + valor + "\";";
-        } else {
-            return id + " = " + valor.toString() + ";";
-        }
     }
 
 }

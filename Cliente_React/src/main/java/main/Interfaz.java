@@ -218,7 +218,7 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
+                .addGap(70, 70, 70)
                 .addComponent(BT_abrir)
                 .addGap(18, 18, 18)
                 .addComponent(BT_Guardar)
@@ -230,7 +230,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(BT_limpiar)
                 .addGap(18, 18, 18)
                 .addComponent(BT_reportes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 444, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 507, Short.MAX_VALUE)
                 .addComponent(BT_crear)
                 .addGap(18, 18, 18)
                 .addComponent(BT_agregar)
@@ -242,7 +242,7 @@ public class Interfaz extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(523, 523, 523))
+                .addGap(563, 563, 563))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,10 +264,10 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1830, 160));
+        bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1850, 160));
 
         Table_Errores.setBackground(new java.awt.Color(33, 47, 61));
-        Table_Errores.setFont(new java.awt.Font("FreeMono", 0, 16)); // NOI18N
+        Table_Errores.setFont(new java.awt.Font("FreeMono", 0, 14)); // NOI18N
         Table_Errores.setForeground(new java.awt.Color(255, 255, 255));
         Table_Errores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -301,7 +301,7 @@ public class Interfaz extends javax.swing.JFrame {
             Table_Errores.getColumnModel().getColumn(3).setMaxWidth(80);
         }
 
-        bg.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 240, 740, 200));
+        bg.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 240, 760, 200));
 
         jLabel3.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -467,7 +467,8 @@ public class Interfaz extends javax.swing.JFrame {
         String resultado = gestion.GuardarATexto(new File(rutaActual), contenido);
         // Mostrar un mensaje de confirmacion
         JOptionPane.showMessageDialog(this, resultado);
-        agregarTexto("Cliente: archivo guardado\n" + "Ruta: \n" + rutaActual);
+        agregarTexto("Cliente: PATCH PAGINA modificar pagina\n" + "Ruta: \n" + rutaActual);
+        agregarTexto("\nServidor: SUCCESS");
     }
 
     private void mostrarReporte(String rutaImagen, String nombre) {
@@ -726,6 +727,7 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
         panelito.setText("");
         text_console.setText("");
+        TEXT_FILES.setText("");
         DefaultTableModel model = (DefaultTableModel) Table_Errores.getModel();
         model.setRowCount(0);
     }//GEN-LAST:event_BT_limpiarActionPerformed
@@ -842,6 +844,7 @@ public class Interfaz extends javax.swing.JFrame {
         } else {
             if (rutaActual == null || rutaActual.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay reportes que mostrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                agregarTexto("\nServidor: NOT_FOUND");
                 return;
             }
             String[] opciones = {"AST", "DOM", "Errores"};

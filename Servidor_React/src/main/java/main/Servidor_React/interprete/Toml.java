@@ -87,14 +87,19 @@ public class Toml {
                     String nuevoContenidoFormateado = Arrays.stream(nuevoContenido.split("\n"))
                             .map(linea -> "\t" + linea)
                             .collect(Collectors.joining("\n")) + "\n";
-                    // Buscar main en la pagina
-                    String contenidoActualizado = contenidoArchivo.replaceAll(
-                            "(?s)(<main>)(.*?)(</main>)", "$1$2\n" + nuevoContenidoFormateado + "$3");
-                    // Guardar el contenido en la pagina
+
+                    String contenidoActualizado;
+                    if (contenidoArchivo.contains("<main>")) {
+                        contenidoActualizado = contenidoArchivo.replaceAll(
+                                "(?s)(<main>)(.*?)(</main>)", "$1$2\n" + nuevoContenidoFormateado + "$3");
+                    } else {
+                        contenidoActualizado = contenidoArchivo.replaceAll(
+                                "(return\\s*\\(\\s*)", "$1\n" + nuevoContenidoFormateado + "\n");
+                    }
                     Files.write(Paths.get(rutaArchivo), contenidoActualizado.getBytes());
                     return true;
                 } catch (IOException e) {
-                    System.out.println("Error al modificar la pagina: " + e.getMessage());
+                    System.out.println("Error al modificar la página: " + e.getMessage());
                 }
             }
         }

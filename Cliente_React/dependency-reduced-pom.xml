@@ -8,18 +8,18 @@
     <plugins>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.2.2</version>
+        <version>3.1.0</version>
         <configuration>
           <archive>
-            <manifest>
-              <mainClass>main.Interfaz</mainClass>
-            </manifest>
+            <manifestEntries>
+              <Main-Class>main.Interfaz</Main-Class>
+            </manifestEntries>
           </archive>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.2.1</version>
         <executions>
           <execution>
             <phase>package</phase>

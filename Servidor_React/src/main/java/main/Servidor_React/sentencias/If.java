@@ -46,6 +46,39 @@ public class If extends Instruccion {
             return new Errores("SEMANTICO", "La condicion del If debe ser de tipo booleano",
                     this.linea, this.col);
         }
+        
+        // generar html
+        GeneradorHtml generador = arbol.getGenerarHtml();
+        StringBuilder codigoJs = new StringBuilder();
+        // generar if
+        codigoJs.append("if (").append(this.condicion.toString()).append(") {\n");
+        for (var instr : this.instruccionesIf) {
+            codigoJs.append("\t").append(instr.toString()).append(";\n");
+        }
+        codigoJs.append("}");
+        
+        // generar else if
+        If tempElseIf = this.elseIf;
+        while (tempElseIf != null) {
+            codigoJs.append(" else if (").append(tempElseIf.condicion.toString()).append(") {\n");
+            for (var instr : tempElseIf.instruccionesIf) {
+                codigoJs.append("\t").append(instr.toString()).append(";\n");
+            }
+            codigoJs.append("}");
+            tempElseIf = tempElseIf.elseIf;
+        }
+        //generar else
+        if (!this.instruccionesElse.isEmpty()) {
+            codigoJs.append(" else {\n");
+            for (var instr : this.instruccionesElse) {
+                codigoJs.append("\t").append(instr.toString()).append(";\n");
+            }
+            codigoJs.append("}");
+        }
+
+        if (generador != null) {
+            generador.agregarScript(codigoJs.toString());
+        }
 
         var newTabla = new TablaSimbolos(tabla);
         try {
